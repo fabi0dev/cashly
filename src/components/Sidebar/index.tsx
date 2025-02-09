@@ -6,33 +6,42 @@ import {
   Goal,
   LogOut,
   Settings,
-  Wallet2,
+  Wallet,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
 }
 
+const NAV_LINKS = [
+  { label: "Visão Geral", icon: BarChart3, href: "#", active: true },
+  { label: "Cartões", icon: CreditCard, href: "#" },
+  { label: "Objetivos", icon: Goal, href: "#" },
+  { label: "Notificações", icon: Bell, href: "#" },
+  { label: "Configurações", icon: Settings, href: "#" },
+];
+
 export const Sidebar = ({ isOpen }: SidebarProps) => {
   return (
     <div
-      className={`
-    fixed lg:static inset-y-0 left-0 z-30
-    w-64 bg-white/70 backdrop-blur-xl
-    transform transition-transform duration-300 ease-in-out
-    ${isOpen ? "translate-x-0" : "-translate-x-full"}
-    lg:translate-x-0
-    flex flex-col
-  `}
+      className={cn(
+        "fixed lg:static inset-y-0 left-0 z-30 w-64 backdrop-blur-xl",
+        "shadow-lg shadow-black/5 bg-white transform transition-transform duration-300 ease-in-out",
+        {
+          "translate-x-0": isOpen,
+          "-translate-x-full lg:translate-x-0": !isOpen,
+        }
+      )}
     >
       {/* Logo Section */}
       <div className="px-6 py-8">
-        <div className="flex items-center gap-3">
-          <Wallet2 className="w-6 h-6 text-gray-900" />
+        <Link to="/" className="flex items-center gap-3">
+          <Wallet className="w-6 h-6 text-gray-900" />
           <h1 className="text-xl font-medium text-gray-900">
-            Cash<span className="font-bold">ly</span>
+            Cash<span className="font-bold text-purple-700">ly</span>
           </h1>
-        </div>
+        </Link>
       </div>
 
       {/* Profile Section */}
@@ -49,56 +58,24 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 px-3 py-6">
+      <nav className="flex px-3 py-6">
         <ul className="space-y-1">
-          <li>
-            <a
-              href="#"
-              className={cn(
-                "flex items-center gap-3 px-3 py-2.5 text-white rounded-lg ",
-                "bg-emerald-500 hover:bg-emerald-600 transition-colors"
-              )}
-            >
-              <BarChart3 className="w-5 h-5" />
-              <span className="font-medium">Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <CreditCard className="w-5 h-5" />
-              <span className="font-medium">Cartões</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <Goal className="w-5 h-5" />
-              <span className="font-medium">Objetivos</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <Bell className="w-5 h-5" />
-              <span className="font-medium">Notificações</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="flex items-center gap-3 px-3 py-2.5 text-gray-600 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <Settings className="w-5 h-5" />
-              <span className="font-medium">Configurações</span>
-            </a>
-          </li>
+          {NAV_LINKS.map(({ label, icon: Icon, href, active }) => (
+            <li key={label}>
+              <a
+                href={href}
+                className={cn(
+                  "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
+                  active
+                    ? "bg-purple-800 text-white hover:bg-purple-900"
+                    : "text-gray-600 hover:bg-gray-100"
+                )}
+              >
+                <Icon className="w-5 h-5" />
+                <span className="font-medium">{label}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
 
