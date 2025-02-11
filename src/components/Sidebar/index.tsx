@@ -2,32 +2,36 @@ import { cn } from "@/lib/utils";
 import {
   BarChart3,
   Bell,
-  CreditCard,
   Goal,
   LogOut,
+  Receipt,
   Settings,
+  Tag,
   Wallet,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
 }
 
 const NAV_LINKS = [
-  { label: "Visão Geral", icon: BarChart3, href: "#", active: true },
-  { label: "Cartões", icon: CreditCard, href: "#" },
-  { label: "Objetivos", icon: Goal, href: "#" },
-  { label: "Notificações", icon: Bell, href: "#" },
-  { label: "Configurações", icon: Settings, href: "#" },
+  { label: "Visão Geral", icon: BarChart3, href: "/" },
+  { label: "Objetivos", icon: Goal, href: "/goals" },
+  { label: "Notificações", icon: Bell, href: "/notifications" },
+  { label: "Transações", icon: Receipt, href: "/transactions" },
+  { label: "Categorias", icon: Tag, href: "/categories" },
+  { label: "Configurações", icon: Settings, href: "/settings" },
 ];
 
 export const Sidebar = ({ isOpen }: SidebarProps) => {
+  const location = useLocation();
+
   return (
     <div
       className={cn(
-        "fixed lg:static inset-y-0 left-0 z-30 w-64 backdrop-blur-xl",
-        "shadow-lg shadow-black/5 bg-white transform transition-transform duration-300 ease-in-out",
+        "fixed lg:static inset-y-0 left-0 z-30 w-72 backdrop-blur-xl",
+        "bg-white border-r border-r-gray-200 transform transition-transform duration-300 ease-in-out",
         {
           "translate-x-0": isOpen,
           "-translate-x-full lg:translate-x-0": !isOpen,
@@ -60,22 +64,25 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       {/* Navigation Menu */}
       <nav className="flex px-3 py-6">
         <ul className="space-y-1">
-          {NAV_LINKS.map(({ label, icon: Icon, href, active }) => (
-            <li key={label}>
-              <a
-                href={href}
-                className={cn(
-                  "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
-                  active
-                    ? "bg-purple-800 text-white hover:bg-purple-900"
-                    : "text-gray-600 hover:bg-gray-100"
-                )}
-              >
-                <Icon className="w-5 h-5" />
-                <span className="font-medium">{label}</span>
-              </a>
-            </li>
-          ))}
+          {NAV_LINKS.map(({ label, icon: Icon, href }) => {
+            const isActive = location.pathname === href;
+            return (
+              <li key={label}>
+                <Link
+                  to={href}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
+                    isActive
+                      ? "bg-purple-800 text-white hover:bg-purple-900"
+                      : "text-gray-600 hover:bg-gray-100"
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                  <span className="font-medium">{label}</span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 

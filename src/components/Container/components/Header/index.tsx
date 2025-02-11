@@ -1,20 +1,22 @@
 import { cn } from "@/lib/utils";
-import { Menu, Plus, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 interface HeaderProps {
+  title?: string;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
+  rightContent?: React.ReactNode;
 }
 
-export const Header = ({ isSidebarOpen, toggleSidebar }: HeaderProps) => {
+export const Header = ({
+  title,
+  isSidebarOpen,
+  toggleSidebar,
+  rightContent,
+}: HeaderProps) => {
   return (
-    <header
-      className={cn(
-        "bg-white backdrop-blur-xl border-b border-gray-200 flex-row"
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Mobile menu button */}
+    <header className={cn("backdrop-blur-xl flex-row")}>
+      <div className="max-w-7xl mx-6 h-16 flex items-center justify-between">
         <button
           onClick={toggleSidebar}
           className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
@@ -26,12 +28,9 @@ export const Header = ({ isSidebarOpen, toggleSidebar }: HeaderProps) => {
           )}
         </button>
 
-        <span className="font-semibold text-lg">Visão geral</span>
+        <span className="font-semibold text-2xl">{title}</span>
 
-        <button className="flex items-center gap-2 bg-purple-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto">
-          <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Nova Transação</span>
-        </button>
+        {rightContent}
       </div>
     </header>
   );

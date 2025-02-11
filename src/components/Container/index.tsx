@@ -3,9 +3,16 @@ import { Header } from "./components/Header";
 import { Sidebar } from "../Sidebar";
 
 export interface ContainerProps {
+  titleHeader?: string;
   children: React.ReactNode;
+  rightContentHeader?: React.ReactNode;
 }
-export const Container = ({ children }: ContainerProps) => {
+
+export const Container = ({
+  titleHeader,
+  rightContentHeader,
+  children,
+}: ContainerProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -13,7 +20,7 @@ export const Container = ({ children }: ContainerProps) => {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
+    <div className="min-h-screen flex bg-gray-100">
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/20 backdrop-blur-sm z-20 lg:hidden"
@@ -24,7 +31,12 @@ export const Container = ({ children }: ContainerProps) => {
       <Sidebar isOpen={isSidebarOpen} />
 
       <div className="flex-1">
-        <Header isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <Header
+          title={titleHeader}
+          isSidebarOpen={isSidebarOpen}
+          toggleSidebar={toggleSidebar}
+          rightContent={rightContentHeader}
+        />
 
         <main className="p-6">{children}</main>
       </div>
