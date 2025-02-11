@@ -1,5 +1,8 @@
 import { Container } from "@/components/Container";
-import { Receipt, TrendingDown, TrendingUp } from "lucide-react";
+import { TransactionModal } from "@/components/Modals/TransactionModal";
+import { Button } from "@/components/ui/button";
+import { Plus, Receipt, TrendingDown, TrendingUp } from "lucide-react";
+import { useState } from "react";
 
 export const transactions = [
   {
@@ -53,6 +56,7 @@ export const transactions = [
 ];
 
 export const Transactions = () => {
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
   const totalIncome = transactions.reduce(
     (acc, curr) => acc + (curr.type === "income" ? curr.amount : 0),
     0
@@ -63,7 +67,18 @@ export const Transactions = () => {
   );
 
   return (
-    <Container titleHeader="Relatório de Transações">
+    <Container
+      titleHeader="Relatório de Transações"
+      rightContentHeader={
+        <Button
+          onClick={() => setShowTransactionModal(true)}
+          className="flex items-center gap-2 bg-purple-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto"
+        >
+          <Plus className="w-4 h-4" />
+          <span className="hidden sm:inline">Nova Transação</span>
+        </Button>
+      }
+    >
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white backdrop-blur-xl rounded-xl p-4">
@@ -148,6 +163,11 @@ export const Transactions = () => {
           </div>
         </div>
       </div>
+
+      <TransactionModal
+        isOpen={showTransactionModal}
+        onClose={() => setShowTransactionModal(false)}
+      />
     </Container>
   );
 };

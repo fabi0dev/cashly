@@ -15,8 +15,8 @@ export const Header = ({
   rightContent,
 }: HeaderProps) => {
   return (
-    <header className={cn("backdrop-blur-xl flex-row")}>
-      <div className="max-w-7xl mx-6 h-16 flex items-center justify-between">
+    <header className={cn("backdrop-blur-xl flex-row mx-auto max-w-[1024px]")}>
+      <div className="h-16 flex items-center justify-between">
         <button
           onClick={toggleSidebar}
           className="lg:hidden p-2 rounded-lg hover:bg-gray-100"

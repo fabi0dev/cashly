@@ -10,11 +10,10 @@ import {
 import { Container } from "@/components/Container";
 import { formatToDateRelative } from "@/lib/date";
 import { TransactionModal } from "@/components/Modals/TransactionModal";
-import { categories } from "../Categories";
 import { Button } from "@/components/ui/button";
 
 export const Dashboard = () => {
-  const [showTransactonModal, setShowTransactionModal] = useState(false);
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
 
   return (
     <Container
@@ -30,7 +29,7 @@ export const Dashboard = () => {
       }
     >
       <TransactionModal
-        isOpen={showTransactonModal}
+        isOpen={showTransactionModal}
         onClose={() => setShowTransactionModal(false)}
       />
 

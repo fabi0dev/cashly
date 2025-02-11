@@ -29,12 +29,8 @@ export const Categories = () => {
   };
 
   return (
-    <Container>
+    <Container titleHeader="Categorias">
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-gray-900">Categorias</h1>
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {categories.map((category) => {
             const total = getCategoryTotal(category.name);

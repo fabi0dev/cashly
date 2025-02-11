@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import {
   BarChart3,
-  Bell,
   Goal,
   LogOut,
   Receipt,
@@ -18,7 +17,7 @@ interface SidebarProps {
 const NAV_LINKS = [
   { label: "Visão Geral", icon: BarChart3, href: "/" },
   { label: "Objetivos", icon: Goal, href: "/goals" },
-  { label: "Notificações", icon: Bell, href: "/notifications" },
+  //{ label: "Notificações", icon: Bell, href: "/notifications" },
   { label: "Transações", icon: Receipt, href: "/transactions" },
   { label: "Categorias", icon: Tag, href: "/categories" },
   { label: "Configurações", icon: Settings, href: "/settings" },
@@ -31,7 +30,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
     <div
       className={cn(
         "fixed lg:static inset-y-0 left-0 z-30 w-72 backdrop-blur-xl",
-        "bg-white border-r border-r-gray-200 transform transition-transform duration-300 ease-in-out",
+        "bg-white transform transition-transform duration-300 ease-in-out",
         {
           "translate-x-0": isOpen,
           "-translate-x-full lg:translate-x-0": !isOpen,
