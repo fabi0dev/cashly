@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Container } from "@/components/Container";
 import { formatToDateRelative } from "@/lib/date";
-import { TransactionModal } from "@/components/Modals/TransactionModal";
+import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
 
 export const Dashboard = () => {

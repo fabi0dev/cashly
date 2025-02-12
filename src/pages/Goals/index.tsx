@@ -1,5 +1,8 @@
 import { Container } from "@/components/Container";
-import { Target } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { GoalModal } from "@/shared/Modals/GoalModal";
+import { Plus } from "lucide-react";
+import { useState } from "react";
 
 const goals = [
   {
@@ -7,20 +10,22 @@ const goals = [
     name: "Fundo de Emergência",
     targetAmount: 10000,
     currentAmount: 3000,
-    deadline: "2024-12-31",
+    deadline: "2025-12-31",
     icon: "🎯",
   },
   {
     id: 2,
     name: "Viagem",
     targetAmount: 5000,
-    currentAmount: 1500,
-    deadline: "2024-08-31",
+    currentAmount: 1920,
+    deadline: "2025-08-31",
     icon: "✈️",
   },
 ];
 
 export const Goals = () => {
+  const [showGoalModal, setShowGoalModal] = useState(false);
+
   const calculateDaysLeft = (deadline: string) => {
     const today = new Date();
     const deadlineDate = new Date(deadline);
@@ -30,7 +35,18 @@ export const Goals = () => {
   };
 
   return (
-    <Container titleHeader="Objetivos">
+    <Container
+      titleHeader="Objetivos"
+      rightContentHeader={
+        <Button
+          onClick={() => setShowGoalModal(true)}
+          className="flex items-center gap-2 bg-purple-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto"
+        >
+          <Plus className="w-4 h-4" />
+          <span className="hidden sm:inline">Novo Objetivo</span>
+        </Button>
+      }
+    >
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {goals.map((goal) => {
@@ -47,13 +63,12 @@ export const Goals = () => {
                 />
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1">
                       <div className={`p-2 rounded-lg  bg-opacity-10`}>
                         <span className="text-xl">{goal.icon}</span>
                       </div>
                       <h3 className="font-medium text-gray-900">{goal.name}</h3>
                     </div>
-                    <Target className="w-5 h-5 text-gray-400" />
                   </div>
 
                   <div className="space-y-3">
@@ -64,9 +79,9 @@ export const Goals = () => {
                           {percentage.toFixed(1)}%
                         </span>
                       </div>
-                      <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div className="w-full h-2 bg-purple-200 rounded-full overflow-hidden">
                         <div
-                          className={`h-full transition-all duration-300`}
+                          className={`h-full transition-all duration-300 bg-purple-700`}
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
@@ -105,6 +120,14 @@ export const Goals = () => {
           })}
         </div>
       </div>
+
+      {showGoalModal && (
+        <GoalModal
+          isOpen
+          onClose={() => setShowGoalModal(false)}
+          onSubmit={() => setShowGoalModal(false)}
+        />
+      )}
     </Container>
   );
 };

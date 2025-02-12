@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { TransactionModal } from "@/components/Modals/TransactionModal";
+import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
 import { Plus, Receipt, TrendingDown, TrendingUp } from "lucide-react";
 import { useState } from "react";

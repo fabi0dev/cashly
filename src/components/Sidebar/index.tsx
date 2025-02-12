@@ -38,7 +38,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       )}
     >
       {/* Logo Section */}
-      <div className="px-6 py-8">
+      <div className="px-8 py-8">
         <Link to="/" className="flex items-center gap-3">
           <Wallet className="w-6 h-6 text-gray-900" />
           <h1 className="text-xl font-medium text-gray-900">
@@ -48,7 +48,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       </div>
 
       {/* Profile Section */}
-      <div className="px-6 py-4">
+      <div className="px-8 py-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
             <span className="text-gray-900 font-medium">JS</span>
@@ -61,7 +61,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex px-3 py-6">
+      <nav className="flex px-8 py-6">
         <ul className="space-y-1">
           {NAV_LINKS.map(({ label, icon: Icon, href }) => {
             const isActive = location.pathname === href;
@@ -86,7 +86,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       </nav>
 
       {/* Logout Button */}
-      <div className="p-3">
+      <div className="p-8">
         <button className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors w-full">
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Sair</span>

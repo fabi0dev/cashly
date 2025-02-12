@@ -109,7 +109,10 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
             Categoria
           </label>
           <div className="relative">
-            <Select>
+            <Select
+              {...register("category")}
+              onValueChange={(value) => setValue("category", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Selecione uma categoria" />
               </SelectTrigger>

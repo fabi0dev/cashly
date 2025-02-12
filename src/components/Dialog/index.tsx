@@ -3,6 +3,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { DialogProps as DialogShadcnProps } from "@radix-ui/react-dialog";
 
@@ -16,7 +17,8 @@ export const Dialog = ({ title, children, ...props }: DialogProps) => {
     <DialogShadcn {...props}>
       <DialogContent>
         <DialogHeader className="mb-2">
-          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription></DialogDescription>
+          <DialogTitle className="text-xl">{title}</DialogTitle>
         </DialogHeader>
         {children}
       </DialogContent>
