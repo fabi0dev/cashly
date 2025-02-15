@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
 import {
   BarChart3,
   Goal,
@@ -25,6 +26,8 @@ const NAV_LINKS = [
 
 export const Sidebar = ({ isOpen }: SidebarProps) => {
   const location = useLocation();
+
+  const logout = useAuthStore((state) => state.logout);
 
   return (
     <div
@@ -87,7 +90,10 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 
       {/* Logout Button */}
       <div className="p-8">
-        <button className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors w-full">
+        <button
+          onClick={logout}
+          className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors w-full"
+        >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Sair</span>
         </button>

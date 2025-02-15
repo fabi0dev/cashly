@@ -1,9 +1,5 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SchemaTransactionModal, schemaTransactionModal } from "./schema";
 import {
   Select,
   SelectContent,
@@ -15,43 +11,22 @@ import {
 import { categories } from "@/pages/Categories";
 import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
+import { useTransactionModal } from "./useTransactionModal";
+import DatePicker from "@/components/DatePicker";
 
 interface TransactionModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-interface TransactionFormData {
-  type: "income" | "expense";
-  description: string;
-  amount: number;
-  category: string;
-  date: string;
-}
-
 export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-  } = useForm<SchemaTransactionModal>({
-    resolver: yupResolver(schemaTransactionModal),
-    defaultValues: {
-      type: "income",
-    },
-  });
+  const { register, setValue, watch, errors, submit } = useTransactionModal();
 
   const transactionType = watch("type");
 
-  const onSubmit = (data: TransactionFormData) => {
-    console.log(data);
-  };
-
   return (
     <Dialog title="Nova Transação" open={isOpen} onOpenChange={onClose}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
@@ -135,10 +110,11 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
             Data
           </label>
           <div className="relative">
-            <Input
-              type="text"
-              {...register("date")}
-              className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            <DatePicker
+              value={watch("date")}
+              onChange={(date) =>
+                setValue("date", date, { shouldValidate: true })
+              }
             />
           </div>
           <p className="text-red-500 text-sm">{errors.date?.message}</p>

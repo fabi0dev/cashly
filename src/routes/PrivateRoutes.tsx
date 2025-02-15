@@ -10,6 +10,10 @@ export const PrivateRoutes = [
     element: <Dashboard />,
   },
   {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
+  {
     path: "/transactions",
     element: <Transactions />,
   },
