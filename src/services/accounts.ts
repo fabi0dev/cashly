@@ -32,7 +32,6 @@ export interface AccountCreateRequest {
   name: string;
   type: string;
   balance: number;
-  userId: string;
 }
 
 export interface AccountUpdateRequest {

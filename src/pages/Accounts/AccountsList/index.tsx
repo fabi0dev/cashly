@@ -1,11 +1,11 @@
 import { Container } from "@/components/Container";
-import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/lib/utils";
 import { GetAllAccounts } from "@/services/accounts";
+import { AccountModal } from "@/shared/Modals/AccountModal";
 
 export const AccountsList = () => {
   const { isLoading: isLoadingAccounts, data: dataAccounts } = useQuery({
@@ -65,10 +65,9 @@ export const AccountsList = () => {
         </div>
       </div>
 
-      <TransactionModal
-        isOpen={showTransactionModal}
-        onClose={() => setShowTransactionModal(false)}
-      />
+      {showTransactionModal && (
+        <AccountModal isOpen onClose={() => setShowTransactionModal(false)} />
+      )}
     </Container>
   );
 };
