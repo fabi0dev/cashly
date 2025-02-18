@@ -4,19 +4,13 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/lib/utils";
-import { GetAllAccounts } from "@/services/accounts";
 import { AccountModal } from "@/shared/Modals/AccountModal";
+import { queries } from "@/queries";
 
 export const AccountsList = () => {
   const { isLoading: isLoadingAccounts, data: dataAccounts } = useQuery({
-    queryKey: ["get-all-accounts"],
-    queryFn: async () => {
-      const { data } = await GetAllAccounts();
-      return data;
-    },
+    ...queries.account.getAll(),
   });
-
-  console.log(isLoadingAccounts);
 
   const [showTransactionModal, setShowTransactionModal] = useState(false);
 

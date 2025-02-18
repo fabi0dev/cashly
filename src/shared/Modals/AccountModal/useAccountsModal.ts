@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { toastError, toastSuccess } from "@/lib/toast";
-import { CreateAccount } from "@/services/accounts";
 import { schemaAccountModal, SchemaAccountModal } from "./schema";
+import { CreateAccount } from "@/services/account";
 
 interface UseAccountModalProps {
   onClose: () => void;

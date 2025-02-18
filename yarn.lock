@@ -618,6 +618,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@lukemorales/query-key-factory@npm:1.3.4":
+  version: 1.3.4
+  resolution: "@lukemorales/query-key-factory@npm:1.3.4"
+  peerDependencies:
+    "@tanstack/query-core": ">= 4.0.0"
+    "@tanstack/react-query": ">= 4.0.0"
+  checksum: 10c0/d4e829aad970c159e3e3d6545f4f1e47d1a02621cd692bc0e13b7cc36861541e205f801d7ab8081ed8b1c8c3fd365483e1656537ef1ab165cb14743b4b1f1d6c
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -4219,6 +4229,7 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.9.1"
     "@hookform/resolvers": "npm:4.0.0"
+    "@lukemorales/query-key-factory": "npm:1.3.4"
     "@radix-ui/react-checkbox": "npm:^1.1.4"
     "@radix-ui/react-dialog": "npm:^1.1.6"
     "@radix-ui/react-popover": "npm:^1.1.6"
