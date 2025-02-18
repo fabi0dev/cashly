@@ -3,21 +3,16 @@ import { Receipt } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const categories = [
-  { id: 1, name: "Alimentação", icon: "🍽️", budget: 800 },
-  { id: 2, name: "Transporte", icon: "🚗", budget: 400 },
-  { id: 3, name: "Moradia", icon: "🏠", budget: 2000 },
-  { id: 4, name: "Saúde", icon: "⚕️", budget: 500 },
-  { id: 5, name: "Educação", icon: "📚", budget: 300 },
-  { id: 6, name: "Lazer", icon: "🎮", budget: 200 },
-  { id: 7, name: "Salário", icon: "💰", budget: 0 },
-  {
-    id: 8,
-    name: "Investimentos",
-    color: "bg-cyan-500",
-    icon: "📈",
-    budget: 1000,
-  },
-  { id: 9, name: "Outros", color: "bg-gray-500", icon: "📦", budget: 200 },
+  { id: 1, name: "Alimentação", icon: "🍽️" },
+  { id: 2, name: "Transporte", icon: "🚗" },
+  { id: 3, name: "Moradia", icon: "🏠" },
+  { id: 4, name: "Saúde", icon: "⚕️" },
+  { id: 5, name: "Educação", icon: "📚" },
+  { id: 6, name: "Lazer", icon: "🎮" },
+  { id: 7, name: "Salário", icon: "💰" },
+  { id: 8, name: "Investimentos", icon: "📈" },
+  { id: 9, name: "Mercado", icon: "🛒" },
+  { id: 10, name: "Outros", icon: "📦" },
 ];
 
 export const Categories = () => {

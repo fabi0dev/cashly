@@ -1,53 +1,65 @@
+"use client";
+
 import * as React from "react";
+import { CalendarIcon } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+import { DateTime } from "luxon";
 
-export default function DatePicker({
+type DatePickerProps = {
+  value?: Date;
+  onValueChange?: (date: string) => void;
+  placeholder?: string;
+};
+
+export function DatePicker({
   value,
-  onChange,
-}: {
-  value: string | undefined; // Aceita string no formato YYYY-MM-DD
-  onChange: (date: string) => void; // Retorna string no formato YYYY-MM-DD
-}) {
-  const parseDate = (dateStr: string | undefined) =>
-    dateStr ? new Date(dateStr + "T00:00:00") : undefined;
+  onValueChange,
+  placeholder = "Selecione uma data",
+}: DatePickerProps) {
+  const [date, setDate] = React.useState<Date | undefined>(value);
+  const [open, setOpen] = React.useState(false);
 
-  const formatDate = (date: Date) => date.toISOString().split("T")[0]; // Formata para YYYY-MM-DD
+  const handleSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate);
+    setOpen(false);
 
-  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
-    parseDate(value)
-  );
-
-  React.useEffect(() => {
-    setSelectedDate(parseDate(value));
-  }, [value]);
-
-  const handleDateSelect = (date: Date | undefined) => {
-    if (date) {
-      const formatted = formatDate(date);
-      setSelectedDate(date);
-      onChange(formatted);
+    if (selectedDate) {
+      onValueChange?.(DateTime.fromJSDate(selectedDate).toFormat("yyyy-MM-dd"));
     }
   };
 
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-full">
-          {selectedDate ? format(selectedDate, "dd/MM/yyyy") : "Select a date"}
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-full justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
+          <CalendarIcon className="absolute right-4 h-4 w-4" />
+          {date ? (
+            DateTime.fromJSDate(date).setLocale("pt-BR").toFormat("DDD")
+          ) : (
+            <span>{placeholder}</span>
+          )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-4 w-80">
+      <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="single"
-          selected={selectedDate}
-          onSelect={handleDateSelect}
+          selected={date}
+          onSelect={handleSelect}
+          initialFocus
         />
       </PopoverContent>
     </Popover>

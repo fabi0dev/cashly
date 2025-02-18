@@ -4,6 +4,7 @@ import {
   BarChart3,
   Goal,
   LogOut,
+  PiggyBank,
   Receipt,
   Settings,
   Tag,
@@ -21,13 +22,14 @@ const NAV_LINKS = [
   //{ label: "Notificações", icon: Bell, href: "/notifications" },
   { label: "Transações", icon: Receipt, href: "/transactions" },
   { label: "Categorias", icon: Tag, href: "/categories" },
+  { label: "Contas de Banco", icon: PiggyBank, href: "/accounts/list" },
   { label: "Configurações", icon: Settings, href: "/settings" },
 ];
 
 export const Sidebar = ({ isOpen }: SidebarProps) => {
   const location = useLocation();
-
   const logout = useAuthStore((state) => state.logout);
+  const authData = useAuthStore((state) => state.authData);
 
   return (
     <div
@@ -57,7 +59,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
             <span className="text-gray-900 font-medium">JS</span>
           </div>
           <div>
-            <h3 className="font-medium text-gray-900">João Silva</h3>
+            <h3 className="font-medium text-gray-900">{authData?.user.name}</h3>
             <p className="text-sm text-gray-500">Conta Pessoal</p>
           </div>
         </div>

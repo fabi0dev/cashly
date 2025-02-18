@@ -12,7 +12,8 @@ import { categories } from "@/pages/Categories";
 import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
 import { useTransactionModal } from "./useTransactionModal";
-import DatePicker from "@/components/DatePicker";
+import { DatePicker } from "@/components/DatePicker";
+import { CurrencyInput } from "react-currency-mask";
 
 interface TransactionModalProps {
   isOpen: boolean;
@@ -20,9 +21,11 @@ interface TransactionModalProps {
 }
 
 export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
-  const { register, setValue, watch, errors, submit } = useTransactionModal();
+  const { register, setValue, watch, errors, submit, isLoading } =
+    useTransactionModal({ onClose });
 
   const transactionType = watch("type");
+  const amount = watch("amount");
 
   return (
     <Dialog title="Nova Transação" open={isOpen} onOpenChange={onClose}>
@@ -30,21 +33,9 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
-            onClick={() => setValue("type", "income")}
+            onClick={() => setValue("type", "EXIT")}
             className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
-              transactionType === "income"
-                ? "bg-green-50 border-green-200 text-green-600"
-                : "border-gray-200 text-gray-600 hover:bg-gray-50"
-            }`}
-          >
-            <TrendingUp className="w-4 h-4" />
-            <span className="font-medium">Receita</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setValue("type", "expense")}
-            className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
-              transactionType === "expense"
+              transactionType === "EXIT"
                 ? "bg-red-50 border-red-200 text-red-600"
                 : "border-gray-200 text-gray-600 hover:bg-gray-50"
             }`}
@@ -52,31 +43,19 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
             <TrendingDown className="w-4 h-4" />
             <span className="font-medium">Despesa</span>
           </button>
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Descrição
-          </label>
-          <Input
-            {...register("description")}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            placeholder="Ex: Compras no supermercado"
-          />
-          <p className="text-red-500 text-sm">{errors.description?.message}</p>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Valor (R$)
-          </label>
-          <Input
-            type="number"
-            {...register("amount")}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            placeholder="0,00"
-          />
-          <p className="text-red-500 text-sm">{errors.amount?.message}</p>
+          <button
+            type="button"
+            onClick={() => setValue("type", "ENTRY")}
+            className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
+              transactionType === "ENTRY"
+                ? "bg-green-50 border-green-200 text-green-600"
+                : "border-gray-200 text-gray-600 hover:bg-gray-50"
+            }`}
+          >
+            <TrendingUp className="w-4 h-4" />
+            <span className="font-medium">Receita</span>
+          </button>
         </div>
 
         <div>
@@ -107,21 +86,50 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
+            Valor (R$)
+          </label>
+
+          <CurrencyInput
+            value={amount}
+            onChangeValue={(_, value) => {
+              setValue("amount", Number(value));
+            }}
+            InputElement={<Input />}
+            currency={"BRL"}
+          />
+
+          <p className="text-red-500 text-sm">{errors.amount?.message}</p>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
             Data
           </label>
           <div className="relative">
-            <DatePicker
-              value={watch("date")}
-              onChange={(date) =>
-                setValue("date", date, { shouldValidate: true })
-              }
-            />
+            <DatePicker onValueChange={(value) => setValue("date", value)} />
           </div>
           <p className="text-red-500 text-sm">{errors.date?.message}</p>
         </div>
 
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Descrição
+          </label>
+          <Input
+            {...register("description")}
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200"
+            placeholder={
+              transactionType === "EXIT" ? "Compras no supermercado" : "Salário"
+            }
+            autoFocus
+          />
+          <p className="text-red-500 text-sm">{errors.description?.message}</p>
+        </div>
+
         <div className="flex justify-end">
-          <Button type="submit">Salvar</Button>
+          <Button type="submit" isLoading={isLoading}>
+            Salvar
+          </Button>
         </div>
       </form>
     </Dialog>

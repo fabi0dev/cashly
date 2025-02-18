@@ -1,3 +1,4 @@
+import { AccountsList } from "@/pages/Accounts/AccountsList";
 import { Categories } from "@/pages/Categories";
 import { Dashboard } from "@/pages/Dashboard";
 import { Goals } from "@/pages/Goals";
@@ -28,5 +29,9 @@ export const PrivateRoutes = [
   {
     path: "/settings",
     element: <Settings />,
+  },
+  {
+    path: "/accounts/list",
+    element: <AccountsList />,
   },
 ];
