@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
 import { Account } from "@/services/account";
 import { AccountModal } from "@/shared/Modals/AccountModal";
-import { EllipsisVertical } from "lucide-react";
+import { CheckCircle, EllipsisVertical } from "lucide-react";
 import { useState } from "react";
+import { useAccountItem } from "./useAccountItem";
+import { getAccountTypeLabel } from "@/constants/AccountsTypes";
 
 interface AccountItemProps {
   item: Account;
@@ -17,11 +19,19 @@ export const AccountItem = ({ item }: AccountItemProps) => {
   const [showConfirmDeleteAccount, setShowConfirmDeleteAccount] =
     useState(false);
 
+  const { mutateDeleteAccount, isLoadingDeleteAccount } = useAccountItem({
+    setShowConfirmDeleteAccount,
+  });
+
   return (
     <>
       <List.Row onClick={() => setShowAccountModal(true)}>
         <List.Td>{item.name}</List.Td>
         <List.Td>{formatCurrency(item.balance)}</List.Td>
+        <List.Td>{getAccountTypeLabel(item.type)}</List.Td>
+        <List.Td>
+          {item.isDefault && <CheckCircle className="text-emerald-800" />}
+        </List.Td>
         <List.Td className="flex items-center justify-end">
           <Dropdown
             menuItems={[
@@ -54,6 +64,7 @@ export const AccountItem = ({ item }: AccountItemProps) => {
       {showConfirmDeleteAccount && (
         <ConfirmDialog
           open
+          isLoading={isLoadingDeleteAccount}
           onOpenChange={() => setShowConfirmDeleteAccount(false)}
           title={"Excluir Conta"}
           description={
@@ -62,7 +73,7 @@ export const AccountItem = ({ item }: AccountItemProps) => {
               {`das conta?`}
             </div>
           }
-          onConfirm={() => console.log("Confirmado")}
+          onConfirm={() => mutateDeleteAccount(item.id)}
           onCancel={() => setShowConfirmDeleteAccount(false)}
         />
       )}

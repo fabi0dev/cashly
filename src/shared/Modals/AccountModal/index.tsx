@@ -11,6 +11,8 @@ import {
 import { useAccountModal } from "./useAccountsModal";
 import { CurrencyInput } from "react-currency-mask";
 import { cn } from "@/lib/utils";
+import { AccountsTypes, AccountsTypesKey } from "@/constants/AccountsTypes";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface AccountModalProps {
   accountId?: string;
@@ -28,6 +30,8 @@ export function AccountModal({
       accountId,
       onClose,
     });
+
+  const type = watch("type");
 
   return (
     <Dialog
@@ -49,6 +53,7 @@ export function AccountModal({
                 "border-red-400 focus-visible:ring-red-400"
             )}
             autoFocus
+            autoComplete="off"
           />
         </div>
 
@@ -59,7 +64,7 @@ export function AccountModal({
           <Select
             value={watch("type")}
             {...register("type")}
-            onValueChange={(value) => setValue("type", value)}
+            onValueChange={(value: AccountsTypesKey) => setValue("type", value)}
           >
             <SelectTrigger
               className={cn(errors.type?.message && "border-red-400")}
@@ -67,16 +72,18 @@ export function AccountModal({
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="CHECKING">Conta Corrente</SelectItem>
-              <SelectItem value="SAVINGS">Poupança</SelectItem>
-              <SelectItem value="CREDIT">Cartão de Crédito</SelectItem>
+              {Object.entries(AccountsTypes).map(([key, value]) => (
+                <SelectItem key={key} value={key}>
+                  {value}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Saldo Inicial (R$)
+            {type === "CREDIT" ? "Limite atual" : "Saldo atual"}
           </label>
           <CurrencyInput
             value={watch("balance")}
@@ -93,17 +100,18 @@ export function AccountModal({
           />
         </div>
 
-        <div className="flex justify-end gap-4">
-          {accountId && (
-            <Button
-              variant={"destructiveOutline"}
-              type="submit"
-              isLoading={isLoading}
-            >
-              Excluir
-            </Button>
-          )}
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id="remember"
+            checked={watch("isDefault")}
+            onCheckedChange={(checked) => setValue("isDefault", !!checked)}
+          />
+          <label htmlFor="remember" className="text-sm cursor-pointer">
+            Conta padrão
+          </label>
+        </div>
 
+        <div className="flex justify-end gap-4">
           <Button type="submit" isLoading={isLoading}>
             Salvar
           </Button>

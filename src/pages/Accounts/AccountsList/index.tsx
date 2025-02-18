@@ -1,6 +1,5 @@
 import { Container } from "@/components/Container";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AccountModal } from "@/shared/Modals/AccountModal";
@@ -23,7 +22,6 @@ export const AccountsList = () => {
           onClick={() => setShowAccountModal(true)}
           className="flex items-center gap-2 bg-purple-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto"
         >
-          <Plus className="w-4 h-4" />
           <span className="hidden sm:inline">Nova Conta</span>
         </Button>
       }
@@ -34,16 +32,34 @@ export const AccountsList = () => {
             label: "Nome",
           },
           {
-            label: "Saldo",
+            label: "Saldo / Limite",
+          },
+          {
+            label: "Tipo",
           },
           {
             label: "",
-            className: "w-[30px]",
+          },
+          {
+            label: "",
           },
         ]}
         data={dataAccounts?.data}
         isLoading={isLoadingAccounts}
         render={(item) => <AccountItem item={item} />}
+        renderEmpty={() => (
+          <div className="flex flex-col items-center justify-center gap-4 py-10">
+            <div>
+              <img src="/ui/piggy-bank.png" className="w-36 opacity-80" />
+            </div>
+            <div className="text-gray-900  text-center">
+              <div className="font-bold">Nada para mostrar</div>
+              <div className="text-gray-500">
+                Você ainda não cadastrou nenhuma conta
+              </div>
+            </div>
+          </div>
+        )}
       />
 
       {showAccountModal && (

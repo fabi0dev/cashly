@@ -27,6 +27,7 @@ export const useAccountModal = ({
     formState: { errors },
   } = useForm<SchemaAccountModal>({
     resolver: yupResolver(schemaAccountModal),
+    defaultValues: schemaAccountModal.getDefault(),
   });
 
   const invalidateAccountList = () => {
@@ -77,6 +78,7 @@ export const useAccountModal = ({
       balance: dataAccount?.balance,
       name: dataAccount?.name,
       type: dataAccount?.type,
+      isDefault: dataAccount?.isDefault,
     });
   }, [reset, dataAccount]);
 

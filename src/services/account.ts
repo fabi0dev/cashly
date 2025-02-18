@@ -1,3 +1,4 @@
+import { AccountsTypesKey } from "@/constants/AccountsTypes";
 import { Api } from "./api";
 import { RequestPagination } from "./common";
 
@@ -23,12 +24,10 @@ export const DeleteAccount = async (id: string) =>
 export interface Account {
   id: string;
   name: string;
-  type: string;
+  type: AccountsTypesKey;
+  isDefault: boolean;
   balance: number;
   userId: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt?: string | null;
 }
 
 export type GetAllAccountsRequest = RequestPagination & {};
@@ -42,11 +41,13 @@ export interface AccountResponse {
 export interface AccountCreateRequest {
   name: string;
   type: string;
+  isDefault: boolean;
   balance: number;
 }
 
 export interface AccountUpdateRequest {
   name?: string;
   type?: string;
+  isDefault?: boolean;
   balance?: number;
 }
