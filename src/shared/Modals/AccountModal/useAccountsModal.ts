@@ -1,15 +1,18 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { schemaAccountModal, SchemaAccountModal } from "./schema";
 import { CreateAccount } from "@/services/account";
+import { queries } from "@/queries";
 
 interface UseAccountModalProps {
   onClose: () => void;
 }
 
 export const useAccountModal = ({ onClose }: UseAccountModalProps) => {
+  const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
@@ -20,6 +23,10 @@ export const useAccountModal = ({ onClose }: UseAccountModalProps) => {
     resolver: yupResolver(schemaAccountModal),
   });
 
+  const invalidateAccountList = () => {
+    queryClient.invalidateQueries({ queryKey: queries.account.getAll._def });
+  };
+
   const {
     mutateAsync: mutateCreateAccount,
     isPending: isPendingCreateAccount,
@@ -28,6 +35,7 @@ export const useAccountModal = ({ onClose }: UseAccountModalProps) => {
     onSuccess: () => {
       onClose();
       toastSuccess("Conta criada com sucesso!");
+      invalidateAccountList();
     },
     onError: () => toastError("Erro ao criar conta!"),
   });

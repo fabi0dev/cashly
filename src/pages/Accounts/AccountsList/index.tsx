@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/lib/utils";
 import { AccountModal } from "@/shared/Modals/AccountModal";
 import { queries } from "@/queries";
+import { List } from "@/components/List";
 
 export const AccountsList = () => {
   const { isLoading: isLoadingAccounts, data: dataAccounts } = useQuery({
@@ -27,37 +28,25 @@ export const AccountsList = () => {
         </Button>
       }
     >
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="bg-white backdrop-blur-xl rounded-xl overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-200">
-                  <th className="text-left p-4 font-medium text-gray-600">
-                    Nome
-                  </th>
-                  <th className="text-left p-4 font-medium text-gray-600">
-                    Saldo
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {dataAccounts?.data.map((account) => (
-                  <tr
-                    key={account.id}
-                    className="border-b border-gray-100 last:border-0"
-                  >
-                    <td className="p-4 text-gray-600">{account.name}</td>
-                    <td className="p-4 font-medium text-gray-900">
-                      {formatCurrency(account.balance)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <List
+        columns={[
+          {
+            label: "Nome",
+          },
+          {
+            label: "Saldo",
+          },
+        ]}
+        data={dataAccounts?.data}
+        isLoading={isLoadingAccounts}
+        href={(item) => `/accounts/${item.id}`}
+        render={(item) => (
+          <>
+            <List.Td>{item.name}</List.Td>
+            <List.Td>{formatCurrency(item.balance)}</List.Td>
+          </>
+        )}
+      />
 
       {showTransactionModal && (
         <AccountModal isOpen onClose={() => setShowTransactionModal(false)} />
