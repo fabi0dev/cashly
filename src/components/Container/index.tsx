@@ -38,7 +38,7 @@ export const Container = ({
           rightContent={rightContentHeader}
         />
 
-        <main className="mt-5 mx-auto max-w-[1024px] p-5">{children}</main>
+        <main className="mx-auto max-w-[1024px] p-5">{children}</main>
       </div>
     </div>
   );

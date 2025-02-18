@@ -13,6 +13,7 @@ interface ListProps<T> {
   isLoading: boolean;
   columns: Column[];
   href?: (item: T) => string;
+  rowClick?: (item: T) => void;
 }
 
 export const List = <T,>({
@@ -21,15 +22,16 @@ export const List = <T,>({
   isLoading,
   columns,
   href,
+  rowClick,
 }: ListProps<T>) => {
   return (
-    <div className="bg-white backdrop-blur-xl rounded-xl overflow-hidden">
-      <div className="grid grid-cols-1 divide-y divide-gray-200">
+    <div className="bg-white backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
+      <div className="grid grid-cols-1 divide-y ">
         <List.Row>
           {columns.map((column, index) => (
             <List.Td
               key={index}
-              className={column.className || "font-semibold text-gray-800"}
+              className={cn("font-semibold text-gray-800", column.className)}
             >
               {column.label}
             </List.Td>
@@ -43,7 +45,11 @@ export const List = <T,>({
               </List.Row>
             ))
           : data?.map((item, index) => (
-              <List.Row key={index} href={href ? href(item) : undefined}>
+              <List.Row
+                key={index}
+                href={href ? href(item) : undefined}
+                onClick={() => rowClick && rowClick(item)}
+              >
                 {render(item)}
               </List.Row>
             ))}
@@ -55,23 +61,33 @@ export const List = <T,>({
 List.Row = ({
   children,
   href,
+  onClick,
 }: {
   children: React.ReactNode;
   href?: string;
+  onClick?: () => void;
 }) => {
   return href ? (
     <Link to={href}>
       <div
         className={cn(
           "grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))]",
-          " p-4 border-b border-gray-100 last:border-0 cursor-pointer hover:opacity-70"
+          " border-gray-100 last:border-0 cursor-pointer hover:opacity-70",
+          onClick && "cursor-pointer"
         )}
+        onClick={onClick}
       >
         {children}
       </div>
     </Link>
   ) : (
-    <div className="grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] p-4 border-b border-gray-100 last:border-0">
+    <div
+      className={cn(
+        "grid grid-cols-[repeat(auto-fit,minmax(100px,1fr))] border-gray-100 last:border-0",
+        onClick && "cursor-pointer"
+      )}
+      onClick={onClick}
+    >
       {children}
     </div>
   );
@@ -83,4 +99,8 @@ List.Td = ({
 }: {
   children: React.ReactNode;
   className?: string;
-}) => <div className={cn("p-2 text-gray-500", className)}>{children}</div>;
+}) => (
+  <div className={cn("flex items-center p-3 text-gray-600 ", className)}>
+    {children}
+  </div>
+);

@@ -1,16 +1,21 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toastError, toastSuccess } from "@/lib/toast";
 import { schemaAccountModal, SchemaAccountModal } from "./schema";
-import { CreateAccount } from "@/services/account";
+import { CreateAccount, UpdateAccount } from "@/services/account";
 import { queries } from "@/queries";
+import { useEffect } from "react";
 
 interface UseAccountModalProps {
+  accountId?: string;
   onClose: () => void;
 }
 
-export const useAccountModal = ({ onClose }: UseAccountModalProps) => {
+export const useAccountModal = ({
+  accountId,
+  onClose,
+}: UseAccountModalProps) => {
   const queryClient = useQueryClient();
 
   const {
@@ -18,6 +23,7 @@ export const useAccountModal = ({ onClose }: UseAccountModalProps) => {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<SchemaAccountModal>({
     resolver: yupResolver(schemaAccountModal),
@@ -40,15 +46,52 @@ export const useAccountModal = ({ onClose }: UseAccountModalProps) => {
     onError: () => toastError("Erro ao criar conta!"),
   });
 
+  const {
+    mutateAsync: mutateUpdateAccount,
+    isPending: isLoadingUpdateAccount,
+  } = useMutation({
+    mutationFn: (data: SchemaAccountModal) => UpdateAccount(accountId!, data),
+    onSuccess: () => {
+      onClose();
+      toastSuccess("Conta atualizada com sucesso!");
+      invalidateAccountList();
+    },
+    onError: () => toastError("Erro ao atualizar conta!"),
+  });
+
+  const { data: dataAccount, isFetching: isLoadingDataAccount } = useQuery({
+    ...queries.account.getById({ accountId: accountId! }),
+    enabled: !!accountId,
+  });
+
   const submit = (formData: SchemaAccountModal) => {
-    mutateCreateAccount(formData);
+    if (accountId) {
+      mutateUpdateAccount(formData);
+    } else {
+      mutateCreateAccount(formData);
+    }
   };
+
+  useEffect(() => {
+    reset({
+      balance: dataAccount?.balance,
+      name: dataAccount?.name,
+      type: dataAccount?.type,
+    });
+  }, [reset, dataAccount]);
 
   return {
     register,
     setValue,
     watch,
     errors,
+
+    dataAccount,
+    isLoadingDataAccount,
+
+    mutateUpdateAccount,
+    isLoadingUpdateAccount,
+
     submit: handleSubmit(submit),
     isLoading: isPendingCreateAccount,
   };

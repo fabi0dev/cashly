@@ -7,6 +7,10 @@ export const GetAllAccounts = async (params: GetAllAccountsRequest) => {
   });
 };
 
+export const GetAccountById = async (accountId: string) => {
+  return await Api().get<Account>(`/account/${accountId}`);
+};
+
 export const CreateAccount = async (data: AccountCreateRequest) =>
   await Api().post<Account>(`/account`, data);
 
