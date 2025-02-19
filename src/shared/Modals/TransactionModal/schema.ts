@@ -5,6 +5,7 @@ export const schemaTransactionModal = Yup.object({
   description: Yup.string(),
   amount: Yup.number().required("Valor é obrigatório"),
   category: Yup.string().required("Categoria é obrigatória"),
+  accountId: Yup.string().required("Conta é obrigatória"),
   date: Yup.string().required("Data é obrigatória"),
 });
 

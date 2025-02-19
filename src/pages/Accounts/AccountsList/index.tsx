@@ -32,11 +32,12 @@ export const AccountsList = () => {
             label: "Nome",
           },
           {
-            label: "Saldo / Limite",
-          },
-          {
             label: "Tipo",
           },
+          {
+            label: "Saldo / Limite",
+          },
+
           {
             label: "",
           },
@@ -52,7 +53,7 @@ export const AccountsList = () => {
             <div>
               <img src="/ui/piggy-bank.png" className="w-36 opacity-80" />
             </div>
-            <div className="text-gray-900  text-center">
+            <div className="text-gray-900 dark:text-gray-400 text-center">
               <div className="font-bold">Nada para mostrar</div>
               <div className="text-gray-500">
                 Você ainda não cadastrou nenhuma conta

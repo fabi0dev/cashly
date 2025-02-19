@@ -35,19 +35,21 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
     <div
       className={cn(
         "fixed lg:static inset-y-0 left-0 z-30 w-72 backdrop-blur-xl",
-        "bg-white transform transition-transform duration-300 ease-in-out",
+        "bg-white dark:bg-gray-800 transform transition-transform duration-300 ease-in-out",
         {
           "translate-x-0": isOpen,
           "-translate-x-full lg:translate-x-0": !isOpen,
         }
       )}
     >
-      {/* Logo Section */}
       <div className="px-8 py-8">
         <Link to="/" className="flex items-center gap-3">
-          <Wallet className="w-6 h-6 text-gray-900" />
-          <h1 className="text-xl font-medium text-gray-900">
-            Cash<span className="font-bold text-purple-700">ly</span>
+          <Wallet className="w-6 h-6 text-gray-900 dark:text-white" />
+          <h1 className="text-xl font-medium text-gray-900 dark:text-white">
+            Cash
+            <span className="font-bold text-purple-700 dark:text-purple-500">
+              ly
+            </span>
           </h1>
         </Link>
       </div>
@@ -59,13 +61,16 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
             <span className="text-gray-900 font-medium">JS</span>
           </div>
           <div>
-            <h3 className="font-medium text-gray-900">{authData?.user.name}</h3>
-            <p className="text-sm text-gray-500">Conta Pessoal</p>
+            <h3 className="font-medium text-gray-900 dark:text-gray-300">
+              {authData?.user.name}
+            </h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Conta Pessoal
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Navigation Menu */}
       <nav className="flex px-8 py-6">
         <ul className="space-y-1">
           {NAV_LINKS.map(({ label, icon: Icon, href }) => {
@@ -77,8 +82,8 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
                     isActive
-                      ? "bg-purple-800 text-white hover:bg-purple-900"
-                      : "text-gray-600 hover:bg-gray-100"
+                      ? "bg-purple-800 text-white hover:bg-purple-900 dark:bg-purple-950"
+                      : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900"
                   )}
                 >
                   <Icon className="w-5 h-5" />
@@ -94,7 +99,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       <div className="p-8">
         <button
           onClick={logout}
-          className="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors w-full"
+          className="flex items-center gap-3 px-3 py-2.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg transition-colors w-full"
         >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">Sair</span>

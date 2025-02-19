@@ -27,8 +27,8 @@ export const AccountItem = ({ item }: AccountItemProps) => {
     <>
       <List.Row onClick={() => setShowAccountModal(true)}>
         <List.Td>{item.name}</List.Td>
-        <List.Td>{formatCurrency(item.balance)}</List.Td>
         <List.Td>{getAccountTypeLabel(item.type)}</List.Td>
+        <List.Td>{formatCurrency(item.balance)}</List.Td>
         <List.Td>
           {item.isDefault && <CheckCircle className="text-emerald-800" />}
         </List.Td>

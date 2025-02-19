@@ -45,9 +45,12 @@ export const Api = (): AxiosInstance => {
 };
 
 const showErrorToast = () =>
-  toastError("Você está offline. Tente novamente mais tarde.");
+  toastError(
+    "Não foi possível conectar ao servidor. Tente novamente mais tarde."
+  );
 
-const showReconnectToast = () => toastSuccess("Você está online novamente.");
+const showReconnectToast = () =>
+  toastSuccess("O servidor está disponível novamente.");
 
 const handleReconnect = () => {
   showReconnectToast();

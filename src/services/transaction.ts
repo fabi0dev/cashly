@@ -1,10 +1,13 @@
 import { Api } from "./api";
+import { RequestPagination } from "./common";
 
-export const GetAllTransactions = () =>
-  Api().get<TransactionResponse>(`/transaction`);
+export const GetAllTransactions = (params: GetAllTransactionsRequest) =>
+  Api().get<GetAllTransactionsResponse>(`/transaction`, {
+    params,
+  });
 
 export const CreateTransaction = (data: TransactionCreateRequest) =>
-  Api().post<TransactionResponse>(`/transaction`, data);
+  Api().post<Transaction>(`/transaction`, data);
 
 export interface Transaction {
   id: string;
@@ -17,7 +20,9 @@ export interface Transaction {
   accountId: string | null;
 }
 
-export interface TransactionResponse {
+export type GetAllTransactionsRequest = RequestPagination & {};
+
+export interface GetAllTransactionsResponse {
   data: Transaction[];
   totalItems: number;
   totalPages: number;

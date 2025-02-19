@@ -35,7 +35,7 @@ export function AccountModal({
 
   return (
     <Dialog
-      title={!accountId ? "Nova Conta do Banco" : "Editar Conta do Banco"}
+      title={!accountId ? "Nova Conta do Banco" : "Conta do Banco"}
       open={isOpen}
       onOpenChange={onClose}
     >

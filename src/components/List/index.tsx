@@ -27,7 +27,7 @@ export const List = <T,>({
   renderEmpty,
 }: ListProps<T>) => {
   return (
-    <div className="bg-white backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
+    <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
       {(isLoading || data.length > 0) && (
         <div className="grid grid-cols-1 divide-y ">
           <List.Row>

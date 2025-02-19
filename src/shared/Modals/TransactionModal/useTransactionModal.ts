@@ -1,14 +1,18 @@
 import { useForm } from "react-hook-form";
 import { schemaTransactionModal, SchemaTransactionModal } from "./schema";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { CreateTransaction } from "@/services/transaction";
-import { toastSuccess } from "@/lib/toast";
+import { toastError, toastSuccess } from "@/lib/toast";
+import { queries } from "@/queries";
+import { useEffect } from "react";
 
 interface UseTransactionModalProps {
   onClose: () => void;
 }
 export const useTransactionModal = ({ onClose }: UseTransactionModalProps) => {
+  //const queryClient = useQueryClient();
+
   const {
     register,
     handleSubmit,
@@ -22,6 +26,10 @@ export const useTransactionModal = ({ onClose }: UseTransactionModalProps) => {
     },
   });
 
+  const { data: listAccounts, isFetching: isLoadingListAccounts } = useQuery({
+    ...queries.account.getAll(),
+  });
+
   const {
     mutateAsync: mutateCreateTransaction,
     isPending: isPendingCreateTransaction,
@@ -29,14 +37,23 @@ export const useTransactionModal = ({ onClose }: UseTransactionModalProps) => {
     mutationFn: (data: SchemaTransactionModal) => CreateTransaction(data),
     onSuccess: () => {
       onClose();
-      toastSuccess("Transação criada com sucesso!");
+      toastSuccess("Transação criada com sucesso");
     },
-    onError: () => toastSuccess("Erro ao criar com sucesso!"),
+    onError: () => toastError("Erro ao criar transação"),
   });
 
   const submit = (formData: SchemaTransactionModal) => {
     mutateCreateTransaction(formData);
   };
+
+  useEffect(() => {
+    if (listAccounts) {
+      const accountDefault =
+        listAccounts.data?.find((item) => item.isDefault) || undefined;
+
+      if (accountDefault) setValue("accountId", accountDefault.id);
+    }
+  }, [listAccounts, setValue]);
 
   return {
     register,
@@ -45,5 +62,8 @@ export const useTransactionModal = ({ onClose }: UseTransactionModalProps) => {
     errors,
     submit: handleSubmit(submit),
     isLoading: isPendingCreateTransaction,
+
+    listAccounts,
+    isLoadingListAccounts,
   };
 };

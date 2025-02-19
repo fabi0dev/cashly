@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 export function Login() {
   const { errors, register, submit, isLoading } = useLogin();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-200 to-purple-400 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
       <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl">
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center rounded-full mb-4 gap-1 text-black text-xl font-bold">

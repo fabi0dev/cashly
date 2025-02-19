@@ -5,6 +5,8 @@ import { Toaster } from "sonner";
 const queryClient = new QueryClient();
 
 export default function App() {
+  document.documentElement.classList.add("dark");
+
   return (
     <QueryClientProvider client={queryClient}>
       <Routers />
