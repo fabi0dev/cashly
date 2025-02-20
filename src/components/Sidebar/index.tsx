@@ -34,7 +34,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
   return (
     <div
       className={cn(
-        "fixed lg:static inset-y-0 left-0 z-30 w-72 backdrop-blur-xl",
+        "fixed lg:static inset-y-0 left-0 z-30 w-72",
         "bg-white dark:bg-gray-800 transform transition-transform duration-300 ease-in-out",
         {
           "translate-x-0": isOpen,
@@ -47,14 +47,13 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
           <Wallet className="w-6 h-6 text-gray-900 dark:text-white" />
           <h1 className="text-xl font-medium text-gray-900 dark:text-white">
             Cash
-            <span className="font-bold text-purple-700 dark:text-purple-500">
+            <span className="font-bold text-violet-700 dark:text-violet-500">
               ly
             </span>
           </h1>
         </Link>
       </div>
 
-      {/* Profile Section */}
       <div className="px-8 py-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
@@ -82,12 +81,12 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
                     isActive
-                      ? "bg-purple-800 text-white hover:bg-purple-900 dark:bg-purple-950"
-                      : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-900"
+                      ? "bg-violet-800 text-white hover:bg-violet-900 dark:bg-violet-950"
+                      : "text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900"
                   )}
                 >
                   <Icon className="w-5 h-5" />
-                  <span className="font-medium">{label}</span>
+                  <span>{label}</span>
                 </Link>
               </li>
             );
@@ -95,7 +94,6 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
         </ul>
       </nav>
 
-      {/* Logout Button */}
       <div className="p-8">
         <button
           onClick={logout}

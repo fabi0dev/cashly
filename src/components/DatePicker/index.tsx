@@ -42,7 +42,7 @@ export function DatePicker({
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal",
+            "w-full justify-start text-left font-normal bg-input dark:hover:bg-input border-input-foreground",
             !date && "text-muted-foreground"
           )}
         >
@@ -50,7 +50,7 @@ export function DatePicker({
           {date ? (
             DateTime.fromJSDate(date).setLocale("pt-BR").toFormat("DDD")
           ) : (
-            <span>{placeholder}</span>
+            <span className="text-muted-foreground">{placeholder}</span>
           )}
         </Button>
       </PopoverTrigger>

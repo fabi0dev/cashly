@@ -1,11 +1,12 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Routers from "./routes";
 import { Toaster } from "sonner";
+import { useTheme } from "./hooks/useTheme";
 
 const queryClient = new QueryClient();
 
 export default function App() {
-  document.documentElement.classList.add("dark");
+  useTheme();
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -18,9 +18,11 @@ export const AccountItem = ({ item }: AccountItemProps) => {
   const [showAccountModal, setShowAccountModal] = useState(false);
   const [showConfirmDeleteAccount, setShowConfirmDeleteAccount] =
     useState(false);
+  const [show2ConfirmDeleteAccount, setShow2ConfirmDeleteAccount] =
+    useState(false);
 
   const { mutateDeleteAccount, isLoadingDeleteAccount } = useAccountItem({
-    setShowConfirmDeleteAccount,
+    stateModal: setShow2ConfirmDeleteAccount,
   });
 
   return (
@@ -68,13 +70,41 @@ export const AccountItem = ({ item }: AccountItemProps) => {
           onOpenChange={() => setShowConfirmDeleteAccount(false)}
           title={"Excluir Conta"}
           description={
+            <div className="text-left">
+              <div className="text-center">
+                Tem certeza que deseja excluir esta conta?
+              </div>
+
+              <div className="mt-4 mb-2">
+                Ao excluir <b>{item.name}</b> você está ciente de que:
+              </div>
+              <div>- Não poderá mais visualizar esta conta.</div>
+              <div>- Não poderá mais visualizar transações desta conta.</div>
+            </div>
+          }
+          onConfirm={() => {
+            setShowConfirmDeleteAccount(false);
+            setShow2ConfirmDeleteAccount(true);
+          }}
+          onCancel={() => setShowConfirmDeleteAccount(false)}
+        />
+      )}
+
+      {show2ConfirmDeleteAccount && (
+        <ConfirmDialog
+          open
+          isLoading={isLoadingDeleteAccount}
+          onOpenChange={() => setShow2ConfirmDeleteAccount(false)}
+          title={"Ei, você está quase excluindo uma conta!"}
+          description={
             <div>
-              {`Tem certeza que deseja excluir`} <b>{item.name}</b>{" "}
-              {`das conta?`}
+              Você está prestes a excluir <b>{item.name}</b>, é isso mesmo que
+              deseja fazer?
             </div>
           }
           onConfirm={() => mutateDeleteAccount(item.id)}
-          onCancel={() => setShowConfirmDeleteAccount(false)}
+          onCancel={() => setShow2ConfirmDeleteAccount(false)}
+          confirmText="Sim quero excluir"
         />
       )}
     </>

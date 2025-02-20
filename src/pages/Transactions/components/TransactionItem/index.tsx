@@ -13,8 +13,8 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
         <List.Td className="p-4 text-gray-600">
           {new Date(transaction.date).toLocaleDateString("pt-BR")}
         </List.Td>
-        <List.Td className="p-4 font-medium text-gray-900">
-          {transaction.description}
+        <List.Td className="p-4 text-gray-900">
+          {transaction.account.name}
         </List.Td>
         <List.Td className="p-4">
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
@@ -24,7 +24,9 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
         <List.Td
           className={cn(
             `p-4 text-right font-medium`,
-            transaction.type === "ENTRY" ? "text-green-600" : "text-red-600"
+            transaction.type === "ENTRY"
+              ? "text-green-600 dark:text-green-600"
+              : "text-red-600 dark:text-red-600"
           )}
         >
           {transaction.type === "EXIT" && "-"}

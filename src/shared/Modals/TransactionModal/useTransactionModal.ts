@@ -53,7 +53,8 @@ export const useTransactionModal = ({ onClose }: UseTransactionModalProps) => {
 
       if (accountDefault) setValue("accountId", accountDefault.id);
     }
-  }, [listAccounts, setValue]);
+  }, [listAccounts]);
+  console.log("veio");
 
   return {
     register,

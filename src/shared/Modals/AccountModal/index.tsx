@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/select";
 import { useAccountModal } from "./useAccountsModal";
 import { CurrencyInput } from "react-currency-mask";
-import { cn } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { AccountsTypes, AccountsTypesKey } from "@/constants/AccountsTypes";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -25,7 +25,7 @@ export function AccountModal({
   isOpen,
   onClose,
 }: AccountModalProps) {
-  const { register, setValue, errors, watch, submit, isLoading } =
+  const { register, setValue, errors, watch, submit, dataAccount, isLoading } =
     useAccountModal({
       accountId,
       onClose,
@@ -41,9 +41,7 @@ export function AccountModal({
     >
       <form onSubmit={submit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Nome
-          </label>
+          <label className="block text-sm font-medium mb-1">Nome</label>
           <Input
             {...register("name")}
             placeholder="Nubank, Itaú, etc."
@@ -58,9 +56,7 @@ export function AccountModal({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Tipo
-          </label>
+          <label className="block text-sm font-medium mb-1">Tipo</label>
           <Select
             value={watch("type")}
             {...register("type")}
@@ -81,24 +77,32 @@ export function AccountModal({
           </Select>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            {type === "CREDIT" ? "Limite atual" : "Saldo atual"}
-          </label>
-          <CurrencyInput
-            value={watch("balance")}
-            onChangeValue={(_, value) => {
-              setValue("balance", Number(value));
-            }}
-            InputElement={
-              <Input
-                placeholder="0,00"
-                className={cn(errors.balance?.message && "border-red-400")}
-              />
-            }
-            currency={"BRL"}
-          />
-        </div>
+        {!accountId && (
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              {type === "CREDIT" ? "Limite atual" : "Saldo atual"}
+            </label>
+            <CurrencyInput
+              value={watch("balance")}
+              onChangeValue={(_, value) => {
+                setValue("balance", Number(value));
+              }}
+              InputElement={
+                <Input
+                  placeholder="0,00"
+                  className={cn(errors.balance?.message && "border-red-400")}
+                />
+              }
+              currency={"BRL"}
+            />
+          </div>
+        )}
+
+        {accountId && (
+          <div className="text-right text-sm">
+            Saldo atual: {formatCurrency(dataAccount?.balance || 0)}
+          </div>
+        )}
 
         <div className="flex items-center gap-2">
           <Checkbox

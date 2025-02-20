@@ -18,6 +18,7 @@ interface ConfirmDialogProps extends DialogShadcnProps {
   onConfirm: () => void;
   onCancel?: () => void;
   isLoading?: boolean;
+  loadingText?: string;
 }
 
 export const ConfirmDialog = ({
@@ -28,6 +29,7 @@ export const ConfirmDialog = ({
   onConfirm,
   onCancel,
   isLoading,
+  loadingText,
   ...props
 }: ConfirmDialogProps) => {
   return (
@@ -47,6 +49,7 @@ export const ConfirmDialog = ({
               <Button variant="outline" onClick={onCancel} className="px-10">
                 {cancelText}
               </Button>
+
               <Button
                 variant="destructive"
                 onClick={onConfirm}
@@ -61,7 +64,7 @@ export const ConfirmDialog = ({
         {isLoading && (
           <div className="flex justify-center items-center gap-2 text-sm text-gray-500">
             <Spinner className="fill-primary" size={18} />
-            Aguarde...
+            {loadingText || "Aguarde..."}
           </div>
         )}
       </DialogContent>

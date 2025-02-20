@@ -9,6 +9,10 @@ export const GetAllTransactions = (params: GetAllTransactionsRequest) =>
 export const CreateTransaction = (data: TransactionCreateRequest) =>
   Api().post<Transaction>(`/transaction`, data);
 
+type TransactionAccount = {
+  id: string;
+  name: string;
+};
 export interface Transaction {
   id: string;
   amount: number;
@@ -18,6 +22,7 @@ export interface Transaction {
   category: string;
   userId: string;
   accountId: string | null;
+  account: TransactionAccount;
 }
 
 export type GetAllTransactionsRequest = RequestPagination & {};

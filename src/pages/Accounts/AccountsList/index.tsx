@@ -20,7 +20,7 @@ export const AccountsList = () => {
       rightContentHeader={
         <Button
           onClick={() => setShowAccountModal(true)}
-          className="flex items-center gap-2 bg-purple-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto"
+          className="flex items-center gap-2 bg-violet-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto"
         >
           <span className="hidden sm:inline">Nova Conta</span>
         </Button>

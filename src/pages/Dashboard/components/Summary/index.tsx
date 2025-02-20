@@ -28,8 +28,9 @@ export const Summary = () => {
       <div className="flex justify-end mb-2">
         <Button
           size="icon"
+          variant={"ghost"}
+          className="dark: bg-gray-800"
           onClick={() => setIsVisible(!isVisible)}
-          className="text-primary bg-primary/10 hover:bg-primary/20"
         >
           {isVisible ? <EyeOff /> : <Eye />}
         </Button>
@@ -44,7 +45,7 @@ export const Summary = () => {
           </div>
 
           {!isLoadingSummary && (
-            <p className="text-2xl font-semibold text-gray-900">
+            <p className="text-2xl font-semibold">
               {isVisible ? (
                 formatCurrency(dataSummary?.totalBalance || 0)
               ) : (

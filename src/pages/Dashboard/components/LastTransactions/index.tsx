@@ -25,13 +25,13 @@ export const LastTransactions = () => {
           dataLastTransactions?.data.map((transaction, index) => (
             <div
               key={index}
-              className="flex items-center justify-between p-3 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors"
+              className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-900/40 hover:bg-gray-100 transition-colors"
             >
               <div>
-                <p className="font-medium text-gray-900">
-                  {transaction.description}
+                <p className="font-medium">
+                  {transaction.description || transaction.category}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   {formatToDateRelative(transaction.date)}
                 </p>
               </div>

@@ -3,17 +3,18 @@ import { Input } from "@/components/ui/input";
 import { useLogin } from "./useLogin";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export function Login() {
   const { errors, register, submit, isLoading } = useLogin();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
-      <div className="w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl">
+    <div className="min-h-screen flex items-center justify-center bg-background dark:bg-background p-6">
+      <div className="w-full max-w-md bg-gray-800 rounded-3xl p-8 shadow-2xl">
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center rounded-full mb-4 gap-1 text-black text-xl font-bold">
+          <div className="inline-flex items-center justify-center rounded-full mb-4 gap-1   text-xl font-bold">
             <Wallet size={28} />
             <span>
-              Cash<span className="font-black text-purple-500">ly</span>
+              Cash<span className="font-black text-violet-500">ly</span>
             </span>
           </div>
         </div>
@@ -54,12 +55,10 @@ export function Login() {
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                id="remember"
-                className="h-4 w-4 rounded bg-purple-600 border-purple-300 focus:ring-purple-400"
-              />
-              <label htmlFor="remember">Lembrar-me</label>
+              <label className="flex items-center gap-2">
+                <Checkbox className="h-4 w-4 rounded bg-violet-600 border-violet-300 focus:ring-violet-400" />
+                Lembrar-me
+              </label>
             </div>
             <Link to={"/"} className="hover:underline">
               Esqueceu a senha?
@@ -69,7 +68,7 @@ export function Login() {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="w-full bg-purple-700 text-white font-medium px-4 py-3 rounded-lg hover:bg-purple-600 transition flex items-center justify-center gap-2 shadow-lg"
+            className="w-full bg-violet-700 text-white font-medium px-4 py-3 rounded-lg hover:bg-violet-600 transition flex items-center justify-center gap-2 shadow-lg"
           >
             Entrar
           </Button>
@@ -80,7 +79,7 @@ export function Login() {
             Ainda não tem uma conta?{" "}
             <Link
               to={"/"}
-              className="font-medium text-purple-600 hover:underline"
+              className="font-medium text-violet-600 hover:underline"
             >
               Criar conta
             </Link>

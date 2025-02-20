@@ -16,7 +16,7 @@ const Checkbox = React.forwardRef<
       "peer h-5 w-5 shrink-0 rounded-sm ring-offset-background",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
       "disabled:cursor-not-allowed disabled:opacity-50",
-      "border data-[state=unchecked]:border-input data-[state=unchecked]:bg-background",
+      "border data-[state=unchecked]:border-input data-[state=unchecked]:bg-input",
       "data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground",
       className
     )}

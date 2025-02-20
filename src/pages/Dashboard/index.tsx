@@ -27,9 +27,7 @@ export const Dashboard = () => {
       <div className="max-w-7xl mx-auto space-y-6">
         <Summary />
 
-        {/* Charts and Recent Transactions */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-          {/* Chart Section */}
           <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
             <div className="flex items-center gap-3 mb-6">
               <PieChart className="w-5 h-5" />
@@ -40,7 +38,6 @@ export const Dashboard = () => {
             </div>
           </div>
 
-          {/* Recent Transactions */}
           <LastTransactions />
         </div>
       </div>

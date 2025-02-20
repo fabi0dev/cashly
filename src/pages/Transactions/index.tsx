@@ -1,18 +1,21 @@
 import { Container } from "@/components/Container";
 import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
-import { Plus, Receipt, TrendingDown, TrendingUp } from "lucide-react";
+import { Filter, Plus, Receipt, TrendingDown, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/lib/utils";
 import { queries } from "@/queries";
 import { List } from "@/components/List";
 import { TransactionItem } from "./components/TransactionItem";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Transactions = () => {
   const { isLoading: isLoadingTransactions, data: dataTransactions } = useQuery(
     {
-      ...queries.transaction.getAll(),
+      ...queries.transaction.getAll({
+        limit: 200,
+      }),
     }
   );
 
@@ -28,7 +31,7 @@ export const Transactions = () => {
 
   return (
     <Container
-      titleHeader="Relatório de Transações"
+      titleHeader="Lista de Transações"
       rightContentHeader={
         <Button onClick={() => setShowTransactionModal(true)}>
           <Plus className="w-4 h-4" />
@@ -41,21 +44,29 @@ export const Transactions = () => {
           <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl p-4">
             <div className="flex items-center gap-2 text-green-600">
               <TrendingUp className="w-4 h-4" />
-              <span className="font-medium">Soma de entradas</span>
+              <span className="font-medium">Soma destas entradas</span>
             </div>
-            <p className="text-2xl font-semibold mt-2">
-              {formatCurrency(totalIncome || 0)}
-            </p>
+            {!isLoadingTransactions && (
+              <p className="text-2xl font-semibold mt-2">
+                {formatCurrency(totalIncome || 0)}
+              </p>
+            )}
+
+            {isLoadingTransactions && <Skeleton className="h-8 mt-2 w-1/2" />}
           </div>
 
           <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl p-4">
             <div className="flex items-center gap-2 text-red-600">
               <TrendingDown className="w-4 h-4" />
-              <span className="font-medium">Soma de Saídas</span>
+              <span className="font-medium">Soma destas Saídas</span>
             </div>
-            <p className="text-2xl font-semibold mt-2">
-              {formatCurrency(totalExpenses || 0)}
-            </p>
+            {!isLoadingTransactions && (
+              <p className="text-2xl font-semibold mt-2">
+                {formatCurrency(totalExpenses || 0)}
+              </p>
+            )}
+
+            {isLoadingTransactions && <Skeleton className="h-8 mt-2 w-1/2" />}
           </div>
 
           <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl p-4">
@@ -63,20 +74,30 @@ export const Transactions = () => {
               <Receipt className="w-4 h-4" />
               <span className="font-medium">Total de transações</span>
             </div>
-            <p className="text-2xl font-semibold mt-2">
-              {dataTransactions?.data.length || 0}
-            </p>
+
+            {!isLoadingTransactions && (
+              <p className="text-2xl font-semibold mt-2">
+                {dataTransactions?.data.length || 0}
+              </p>
+            )}
+
+            {isLoadingTransactions && <Skeleton className="h-8 mt-2 w-1/2" />}
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div>
+          <div className="flex justify-end py-2">
+            <Button variant={"ghost"} size={"icon"}>
+              <Filter />
+            </Button>
+          </div>
           <List
             columns={[
               {
                 label: "Data",
               },
               {
-                label: "Descrição",
+                label: "Conta do Banco",
               },
               {
                 label: "Categoria",

@@ -4,11 +4,9 @@ import { DeleteAccount } from "@/services/account";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface UseAccountItemProps {
-  setShowConfirmDeleteAccount: React.Dispatch<React.SetStateAction<boolean>>;
+  stateModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const useAccountItem = ({
-  setShowConfirmDeleteAccount,
-}: UseAccountItemProps) => {
+export const useAccountItem = ({ stateModal }: UseAccountItemProps) => {
   const queryClient = useQueryClient();
 
   const invalidateAccountList = () =>
@@ -22,7 +20,7 @@ export const useAccountItem = ({
       onSuccess: () => {
         toastSuccess("Conta excluída com sucesso!");
         invalidateAccountList();
-        setShowConfirmDeleteAccount(false);
+        stateModal(false);
       },
       onError: () => toastError("Erro ao excluir conta"),
     });
