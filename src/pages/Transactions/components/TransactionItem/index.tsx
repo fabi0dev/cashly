@@ -1,17 +1,25 @@
+import { Dropdown } from "@/components/Dropdown";
 import { List } from "@/components/List";
+import { Button } from "@/components/ui/button";
+import { formatToDateString } from "@/lib/date";
 import { cn, formatCurrency } from "@/lib/utils";
 import { Transaction } from "@/services/transaction";
+import { TransactionModal } from "@/shared/Modals/TransactionModal";
+import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
 
 interface TransactionItemProps {
   transaction: Transaction;
 }
 
 export const TransactionItem = ({ transaction }: TransactionItemProps) => {
+  const [showTransactionModal, setShowTransactionModal] = useState(false);
+
   return (
     <>
       <List.Row>
         <List.Td className="p-4 text-gray-600">
-          {new Date(transaction.date).toLocaleDateString("pt-BR")}
+          {formatToDateString(transaction.date)}
         </List.Td>
         <List.Td className="p-4 text-gray-900">
           {transaction.account.name}
@@ -32,7 +40,34 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           {transaction.type === "EXIT" && "-"}
           {formatCurrency(transaction.amount)}
         </List.Td>
+        <List.Td className="flex items-center justify-end">
+          <Dropdown
+            menuItems={[
+              {
+                label: "Editar transação",
+                onClick: () => setShowTransactionModal(true),
+              },
+              {
+                label: "Excluir",
+                onClick: () => setShowTransactionModal(true),
+              },
+            ]}
+            trigger={
+              <Button variant={"ghost"} size={"icon"}>
+                <EllipsisVertical />
+              </Button>
+            }
+          />
+        </List.Td>
       </List.Row>
+
+      {showTransactionModal && (
+        <TransactionModal
+          isOpen
+          transactionId={transaction.id}
+          onClose={() => setShowTransactionModal(false)}
+        />
+      )}
     </>
   );
 };

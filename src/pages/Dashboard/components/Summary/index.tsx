@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { GetSummary } from "@/services/finance-overview";
 import { useQuery } from "@tanstack/react-query";
 import {
   DollarSign,
@@ -11,14 +10,11 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { queries } from "@/queries";
 
 export const Summary = () => {
   const { isLoading: isLoadingSummary, data: dataSummary } = useQuery({
-    queryKey: ["finance-summary"],
-    queryFn: async () => {
-      const { data } = await GetSummary();
-      return data;
-    },
+    ...queries.financeOverview.getSummary(),
   });
 
   const [isVisible, setIsVisible] = useState(true);

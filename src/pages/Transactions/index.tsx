@@ -9,12 +9,17 @@ import { queries } from "@/queries";
 import { List } from "@/components/List";
 import { TransactionItem } from "./components/TransactionItem";
 import { Skeleton } from "@/components/ui/skeleton";
+import { usePagination } from "@/hooks/usePagination";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 
 export const Transactions = () => {
+  const { currentPage, limit } = usePagination();
+
   const { isLoading: isLoadingTransactions, data: dataTransactions } = useQuery(
     {
       ...queries.transaction.getAll({
-        limit: 200,
+        limit: limit,
+        page: currentPage,
       }),
     }
   );
@@ -105,11 +110,21 @@ export const Transactions = () => {
               {
                 label: "Valor",
               },
+              {
+                label: "",
+              },
             ]}
+            pagination={{
+              totalItems: dataTransactions?.totalItems || 0,
+              totalPages: dataTransactions?.totalPages || 0,
+            }}
             isLoading={isLoadingTransactions}
             data={dataTransactions?.data || []}
             render={(transaction) => (
               <TransactionItem transaction={transaction} />
+            )}
+            renderEmpty={() => (
+              <EmptyPlaceholder title="Você não possui transações" />
             )}
           />
         </div>

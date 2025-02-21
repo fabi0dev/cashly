@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatToDateRelative } from "@/lib/date";
+import { formatDateLabel } from "@/lib/date";
+import { formatCurrency } from "@/lib/utils";
 import { queries } from "@/queries";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar } from "lucide-react";
@@ -14,6 +15,7 @@ export const LastTransactions = () => {
         limit,
       }),
     });
+
   return (
     <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
       <div className="flex items-center gap-3 mb-6">
@@ -32,7 +34,7 @@ export const LastTransactions = () => {
                   {transaction.description || transaction.category}
                 </p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {formatToDateRelative(transaction.date)}
+                  {formatDateLabel(transaction.date)}
                 </p>
               </div>
               <p
@@ -43,7 +45,7 @@ export const LastTransactions = () => {
                 }`}
               >
                 {transaction.type !== "ENTRY" && "-"}
-                R$ {Math.abs(transaction.amount).toLocaleString()}
+                {formatCurrency(transaction.amount)}
               </p>
             </div>
           ))}

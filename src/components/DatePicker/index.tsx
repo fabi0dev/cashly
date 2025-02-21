@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { CalendarIcon } from "lucide-react";
 
@@ -14,7 +12,7 @@ import {
 import { DateTime } from "luxon";
 
 type DatePickerProps = {
-  value?: Date;
+  value?: string;
   onValueChange?: (date: string) => void;
   placeholder?: string;
 };
@@ -24,7 +22,8 @@ export function DatePicker({
   onValueChange,
   placeholder = "Selecione uma data",
 }: DatePickerProps) {
-  const [date, setDate] = React.useState<Date | undefined>(value);
+  const [date, setDate] = React.useState<Date | undefined>();
+
   const [open, setOpen] = React.useState(false);
 
   const handleSelect = (selectedDate: Date | undefined) => {
@@ -35,6 +34,10 @@ export function DatePicker({
       onValueChange?.(DateTime.fromJSDate(selectedDate).toFormat("yyyy-MM-dd"));
     }
   };
+
+  React.useEffect(() => {
+    if (value) setDate(DateTime.fromFormat(value, "yyyy-MM-dd").toJSDate());
+  }, [value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

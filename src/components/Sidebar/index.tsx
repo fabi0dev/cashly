@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import {
   BarChart3,
-  Goal,
   LogOut,
   PiggyBank,
   Receipt,
@@ -18,7 +17,7 @@ interface SidebarProps {
 
 const NAV_LINKS = [
   { label: "Visão Geral", icon: BarChart3, href: "/" },
-  { label: "Objetivos", icon: Goal, href: "/goals" },
+  //{ label: "Objetivos", icon: Goal, href: "/goals" },
   //{ label: "Notificações", icon: Bell, href: "/notifications" },
   { label: "Transações", icon: Receipt, href: "/transactions" },
   { label: "Categorias", icon: Tag, href: "/categories" },

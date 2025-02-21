@@ -2,14 +2,12 @@ import axios, { AxiosInstance, AxiosError } from "axios";
 import { useAuthStore } from "@/store/authStore";
 import { HTTP_STATUS_CODES } from "@/constants/HTTPStatusCodes";
 import { toastError, toastSuccess } from "@/lib/toast";
+import { SystemConfig } from "@/constants/SystemConfig";
 
 export const Api = (): AxiosInstance => {
   const client = axios.create({
-    baseURL:
-      import.meta.env.MODE === "development"
-        ? "/api"
-        : import.meta.env.VITE_BASE_URL,
-    timeout: 60000,
+    baseURL: SystemConfig.api.baseURL,
+    timeout: SystemConfig.api.timeout,
   });
 
   //token interceptor

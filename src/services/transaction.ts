@@ -1,13 +1,26 @@
+import { SystemConfig } from "@/constants/SystemConfig";
 import { Api } from "./api";
 import { RequestPagination } from "./common";
 
 export const GetAllTransactions = (params: GetAllTransactionsRequest) =>
   Api().get<GetAllTransactionsResponse>(`/transaction`, {
-    params,
+    params: {
+      ...params,
+      limit: params.limit || SystemConfig.list.defaultLimit,
+      page: params.page || 1,
+    },
   });
+
+export const GetTransactionById = (transactionId: string) =>
+  Api().get<Transaction>(`/transaction/${transactionId}`);
 
 export const CreateTransaction = (data: TransactionCreateRequest) =>
   Api().post<Transaction>(`/transaction`, data);
+
+export const UpdateTransaction = (
+  transactionId: string,
+  data: TransactionUpdateRequest
+) => Api().put<Transaction>(`/transaction/${transactionId}`, data);
 
 type TransactionAccount = {
   id: string;
@@ -21,7 +34,7 @@ export interface Transaction {
   description?: string;
   category: string;
   userId: string;
-  accountId: string | null;
+  accountId: string;
   account: TransactionAccount;
 }
 
@@ -40,3 +53,5 @@ export interface TransactionCreateRequest {
   description?: string;
   category: string;
 }
+
+export type TransactionUpdateRequest = TransactionCreateRequest;

@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
-interface SelectProps {
+export interface SelectProps {
   value?: string;
   options: { label: string; value: string }[];
   placeholder?: string;
@@ -28,8 +28,8 @@ export function Select({
   ...props
 }: SelectProps) {
   return (
-    <SelectRoot onValueChange={onValueChange} value={value} {...props}>
-      <SelectTrigger className={cn("min-w-full", className)}>
+    <SelectRoot onValueChange={onValueChange} value={value ?? ""} {...props}>
+      <SelectTrigger className={cn("w-full", className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>

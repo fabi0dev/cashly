@@ -9,23 +9,33 @@ import { DatePicker } from "@/components/DatePicker";
 import { CurrencyInput } from "react-currency-mask";
 import { Select } from "@/components/Select";
 import { formatCurrency } from "@/lib/utils";
+import { ControlledSelect } from "@/components/ControlledSelect";
+import { Controller } from "react-hook-form";
 
 interface TransactionModalProps {
+  transactionId?: string;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
+export function TransactionModal({
+  transactionId,
+  isOpen,
+  onClose,
+}: TransactionModalProps) {
   const {
     register,
     setValue,
     watch,
     errors,
     submit,
-    isLoading,
+    control,
+
+    isLoadingMutates,
+    isPreLoadings,
 
     listAccounts,
-  } = useTransactionModal({ onClose });
+  } = useTransactionModal({ transactionId, onClose });
 
   const transactionType = watch("type");
   const amount = watch("amount");
@@ -36,7 +46,12 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
   );
 
   return (
-    <Dialog title="Nova Transação" open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      title={!transactionId ? "Nova Transação" : "Transação"}
+      open={isOpen}
+      onOpenChange={onClose}
+      isLoading={isPreLoadings}
+    >
       <form onSubmit={submit} className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <button
@@ -69,9 +84,9 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         <div>
           <label className="block text-sm font-medium mb-1">Categoria</label>
           <div className="relative">
-            <Select
-              {...register("category")}
-              onValueChange={(value) => setValue("category", value)}
+            <ControlledSelect
+              name="category"
+              control={control}
               options={(transactionType === "ENTRY"
                 ? CategoryIncomes
                 : CategoryExpenses
@@ -79,7 +94,7 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
                 label: category,
                 value: category,
               }))}
-              placeholder="Selecione a conta"
+              placeholder="Selecione a categoria"
             />
           </div>
           <p className="text-red-500 text-sm">{errors.category?.message}</p>
@@ -104,13 +119,32 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
           <div>
             <label className="block text-sm font-medium  mb-1">Data</label>
             <div className="relative">
-              <DatePicker
-                onValueChange={(value) => setValue("date", value)}
-                placeholder="Data da transação"
+              <Controller
+                name={"date"}
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    value={field.value ?? ""}
+                    onValueChange={(value) => field.onChange(value)}
+                    placeholder="Data da transação"
+                  />
+                )}
               />
             </div>
             <p className="text-red-500 text-sm">{errors.date?.message}</p>
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-1">Descrição</label>
+          <Input
+            {...register("description")}
+            placeholder={
+              transactionType === "EXIT" ? "Compras no supermercado" : "Salário"
+            }
+            autoFocus
+          />
+          <p className="text-red-500 text-sm">{errors.description?.message}</p>
         </div>
 
         <div>
@@ -133,27 +167,15 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
           <p className="text-red-500 text-sm">{errors.category?.message}</p>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Descrição</label>
-          <Input
-            {...register("description")}
-            placeholder={
-              transactionType === "EXIT" ? "Compras no supermercado" : "Salário"
-            }
-            autoFocus
-          />
-          <p className="text-red-500 text-sm">{errors.description?.message}</p>
-        </div>
-
         <div className="text-xs mt-1 text-right text-foreground/60 space-y-1">
           {accountSelected && (
             <div>
-              <span className="font-bold">Saldo atual:</span>{" "}
+              <span className="font-bold">Saldo: </span>{" "}
               {formatCurrency(accountSelected.balance)}
             </div>
           )}
 
-          {accountSelected && (
+          {!transactionId && accountSelected && (
             <div>
               <span className="font-bold">Saldo pós transação:</span>{" "}
               {transactionType === "ENTRY" &&
@@ -165,7 +187,7 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         </div>
 
         <div className="flex justify-end">
-          <Button type="submit" isLoading={isLoading}>
+          <Button type="submit" isLoading={isLoadingMutates}>
             Salvar
           </Button>
         </div>

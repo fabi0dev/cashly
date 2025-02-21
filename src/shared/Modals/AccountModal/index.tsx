@@ -80,7 +80,7 @@ export function AccountModal({
         {!accountId && (
           <div>
             <label className="block text-sm font-medium mb-1">
-              {type === "CREDIT" ? "Limite atual" : "Saldo atual"}
+              {type === "CREDIT_CARD" ? "Limite atual" : "Saldo atual"}
             </label>
             <CurrencyInput
               value={watch("balance")}

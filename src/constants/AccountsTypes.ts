@@ -1,7 +1,7 @@
 export const AccountsTypes = {
   CHECKING: "Conta Corrente",
   SAVINGS: "Poupança",
-  CREDIT: "Cartao de Crédito",
+  CREDIT_CARD: "Cartao de Crédito",
 };
 
 export type AccountsTypesKey = keyof typeof AccountsTypes;

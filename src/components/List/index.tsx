@@ -1,6 +1,15 @@
+import { useSearchParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { usePagination } from "@/hooks/usePagination";
+import { useEffect } from "react";
+import { ListPaginationManager } from "./components/ListPaginationManager";
+
+export type ResponsePagination = {
+  totalItems: number;
+  totalPages: number;
+};
 
 interface Column {
   label: string;
@@ -15,7 +24,24 @@ interface ListProps<T> {
   href?: (item: T) => string;
   rowClick?: (item: T) => void;
   renderEmpty?: () => React.ReactNode;
+  pagination?: ResponsePagination;
 }
+
+export const useFilters = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setFilter = (key: string, value: string) => {
+    searchParams.set(key, value);
+    setSearchParams(searchParams);
+  };
+
+  const removeFilter = (key: string) => {
+    searchParams.delete(key);
+    setSearchParams(searchParams);
+  };
+
+  return { searchParams, setFilter, removeFilter };
+};
 
 export const List = <T,>({
   data = [],
@@ -25,7 +51,20 @@ export const List = <T,>({
   href,
   rowClick,
   renderEmpty,
+  pagination,
 }: ListProps<T>) => {
+  const { currentPage, setPage } = usePagination();
+
+  useEffect(() => {
+    if (pagination) {
+      if (pagination.totalPages < currentPage) {
+        setPage(pagination.totalPages || 1);
+      } else if (pagination.totalPages === 0) {
+        setPage(1);
+      }
+    }
+  }, []);
+
   return (
     <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
       {(isLoading || data.length > 0) && (
@@ -50,7 +89,7 @@ export const List = <T,>({
                   <Skeleton className="h-10 w-full my-2" />
                 </List.Row>
               ))
-            : data?.map((item, index) => (
+            : data.map((item, index) => (
                 <List.Row
                   key={index}
                   href={href ? href(item) : undefined}
@@ -62,8 +101,12 @@ export const List = <T,>({
         </div>
       )}
 
-      {renderEmpty && !data?.length && !isLoading && (
+      {renderEmpty && !data.length && !isLoading && (
         <List.Row>{renderEmpty()}</List.Row>
+      )}
+
+      {pagination && pagination?.totalPages > 0 && (
+        <ListPaginationManager pagination={pagination} />
       )}
     </div>
   );
