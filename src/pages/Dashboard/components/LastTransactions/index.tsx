@@ -41,7 +41,7 @@ export const LastTransactions = () => {
                 className={`font-medium ${
                   transaction.type === "ENTRY"
                     ? "text-green-600"
-                    : "text-red-600"
+                    : "text-red-400"
                 }`}
               >
                 {transaction.type !== "ENTRY" && "-"}

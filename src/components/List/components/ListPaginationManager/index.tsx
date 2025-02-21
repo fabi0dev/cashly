@@ -26,7 +26,7 @@ export const ListPaginationManager = ({
       <div></div>
 
       <div className="flex flex-row justify-between">
-        <div>
+        <div className="flex flex-row gap-4 items-center">
           <Button
             onClick={() => setPage(currentPage - 1)}
             disabled={currentPage === 1}
@@ -50,10 +50,8 @@ export const ListPaginationManager = ({
           </Button>
         </div>
 
-        <div className="flex flex-row items-center gap-2">
-          <div className="flex flex-row">
-            Mostrando {pagination.totalItems} e
-          </div>
+        <div className="flex flex-row items-center gap-2 text-gray-400">
+          <div className="flex flex-row">Mostrando</div>
           <Select
             className="w-[70px] bg-transparent border-0 hover:bg-input/40"
             value={
@@ -67,7 +65,7 @@ export const ListPaginationManager = ({
               };
             })}
           />
-          por página
+          itens de {pagination.totalItems}
         </div>
       </div>
     </div>

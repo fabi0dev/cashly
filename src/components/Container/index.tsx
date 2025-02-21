@@ -22,7 +22,7 @@ export const Container = ({
   };
 
   return (
-    <div className="h-screen flex bg-gray-100 dark:bg-gray-900  overflow-hidden">
+    <div className="h-screen flex bg-gray-100 dark:bg-gray-900 overflow-hidden">
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/20 backdrop-blur-sm z-20 lg:hidden"

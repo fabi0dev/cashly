@@ -1,20 +1,19 @@
 import { Container } from "@/components/Container";
 import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
-import { Filter, Plus, Receipt, TrendingDown, TrendingUp } from "lucide-react";
+import { Filter, Plus } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { formatCurrency } from "@/lib/utils";
 import { queries } from "@/queries";
 import { List } from "@/components/List";
 import { TransactionItem } from "./components/TransactionItem";
-import { Skeleton } from "@/components/ui/skeleton";
 import { usePagination } from "@/hooks/usePagination";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
+import { SummaryPage } from "./components/SummaryPage";
+import { ChevronDown } from "lucide-react";
 
 export const Transactions = () => {
   const { currentPage, limit } = usePagination();
-
   const { isLoading: isLoadingTransactions, data: dataTransactions } = useQuery(
     {
       ...queries.transaction.getAll({
@@ -25,14 +24,6 @@ export const Transactions = () => {
   );
 
   const [showTransactionModal, setShowTransactionModal] = useState(false);
-  const totalIncome = dataTransactions?.data.reduce(
-    (acc, curr) => acc + (curr.type === "ENTRY" ? curr.amount : 0),
-    0
-  );
-  const totalExpenses = dataTransactions?.data.reduce(
-    (acc, curr) => acc + (curr.type === "EXIT" ? curr.amount : 0),
-    0
-  );
 
   return (
     <Container
@@ -45,57 +36,19 @@ export const Transactions = () => {
       }
     >
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl p-4">
-            <div className="flex items-center gap-2 text-green-600">
-              <TrendingUp className="w-4 h-4" />
-              <span className="font-medium">Soma destas entradas</span>
-            </div>
-            {!isLoadingTransactions && (
-              <p className="text-2xl font-semibold mt-2">
-                {formatCurrency(totalIncome || 0)}
-              </p>
-            )}
-
-            {isLoadingTransactions && <Skeleton className="h-8 mt-2 w-1/2" />}
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl p-4">
-            <div className="flex items-center gap-2 text-red-600">
-              <TrendingDown className="w-4 h-4" />
-              <span className="font-medium">Soma destas Saídas</span>
-            </div>
-            {!isLoadingTransactions && (
-              <p className="text-2xl font-semibold mt-2">
-                {formatCurrency(totalExpenses || 0)}
-              </p>
-            )}
-
-            {isLoadingTransactions && <Skeleton className="h-8 mt-2 w-1/2" />}
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl p-4">
-            <div className="flex items-center gap-2">
-              <Receipt className="w-4 h-4" />
-              <span className="font-medium">Total de transações</span>
-            </div>
-
-            {!isLoadingTransactions && (
-              <p className="text-2xl font-semibold mt-2">
-                {dataTransactions?.data.length || 0}
-              </p>
-            )}
-
-            {isLoadingTransactions && <Skeleton className="h-8 mt-2 w-1/2" />}
-          </div>
-        </div>
+        <SummaryPage
+          dataTransactions={dataTransactions}
+          isLoadingTransactions={isLoadingTransactions}
+        />
 
         <div>
           <div className="flex justify-end py-2">
-            <Button variant={"ghost"} size={"icon"}>
-              <Filter />
+            <Button variant="ghost" className="flex items-center gap-2">
+              <Filter className="w-5 h-5" />
+              Filtros
             </Button>
           </div>
+
           <List
             columns={[
               {

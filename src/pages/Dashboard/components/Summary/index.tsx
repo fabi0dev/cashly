@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { queries } from "@/queries";
+import { Card } from "@/components/Card";
+import { DateTime } from "luxon";
 
 export const Summary = () => {
   const { isLoading: isLoadingSummary, data: dataSummary } = useQuery({
@@ -25,21 +27,17 @@ export const Summary = () => {
         <Button
           size="icon"
           variant={"ghost"}
-          className="dark: bg-gray-800"
+          className="bg-gray-100 dark:bg-gray-800"
           onClick={() => setIsVisible(!isVisible)}
         >
           {isVisible ? <EyeOff /> : <Eye />}
         </Button>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 rounded-lg bg-gray-100">
-              <DollarSign className="w-5 h-5 dark:text-green-700" />
-            </div>
-            <h3 className="font-medium">Saldo Total</h3>
-          </div>
-
+        <Card
+          title="Saldo Total"
+          icon={<DollarSign className="w-5 h-5 dark:text-green-500" />}
+        >
           {!isLoadingSummary && (
             <p className="text-2xl font-semibold">
               {isVisible ? (
@@ -51,15 +49,14 @@ export const Summary = () => {
           )}
 
           {isLoadingSummary && <Skeleton className="h-8 w-1/2" />}
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 rounded-lg bg-green-50 dark:bg-green-100">
-              <TrendingUp className="w-5 h-5 dark:text-green-700" />
-            </div>
-            <h3 className="font-medium">Entradas</h3>
-          </div>
+        <Card
+          title="Entradas"
+          subtitle={DateTime.now().setLocale("pt-BR").toFormat("MMMM/yyyy")}
+          icon={<TrendingUp className="w-5 h-5 dark:text-green-500" />}
+          iconClassName="bg-green-50 dark:bg-green-100/20"
+        >
           {!isLoadingSummary && (
             <p className="text-2xl font-semibold text-green-600">
               {isVisible ? (
@@ -71,17 +68,18 @@ export const Summary = () => {
           )}
 
           {isLoadingSummary && <Skeleton className="h-8 w-1/2" />}
-        </div>
+        </Card>
 
-        <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 rounded-lg bg-red-50">
-              <TrendingDown className="w-5 h-5 text-red-600" />
-            </div>
-            <h3 className="font-medium">Saídas</h3>
-          </div>
+        <Card
+          title="Saídas"
+          subtitle={DateTime.now().setLocale("pt-BR").toFormat("MMMM/yyyy")}
+          icon={
+            <TrendingDown className="w-5 h-5 text-red-600 dark:text-red-400" />
+          }
+          iconClassName="dark:bg-red-400/10"
+        >
           {!isLoadingSummary && (
-            <p className="text-2xl font-semibold text-red-600">
+            <p className="text-2xl font-semibold text-red-600 dark:text-red-400">
               {isVisible ? (
                 formatCurrency(dataSummary?.totalExits || 0)
               ) : (
@@ -91,7 +89,7 @@ export const Summary = () => {
           )}
 
           {isLoadingSummary && <Skeleton className="h-8 w-1/2" />}
-        </div>
+        </Card>
       </div>
     </div>
   );

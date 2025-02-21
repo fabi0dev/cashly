@@ -25,7 +25,7 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           {transaction.account.name}
         </List.Td>
         <List.Td className="p-4">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-300 text-gray-800">
             {transaction.category}
           </span>
         </List.Td>
@@ -34,7 +34,7 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
             `p-4 text-right font-medium`,
             transaction.type === "ENTRY"
               ? "text-green-600 dark:text-green-600"
-              : "text-red-600 dark:text-red-600"
+              : "text-red-600 dark:text-red-400"
           )}
         >
           {transaction.type === "EXIT" && "-"}

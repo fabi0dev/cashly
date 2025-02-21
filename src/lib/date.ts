@@ -17,3 +17,5 @@ export const formatDateLabel = (dateStr: string): string => {
     ? date.toFormat("dd 'de' LLLL")
     : date.toFormat("DDD");
 };
+
+export const currentDate = () => DateTime.now().toFormat("dd/MM/yyyy");

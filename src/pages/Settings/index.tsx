@@ -9,10 +9,8 @@ export const Settings = () => {
   const { setTheme, currentTheme } = useTheme();
 
   return (
-    <Container showHeader={false}>
-      <div className="max-w-4xl mx-auto space-y-8 bg-background dark:bg-gray-800 p-6 rounded-2xl">
-        <h1 className="text-2xl font-semibold">Configurações</h1>
-
+    <Container titleHeader="Configurações">
+      <div className=" bg-background dark:bg-gray-800 p-8 px-10 rounded-2xl">
         {/* Perfil */}
         <section className="space-y-4 border-b pb-6">
           <h2 className="text-lg font-medium flex items-center gap-2">
