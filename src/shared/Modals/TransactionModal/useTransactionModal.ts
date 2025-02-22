@@ -46,6 +46,11 @@ export const useTransactionModal = ({
     ...queries.account.getAll(),
   });
 
+  const { data: categoriesData, isFetching: isLoadingCategoriesData } =
+    useQuery({
+      ...queries.categories.getAll(),
+    });
+
   const { data: dataTransaction, isFetching: isLoadingTransaction } = useQuery({
     ...queries.transaction.getById({ transactionId: transactionId! }),
     enabled: !!transactionId,
@@ -100,7 +105,7 @@ export const useTransactionModal = ({
       reset({
         accountId: dataTransaction.accountId,
         amount: dataTransaction.amount,
-        category: dataTransaction.category,
+        categoryId: dataTransaction.categoryId,
         date: dataTransaction.date,
         description: dataTransaction.description,
         type: dataTransaction.type,
@@ -117,8 +122,10 @@ export const useTransactionModal = ({
     submit: handleSubmit(submit),
 
     listAccounts,
+    categoriesData,
 
     isLoadingMutates: isPendingCreateTransaction || isPendingUpdateTransaction,
-    isPreLoadings: isLoadingListAccounts || isLoadingTransaction,
+    isPreLoadings:
+      isLoadingListAccounts || isLoadingTransaction || isLoadingCategoriesData,
   };
 };

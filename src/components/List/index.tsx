@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
@@ -27,22 +26,6 @@ interface ListProps<T> {
   pagination?: ResponsePagination;
 }
 
-export const useFilters = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const setFilter = (key: string, value: string) => {
-    searchParams.set(key, value);
-    setSearchParams(searchParams);
-  };
-
-  const removeFilter = (key: string) => {
-    searchParams.delete(key);
-    setSearchParams(searchParams);
-  };
-
-  return { searchParams, setFilter, removeFilter };
-};
-
 export const List = <T,>({
   data = [],
   render,
@@ -66,7 +49,7 @@ export const List = <T,>({
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
+    <div className=" bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
       {(isLoading || data.length > 0) && (
         <div className="grid grid-cols-1 divide-y">
           <List.Row>
@@ -107,6 +90,12 @@ export const List = <T,>({
 
       {pagination && pagination?.totalPages > 0 && (
         <ListPaginationManager pagination={pagination} />
+      )}
+
+      {!pagination && data.length > 1 && (
+        <div className="text-sm text-gray-500 text-center pt-5">
+          Mostrando {data.length} itens
+        </div>
       )}
     </div>
   );

@@ -1,13 +1,11 @@
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import { CategoryExpenses, CategoryIncomes } from "@/pages/Categories";
 import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
 import { useTransactionModal } from "./useTransactionModal";
 import { DatePicker } from "@/components/DatePicker";
 import { CurrencyInput } from "react-currency-mask";
-import { Select } from "@/components/Select";
 import { formatCurrency } from "@/lib/utils";
 import { ControlledSelect } from "@/components/ControlledSelect";
 import { Controller } from "react-hook-form";
@@ -35,6 +33,7 @@ export function TransactionModal({
     isPreLoadings,
 
     listAccounts,
+    categoriesData,
   } = useTransactionModal({ transactionId, onClose });
 
   const transactionType = watch("type");
@@ -85,19 +84,24 @@ export function TransactionModal({
           <label className="block text-sm font-medium mb-1">Categoria</label>
           <div className="relative">
             <ControlledSelect
-              name="category"
+              name="categoryId"
               control={control}
-              options={(transactionType === "ENTRY"
-                ? CategoryIncomes
-                : CategoryExpenses
-              ).map((category) => ({
-                label: category,
-                value: category,
-              }))}
+              options={(categoriesData || [])
+                .filter((item) => {
+                  if (transactionType === "ENTRY")
+                    return item.type === "INCOME";
+
+                  if (transactionType === "EXIT")
+                    return item.type === "EXPENSE";
+                })
+                .map((category) => ({
+                  value: category.id,
+                  label: category.name,
+                }))}
               placeholder="Selecione a categoria"
             />
           </div>
-          <p className="text-red-500 text-sm">{errors.category?.message}</p>
+          <p className="text-red-500 text-sm">{errors.categoryId?.message}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
@@ -152,10 +156,9 @@ export function TransactionModal({
             Conta do banco
           </label>
           <div className="relative">
-            <Select
-              {...register("accountId")}
-              value={accountId}
-              onValueChange={(value) => setValue("accountId", value)}
+            <ControlledSelect
+              control={control}
+              name="accountId"
               options={
                 listAccounts?.data.map((account) => ({
                   value: account.id,
@@ -164,7 +167,7 @@ export function TransactionModal({
               }
             />
           </div>
-          <p className="text-red-500 text-sm">{errors.category?.message}</p>
+          <p className="text-red-500 text-sm">{errors.categoryId?.message}</p>
         </div>
 
         <div className="text-xs mt-1 text-right text-foreground/60 space-y-1">

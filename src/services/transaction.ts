@@ -22,20 +22,30 @@ export const UpdateTransaction = (
   data: TransactionUpdateRequest
 ) => Api().put<Transaction>(`/transaction/${transactionId}`, data);
 
+export const DeleteTransaction = (transactionId: string) =>
+  Api().delete<Transaction>(`/transaction/${transactionId}`);
+
 type TransactionAccount = {
   id: string;
   name: string;
 };
+
+type TransactionCategory = {
+  id: string;
+  name: string;
+};
+
 export interface Transaction {
   id: string;
   amount: number;
   type: "ENTRY" | "EXIT";
   date: string;
   description?: string;
-  category: string;
+  categoryId: string;
   userId: string;
   accountId: string;
   account: TransactionAccount;
+  category: TransactionCategory;
 }
 
 export type GetAllTransactionsRequest = RequestPagination & {};
@@ -51,7 +61,7 @@ export interface TransactionCreateRequest {
   type: "ENTRY" | "EXIT";
   date: string;
   description?: string;
-  category: string;
+  categoryId: string;
 }
 
 export type TransactionUpdateRequest = TransactionCreateRequest;

@@ -10,6 +10,8 @@ import {
   Wallet,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { Avatar } from "../ui/avatar";
+import { AvatarFallback } from "@radix-ui/react-avatar";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -20,15 +22,22 @@ const NAV_LINKS = [
   //{ label: "Objetivos", icon: Goal, href: "/goals" },
   //{ label: "Notificações", icon: Bell, href: "/notifications" },
   { label: "Transações", icon: Receipt, href: "/transactions" },
-  { label: "Categorias", icon: Tag, href: "/categories" },
   { label: "Contas de Banco", icon: PiggyBank, href: "/accounts/list" },
+  { label: "Categorias", icon: Tag, href: "/categories" },
   { label: "Configurações", icon: Settings, href: "/settings" },
 ];
 
 export const Sidebar = ({ isOpen }: SidebarProps) => {
   const location = useLocation();
   const logout = useAuthStore((state) => state.logout);
-  const authData = useAuthStore((state) => state.authData);
+  const authData = useAuthStore((state) => state.authData)!;
+
+  const getInitials = (name: string) => {
+    const names = name.split(" ");
+    const firstName = names[0];
+    const lastName = names[names.length - 1];
+    return `${firstName[0]}${lastName[0]}`;
+  };
 
   return (
     <div
@@ -55,16 +64,13 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 
       <div className="px-8 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-            <span className="text-gray-900 font-medium">JS</span>
-          </div>
+          <Avatar className="w-10 h-10 items-center justify-center">
+            <AvatarFallback>{getInitials(authData?.user.name)}</AvatarFallback>
+          </Avatar>
           <div>
             <h3 className="font-medium text-gray-900 dark:text-gray-300">
               {authData?.user.name}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              Conta Pessoal
-            </p>
           </div>
         </div>
       </div>
@@ -80,7 +86,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors",
                     isActive
-                      ? "bg-violet-800 text-white hover:bg-violet-900 dark:bg-violet-950"
+                      ? "bg-violet-800 text-white hover:bg-violet-900 dark:bg-violet-900/50"
                       : "text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900"
                   )}
                 >

@@ -1,5 +1,5 @@
 import { AccountsList } from "@/pages/Accounts/AccountsList";
-import { Categories } from "@/pages/Categories";
+import { Categories } from "@/pages/Categories/CategoriesList";
 import { Dashboard } from "@/pages/Dashboard";
 import { Settings } from "@/pages/Settings";
 import { Transactions } from "@/pages/Transactions";

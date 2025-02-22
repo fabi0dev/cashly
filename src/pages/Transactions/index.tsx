@@ -10,7 +10,6 @@ import { TransactionItem } from "./components/TransactionItem";
 import { usePagination } from "@/hooks/usePagination";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 import { SummaryPage } from "./components/SummaryPage";
-import { ChevronDown } from "lucide-react";
 
 export const Transactions = () => {
   const { currentPage, limit } = usePagination();

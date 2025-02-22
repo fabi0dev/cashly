@@ -7,6 +7,7 @@ export const formatToDateRelative = (dateString: string) =>
   DateTime.fromISO(dateString).toRelative();
 
 export const formatDateLabel = (dateStr: string): string => {
+  if (!dateStr) return "";
   const date = DateTime.fromISO(dateStr).setLocale("pt-BR");
   const today = DateTime.now().setLocale("pt-BR");
 

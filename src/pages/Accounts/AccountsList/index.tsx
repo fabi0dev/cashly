@@ -18,10 +18,7 @@ export const AccountsList = () => {
     <Container
       titleHeader="Contas de Banco"
       rightContentHeader={
-        <Button
-          onClick={() => setShowAccountModal(true)}
-          className="flex items-center gap-2 bg-violet-900 hover:bg-gray-800 px-4 py-2 rounded-lg transition-colors text-white ml-auto"
-        >
+        <Button onClick={() => setShowAccountModal(true)}>
           <span className="hidden sm:inline">Nova Conta</span>
         </Button>
       }

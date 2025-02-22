@@ -1,3 +1,4 @@
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Dropdown } from "@/components/Dropdown";
 import { List } from "@/components/List";
 import { Button } from "@/components/ui/button";
@@ -7,6 +8,8 @@ import { Transaction } from "@/services/transaction";
 import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
+import { useTransactionItem } from "./useTransactionItem";
+import { TransactionDetailsModal } from "@/shared/Modals/TransactionDetailsModal";
 
 interface TransactionItemProps {
   transaction: Transaction;
@@ -14,6 +17,15 @@ interface TransactionItemProps {
 
 export const TransactionItem = ({ transaction }: TransactionItemProps) => {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [showConfirmDeleteTransaction, setShowConfirmDeleteTransaction] =
+    useState(false);
+  const [showTransactionDetailsModal, setShowTransactionDetailsModal] =
+    useState(false);
+
+  const { mutateDeleteTransaction, isLoadingDeleteTransaction } =
+    useTransactionItem({
+      stateModal: setShowConfirmDeleteTransaction,
+    });
 
   return (
     <>
@@ -26,7 +38,7 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
         </List.Td>
         <List.Td className="p-4">
           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-300 text-gray-800">
-            {transaction.category}
+            {transaction.category.name}
           </span>
         </List.Td>
         <List.Td
@@ -44,12 +56,16 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           <Dropdown
             menuItems={[
               {
+                label: "Detalhes da transação",
+                onClick: () => setShowTransactionDetailsModal(true),
+              },
+              {
                 label: "Editar transação",
                 onClick: () => setShowTransactionModal(true),
               },
               {
                 label: "Excluir",
-                onClick: () => setShowTransactionModal(true),
+                onClick: () => setShowConfirmDeleteTransaction(true),
               },
             ]}
             trigger={
@@ -66,6 +82,26 @@ export const TransactionItem = ({ transaction }: TransactionItemProps) => {
           isOpen
           transactionId={transaction.id}
           onClose={() => setShowTransactionModal(false)}
+        />
+      )}
+
+      {showConfirmDeleteTransaction && (
+        <ConfirmDialog
+          open
+          isLoading={isLoadingDeleteTransaction}
+          onOpenChange={() => setShowConfirmDeleteTransaction(false)}
+          description={"Deseja realmente excluir essa transação?"}
+          onConfirm={() => mutateDeleteTransaction(transaction.id)}
+          onCancel={() => setShowConfirmDeleteTransaction(false)}
+          confirmText="Sim quero excluir"
+        />
+      )}
+
+      {showTransactionDetailsModal && (
+        <TransactionDetailsModal
+          isOpen
+          transactionId={transaction.id}
+          onClose={() => setShowTransactionDetailsModal(false)}
         />
       )}
     </>

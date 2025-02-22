@@ -11,7 +11,7 @@ import { ReactNode } from "react";
 import { Spinner } from "../Spinner";
 
 interface ConfirmDialogProps extends DialogShadcnProps {
-  title: string;
+  title?: string;
   description?: string | ReactNode;
   confirmText?: string;
   cancelText?: string;
@@ -22,7 +22,7 @@ interface ConfirmDialogProps extends DialogShadcnProps {
 }
 
 export const ConfirmDialog = ({
-  title,
+  title = "Atenção",
   description,
   confirmText = "Sim",
   cancelText = "Não",
