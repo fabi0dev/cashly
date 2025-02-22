@@ -1,9 +1,8 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { formatDateLabel } from "@/lib/date";
-import { formatCurrency } from "@/lib/utils";
 import { queries } from "@/queries";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar } from "lucide-react";
+import { LastTransactionsItem } from "./components/LastTransactionsItem";
 
 export const LastTransactions = () => {
   const limit = 3;
@@ -24,30 +23,11 @@ export const LastTransactions = () => {
       </div>
       <div className="space-y-3">
         {!isLoadingLastTransactions &&
-          dataLastTransactions?.data.map((transaction, index) => (
-            <div
-              key={index}
-              className="flex items-center justify-between p-3 rounded-xl bg-gray-50 dark:bg-gray-900/40 hover:bg-gray-100 transition-colors"
-            >
-              <div>
-                <p className="font-medium">
-                  {transaction.description || transaction.category.name}
-                </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {formatDateLabel(transaction.date)}
-                </p>
-              </div>
-              <p
-                className={`font-medium ${
-                  transaction.type === "ENTRY"
-                    ? "text-green-600"
-                    : "text-red-400"
-                }`}
-              >
-                {transaction.type !== "ENTRY" && "-"}
-                {formatCurrency(transaction.amount)}
-              </p>
-            </div>
+          dataLastTransactions?.data.map((transaction) => (
+            <LastTransactionsItem
+              key={transaction.id}
+              transaction={transaction}
+            />
           ))}
       </div>
 

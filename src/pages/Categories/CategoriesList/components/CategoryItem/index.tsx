@@ -3,12 +3,15 @@ import { List } from "@/components/List";
 import { Button } from "@/components/ui/button";
 import { Category } from "@/services/category";
 import { DollarSign, EllipsisVertical, Star } from "lucide-react";
+import { useCategoryItem } from "./useCategoryItem";
 
 interface CategoryItemProps {
   item: Category;
 }
 
 export const CategoryItem = ({ item }: CategoryItemProps) => {
+  const { mutationFavorite } = useCategoryItem();
+
   return (
     <List.Row>
       <List.Td>{item.name}</List.Td>
@@ -17,9 +20,19 @@ export const CategoryItem = ({ item }: CategoryItemProps) => {
         {item.type === "INCOME" && "Receita"}
       </List.Td>
       <List.Td className="flex justify-center">
-        {item.isFavorite && <Star className="text-yellow-500" size={18} />}
+        {item.isFavorite && (
+          <Star
+            onClick={() => mutationFavorite(item)}
+            className="text-yellow-500"
+            size={18}
+          />
+        )}
         {!item.isFavorite && (
-          <Star size={18} className="hover:text-yellow-500" />
+          <Star
+            size={18}
+            onClick={() => mutationFavorite(item)}
+            className="hover:text-yellow-500"
+          />
         )}
       </List.Td>
       <List.Td>

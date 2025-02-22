@@ -44,8 +44,9 @@ export interface Transaction {
   categoryId: string;
   userId: string;
   accountId: string;
+  accountBalance: number;
   account: TransactionAccount;
-  category: TransactionCategory;
+  category?: TransactionCategory;
 }
 
 export type GetAllTransactionsRequest = RequestPagination & {};

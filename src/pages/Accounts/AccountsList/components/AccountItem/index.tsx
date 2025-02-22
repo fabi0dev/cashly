@@ -32,7 +32,9 @@ export const AccountItem = ({ item }: AccountItemProps) => {
         <List.Td>{getAccountTypeLabel(item.type)}</List.Td>
         <List.Td>{formatCurrency(item.balance)}</List.Td>
         <List.Td>
-          {item.isDefault && <CheckCircle className="text-emerald-800" />}
+          {item.isDefault && (
+            <CheckCircle className="text-emerald-80  dark:text-emerald-600" />
+          )}
         </List.Td>
         <List.Td className="flex items-center justify-end">
           <Dropdown

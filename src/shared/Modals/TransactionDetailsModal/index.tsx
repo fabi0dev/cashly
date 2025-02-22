@@ -69,17 +69,21 @@ export function TransactionDetailsModal({
             </div>
           )}
 
-          <Divider />
+          {dataTransaction?.category && (
+            <>
+              <Divider />
 
-          <div>
-            <h3 className="text-sm font-medium text-gray-500 mb-1">
-              Categoria
-            </h3>
-            <div className="flex items-center gap-2">
-              <Tag className="w-4 h-4 text-gray-400" />
-              <span>{dataTransaction?.category.name}</span>
-            </div>
-          </div>
+              <div>
+                <h3 className="text-sm font-medium text-gray-500 mb-1">
+                  Categoria
+                </h3>
+                <div className="flex items-center gap-2">
+                  <Tag className="w-4 h-4 text-gray-400" />
+                  <span>{dataTransaction?.category.name}</span>
+                </div>
+              </div>
+            </>
+          )}
 
           <Divider />
 
@@ -90,6 +94,22 @@ export function TransactionDetailsModal({
                 <Calendar className="w-4 h-4 text-gray-400" />
                 <span className="capitalize">
                   {formatToDateString(dataTransaction?.date || "")}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <Divider />
+
+          <div>
+            <h3 className="text-sm font-medium text-gray-500 mb-1">
+              Saldo anterior
+            </h3>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-gray-400" />
+                <span className="capitalize">
+                  {formatCurrency(dataTransaction?.accountBalance || 0)}
                 </span>
               </div>
             </div>

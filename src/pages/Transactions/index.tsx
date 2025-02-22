@@ -41,12 +41,14 @@ export const Transactions = () => {
         />
 
         <div>
-          <div className="flex justify-end py-2">
-            <Button variant="ghost" className="flex items-center gap-2">
-              <Filter className="w-5 h-5" />
-              Filtros
-            </Button>
-          </div>
+          {dataTransactions && dataTransactions?.totalItems > 0 && (
+            <div className="flex justify-end py-2">
+              <Button variant="ghost" className="flex items-center gap-2">
+                <Filter className="w-5 h-5" />
+                Filtros
+              </Button>
+            </div>
+          )}
 
           <List
             columns={[
@@ -76,7 +78,10 @@ export const Transactions = () => {
               <TransactionItem transaction={transaction} />
             )}
             renderEmpty={() => (
-              <EmptyPlaceholder title="Você não possui transações" />
+              <EmptyPlaceholder
+                src="/ui/exchange.png"
+                description="Crie uma transação para começar"
+              />
             )}
           />
         </div>

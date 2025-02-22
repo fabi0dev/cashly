@@ -9,6 +9,7 @@ import { CurrencyInput } from "react-currency-mask";
 import { formatCurrency } from "@/lib/utils";
 import { ControlledSelect } from "@/components/ControlledSelect";
 import { Controller } from "react-hook-form";
+import { useEffect } from "react";
 
 interface TransactionModalProps {
   transactionId?: string;
@@ -44,6 +45,12 @@ export function TransactionModal({
     (account) => account.id === accountId
   );
 
+  useEffect(() => {
+    if (accountSelected && accountSelected.balance == 0) {
+      setValue("type", "ENTRY");
+    }
+  }, [accountSelected, setValue]);
+
   return (
     <Dialog
       title={!transactionId ? "Nova Transação" : "Transação"}
@@ -52,24 +59,26 @@ export function TransactionModal({
       isLoading={isPreLoadings}
     >
       <form onSubmit={submit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => setValue("type", "EXIT")}
-            className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
-              transactionType === "EXIT"
-                ? "bg-red-50 dark:bg-red-800/20 border-red-200 dark:border-red-500/40 text-red-600 dark:text-red-400"
-                : "border-gray-200 dark:border-gray-400 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
-            }`}
-          >
-            <TrendingDown className="w-4 h-4" />
-            <span className="font-medium">Despesa</span>
-          </button>
+        <div className="flex flex-row gap-3">
+          {accountSelected && accountSelected?.balance > 0 && (
+            <button
+              type="button"
+              onClick={() => setValue("type", "EXIT")}
+              className={`flex flex-1 items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
+                transactionType === "EXIT"
+                  ? "bg-red-50 dark:bg-red-800/20 border-red-200 dark:border-red-500/40 text-red-600 dark:text-red-400"
+                  : "border-gray-200 dark:border-gray-400 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
+              }`}
+            >
+              <TrendingDown className="w-4 h-4" />
+              <span className="font-medium">Despesa</span>
+            </button>
+          )}
 
           <button
             type="button"
             onClick={() => setValue("type", "ENTRY")}
-            className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
+            className={`flex flex-1 items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
               transactionType === "ENTRY"
                 ? "bg-green-50 dark:bg-green-800/20 border-green-500 dark:border-green-500/40 text-green-600 dark:green-red-400"
                 : "border-gray-200 dark:border-gray-400 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"

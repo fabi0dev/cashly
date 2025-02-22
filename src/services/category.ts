@@ -36,4 +36,4 @@ export interface CategoryCreateRequest {
   isFavorite: boolean;
 }
 
-export type CategoryUpdateRequest = CategoryCreateRequest;
+export type CategoryUpdateRequest = Partial<CategoryCreateRequest>;
