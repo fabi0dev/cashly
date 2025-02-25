@@ -18,9 +18,7 @@ export const AccountsList = () => {
     <Container
       titleHeader="Contas de Banco"
       rightContentHeader={
-        <Button onClick={() => setShowAccountModal(true)}>
-          <span className="hidden sm:inline">Nova Conta</span>
-        </Button>
+        <Button onClick={() => setShowAccountModal(true)}>Nova Conta</Button>
       }
     >
       <List

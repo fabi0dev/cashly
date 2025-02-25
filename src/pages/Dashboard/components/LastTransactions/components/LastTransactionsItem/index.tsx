@@ -22,7 +22,7 @@ export const LastTransactionsItem = ({
     >
       <div>
         <p className="font-medium">
-          {transaction.description || transaction.category.name}
+          {transaction.description || transaction.category?.name}
         </p>
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {formatDateLabel(transaction.date)}

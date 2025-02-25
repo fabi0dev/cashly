@@ -38,6 +38,12 @@ export const LastTransactions = () => {
             className="flex items-center justify-center py-6 rounded-xl mb-2"
           />
         ))}
+
+      {dataLastTransactions && dataLastTransactions.data?.length === 0 && (
+        <div className="flex flex-1 justify-center p-5 text-gray-500">
+          Nenhum dado para mostrar
+        </div>
+      )}
     </div>
   );
 };

@@ -15,12 +15,14 @@ type DatePickerProps = {
   value?: string;
   onValueChange?: (date: string) => void;
   placeholder?: string;
+  className?: string;
 };
 
 export function DatePicker({
   value,
   onValueChange,
   placeholder = "Selecione uma data",
+  className,
 }: DatePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>();
 
@@ -45,8 +47,9 @@ export function DatePicker({
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal bg-input dark:hover:bg-input border-input-foreground",
-            !date && "text-muted-foreground"
+            "relative w-full justify-start text-left font-normal bg-input dark:hover:bg-input border-input-foreground",
+            !date && "text-muted-foreground",
+            className
           )}
         >
           <CalendarIcon className="absolute right-4 h-4 w-4" />

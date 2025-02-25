@@ -32,6 +32,7 @@ export const Dialog = ({
           <DialogDescription></DialogDescription>
           <DialogTitle className="text-xl">{title}</DialogTitle>
         </DialogHeader>
+
         {children}
       </DialogContent>
     </DialogShadcn>

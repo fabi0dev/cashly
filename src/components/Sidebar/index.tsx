@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import {
+  ArrowRightLeft,
   BarChart3,
   LogOut,
   PiggyBank,
@@ -21,7 +22,8 @@ const NAV_LINKS = [
   { label: "Visão Geral", icon: BarChart3, href: "/" },
   //{ label: "Objetivos", icon: Goal, href: "/goals" },
   //{ label: "Notificações", icon: Bell, href: "/notifications" },
-  { label: "Transações", icon: Receipt, href: "/transactions" },
+  { label: "Despesas", icon: Receipt, href: "/expenses" },
+  { label: "Transações", icon: ArrowRightLeft, href: "/transactions" },
   { label: "Contas de Banco", icon: PiggyBank, href: "/accounts/list" },
   { label: "Categorias", icon: Tag, href: "/categories" },
   { label: "Configurações", icon: Settings, href: "/settings" },

@@ -1,46 +1,38 @@
 import { Container } from "@/components/Container";
-import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queries } from "@/queries";
 import { List } from "@/components/List";
-import { TransactionItem } from "./components/TransactionItem";
 import { usePagination } from "@/hooks/usePagination";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { SummaryPage } from "./components/SummaryPage";
+import { ExpenseItem } from "./components/ExpenseItem";
+import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
 
-export const Transactions = () => {
+export const Expenses = () => {
   const { currentPage, limit } = usePagination();
   const { isLoading: isLoadingTransactions, data: dataTransactions } = useQuery(
     {
-      ...queries.transaction.getAll({
+      ...queries.expense.getAll({
         limit: limit,
         page: currentPage,
       }),
     }
   );
 
-  const [showTransactionModal, setShowTransactionModal] = useState(false);
+  const [showExpenseModal, setShowExpenseModal] = useState(false);
 
   return (
     <Container
-      titleHeader="Lista de Transações"
+      titleHeader="Lista de Despesas"
       rightContentHeader={
-        <Button onClick={() => setShowTransactionModal(true)}>
-          Nova Transação
+        <Button onClick={() => setShowExpenseModal(true)}>
+          <span className="hidden sm:inline">Nova Despesa</span>
         </Button>
       }
     >
       <div className="max-w-7xl mx-auto space-y-6">
-        {dataTransactions && dataTransactions?.totalItems > 0 && (
-          <SummaryPage
-            dataTransactions={dataTransactions}
-            isLoadingTransactions={isLoadingTransactions}
-          />
-        )}
-
         <div>
           {dataTransactions && dataTransactions?.totalItems > 0 && (
             <div className="flex justify-end py-2">
@@ -54,13 +46,13 @@ export const Transactions = () => {
           <List
             columns={[
               {
-                label: "Data",
-              },
-              {
-                label: "Conta do Banco",
+                label: "Descrição",
               },
               {
                 label: "Categoria",
+              },
+              {
+                label: "Vencimento",
               },
               {
                 label: "Valor",
@@ -75,24 +67,19 @@ export const Transactions = () => {
             }}
             isLoading={isLoadingTransactions}
             data={dataTransactions?.data || []}
-            render={(transaction) => (
-              <TransactionItem transaction={transaction} />
-            )}
+            render={(expense) => <ExpenseItem expense={expense} />}
             renderEmpty={() => (
               <EmptyPlaceholder
-                src="/ui/exchange.png"
-                description="Crie uma transação para começar"
+                src="/ui/graphy.png"
+                description="Crie uma despesa para começar"
               />
             )}
           />
         </div>
       </div>
 
-      {showTransactionModal && (
-        <TransactionModal
-          isOpen
-          onClose={() => setShowTransactionModal(false)}
-        />
+      {showExpenseModal && (
+        <ExpenseModal isOpen onClose={() => setShowExpenseModal(false)} />
       )}
     </Container>
   );
