@@ -1,5 +1,6 @@
 import * as React from "react";
 import { CalendarIcon } from "lucide-react";
+import { pt } from "date-fns/locale/pt";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -66,6 +67,7 @@ export function DatePicker({
           selected={date}
           onSelect={handleSelect}
           initialFocus
+          locale={pt}
         />
       </PopoverContent>
     </Popover>

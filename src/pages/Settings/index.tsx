@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Lock, User, Bell, Sun } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
+import { Divider } from "@/components/Divider";
 
 export const Settings = () => {
   const { setTheme, currentTheme } = useTheme();
@@ -12,7 +13,7 @@ export const Settings = () => {
     <Container titleHeader="Configurações">
       <div className=" bg-background dark:bg-gray-800 p-8 px-10 rounded-2xl">
         {/* Perfil */}
-        <section className="space-y-4 border-b pb-6">
+        <section className="space-y-4">
           <h2 className="text-lg font-medium flex items-center gap-2">
             <User className="w-5 h-5" /> Perfil
           </h2>
@@ -26,8 +27,10 @@ export const Settings = () => {
           <Button>Salvar</Button>
         </section>
 
+        <Divider />
+
         {/* Segurança */}
-        <section className="space-y-4 border-b pb-6">
+        <section className="space-y-4">
           <h2 className="text-lg font-medium flex items-center gap-2">
             <Lock className="w-5 h-5" /> Segurança
           </h2>
@@ -36,8 +39,10 @@ export const Settings = () => {
           <Button>Alterar Senha</Button>
         </section>
 
+        <Divider />
+
         {/* Notificações */}
-        <section className="space-y-4 border-b pb-6">
+        <section className="space-y-4">
           <h2 className="text-lg font-medium flex items-center gap-2">
             <Bell className="w-5 h-5" /> Notificações
           </h2>
@@ -46,6 +51,8 @@ export const Settings = () => {
             <Switch />
           </div>
         </section>
+
+        <Divider />
 
         <section className="space-y-4">
           <h2 className="text-lg font-medium flex items-center gap-2">

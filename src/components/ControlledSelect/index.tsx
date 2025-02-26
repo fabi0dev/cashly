@@ -16,8 +16,6 @@ export const ControlledSelect = <TFieldValues extends FieldValues>({
   control,
   ...props
 }: ControlledSelectProps<TFieldValues>) => {
-  //const { control } = useFormContext();
-
   return (
     <Controller
       name={name}

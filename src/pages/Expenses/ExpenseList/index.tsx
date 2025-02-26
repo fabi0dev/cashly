@@ -7,21 +7,33 @@ import { queries } from "@/queries";
 import { List } from "@/components/List";
 import { usePagination } from "@/hooks/usePagination";
 import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
-import { ExpenseItem } from "./components/ExpenseItem";
 import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
+import { ExpenseItem } from "./components/ExpenseItem";
+import { ExpenseFilters } from "./components/ExpenseFilters";
+import { useFilters } from "@/hooks/useFilters";
+import {
+  schemaExpenseFilters,
+  SchemaExpenseFilters,
+} from "./components/ExpenseFilters/schema";
 
-export const Expenses = () => {
+export const ExpenseList = () => {
   const { currentPage, limit } = usePagination();
+  const { filteredParams } = useFilters<SchemaExpenseFilters>({
+    schema: schemaExpenseFilters,
+  });
+
   const { isLoading: isLoadingTransactions, data: dataTransactions } = useQuery(
     {
-      ...queries.expense.getAll({
+      ...queries.expenseInstallments.getAll({
         limit: limit,
         page: currentPage,
+        ...filteredParams,
       }),
     }
   );
 
   const [showExpenseModal, setShowExpenseModal] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
 
   return (
     <Container
@@ -34,13 +46,19 @@ export const Expenses = () => {
     >
       <div className="max-w-7xl mx-auto space-y-6">
         <div>
-          {dataTransactions && dataTransactions?.totalItems > 0 && (
-            <div className="flex justify-end py-2">
-              <Button variant="ghost" className="flex items-center gap-2">
-                <Filter className="w-5 h-5" />
-                Filtros
-              </Button>
-            </div>
+          <div className="flex justify-end py-2">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Filter className="w-5 h-5" />
+              Filtros
+            </Button>
+          </div>
+
+          {showFilters && (
+            <ExpenseFilters onClose={() => setShowFilters(false)} />
           )}
 
           <List
@@ -48,14 +66,15 @@ export const Expenses = () => {
               {
                 label: "Descrição",
               },
-              {
-                label: "Categoria",
-              },
+
               {
                 label: "Vencimento",
               },
               {
                 label: "Valor",
+              },
+              {
+                label: "",
               },
               {
                 label: "",
@@ -67,7 +86,7 @@ export const Expenses = () => {
             }}
             isLoading={isLoadingTransactions}
             data={dataTransactions?.data || []}
-            render={(expense) => <ExpenseItem expense={expense} />}
+            render={(expense) => <ExpenseItem installment={expense} />}
             renderEmpty={() => (
               <EmptyPlaceholder
                 src="/ui/graphy.png"

@@ -1,7 +1,7 @@
 import { AccountsList } from "@/pages/Accounts/AccountsList";
 import { Categories } from "@/pages/Categories/CategoriesList";
 import { Dashboard } from "@/pages/Dashboard";
-import { Expenses } from "@/pages/Expenses";
+import { ExpenseList } from "@/pages/Expenses/ExpenseList";
 import { Settings } from "@/pages/Settings";
 import { Transactions } from "@/pages/Transactions";
 
@@ -20,7 +20,7 @@ export const PrivateRoutes = [
   },
   {
     path: "/expenses",
-    element: <Expenses />,
+    element: <ExpenseList />,
   },
 
   {

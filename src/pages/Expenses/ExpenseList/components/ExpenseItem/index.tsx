@@ -6,22 +6,21 @@ import { formatToDateString } from "@/lib/date";
 import { formatCurrency } from "@/lib/utils";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
-import { TransactionDetailsModal } from "@/shared/Modals/TransactionDetailsModal";
-import { Expense } from "@/services/expense";
 import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
 import { useExpenseItem } from "./useExpenseItem";
+import { ExpenseDetailsModal } from "@/shared/Modals/ExpenseDetailsModal";
+import { ExpenseInstallment } from "@/services/expense-installments";
 
 interface ExpenseItemProps {
-  expense: Expense;
+  installment: ExpenseInstallment;
 }
 
-export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
+export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
   const [showConfirmDeleteExpense, setShowConfirmDeleteExpense] =
     useState(false);
 
-  const [showTransactionDetailsModal, setShowTransactionDetailsModal] =
-    useState(false);
+  const [showExpenseDetails, setShowExpenseDetails] = useState(false);
 
   const { mutateDeleteExpense, isLoadingDeleteExpense } = useExpenseItem({
     stateModal: setShowConfirmDeleteExpense,
@@ -30,15 +29,31 @@ export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
   return (
     <>
       <List.Row>
-        <List.Td className="text-gray-900">{expense.description}</List.Td>
-        <List.Td className="text-gray-900">{expense.category?.name}</List.Td>
+        <List.Td className="text-gray-900 gap-2">
+          {installment.description}
+        </List.Td>
 
         <List.Td className="text-gray-600">
-          {formatToDateString(expense.dueDate)}
+          {formatToDateString(installment.dueDate)}
         </List.Td>
 
         <List.Td className="text-gray-900">
-          {formatCurrency(expense.amount)}
+          {formatCurrency(installment.amount)}
+        </List.Td>
+
+        <List.Td className="gap-2">
+          {installment.category && (
+            <span className="p-1 px-2 bg-gray-100/50 rounded-full text-xs">
+              {installment.category?.name}
+            </span>
+          )}
+
+          {installment.totalInstallments > 1 && (
+            <span className="p-1 px-2 bg-violet-500/50 rounded-full text-xs">
+              Parcela {installment.installmentNumber}/
+              {installment.totalInstallments}
+            </span>
+          )}
         </List.Td>
 
         <List.Td className="flex items-center justify-end">
@@ -46,7 +61,7 @@ export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
             menuItems={[
               {
                 label: "Detalhes da despesa",
-                onClick: () => setShowTransactionDetailsModal(true),
+                onClick: () => setShowExpenseDetails(true),
               },
               {
                 label: "Editar",
@@ -58,7 +73,7 @@ export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
               },
             ]}
             trigger={
-              <Button variant={"ghost"} size={"icon"} className="h-auto">
+              <Button variant={"ghost"} size={"icon"} className="h-auto p-1">
                 <EllipsisVertical />
               </Button>
             }
@@ -69,7 +84,7 @@ export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
       {showTransactionModal && (
         <ExpenseModal
           isOpen
-          expenseId={expense.id}
+          expenseId={installment.expenseId}
           onClose={() => setShowTransactionModal(false)}
         />
       )}
@@ -80,17 +95,17 @@ export const ExpenseItem = ({ expense }: ExpenseItemProps) => {
           isLoading={isLoadingDeleteExpense}
           onOpenChange={() => setShowConfirmDeleteExpense(false)}
           description={"Deseja realmente excluir essa despesa?"}
-          onConfirm={() => mutateDeleteExpense(expense.id)}
+          onConfirm={() => mutateDeleteExpense(installment.expenseId)}
           onCancel={() => setShowConfirmDeleteExpense(false)}
           confirmText="Sim quero excluir"
         />
       )}
 
-      {showTransactionDetailsModal && (
-        <TransactionDetailsModal
+      {showExpenseDetails && (
+        <ExpenseDetailsModal
           isOpen
-          transactionId={expense.id}
-          onClose={() => setShowTransactionDetailsModal(false)}
+          expenseId={installment.expenseId}
+          onClose={() => setShowExpenseDetails(false)}
         />
       )}
     </>

@@ -11,7 +11,7 @@ export const useExpenseItem = ({ stateModal }: UseExpenseItemProps) => {
 
   const invalidateTransactions = () => {
     queryClient.invalidateQueries({
-      queryKey: queries.transaction.getAll._def,
+      queryKey: queries.expense.getAll._def,
     });
   };
 

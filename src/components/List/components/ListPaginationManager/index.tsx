@@ -51,21 +51,20 @@ export const ListPaginationManager = ({
         </div>
 
         <div className="flex flex-row items-center gap-2 text-gray-400">
-          <div className="flex flex-row">Mostrando</div>
           <Select
-            className="w-[70px] bg-transparent border-0 hover:bg-input/40"
+            className="w-[150px] bg-transparent border-0 hover:bg-input/40"
             value={
               limit.toString() || SystemConfig.list.defaultLimit.toString()
             }
             onValueChange={handleItemsPerPage}
             options={SystemConfig.list.itemsPerPage.map((item) => {
               return {
-                label: item.toString(),
+                label: item.toString() + " por página",
                 value: item.toString(),
               };
             })}
           />
-          itens de {pagination.totalItems}
+          <span className="ml-3">{pagination.totalItems} no total</span>
         </div>
       </div>
     </div>
