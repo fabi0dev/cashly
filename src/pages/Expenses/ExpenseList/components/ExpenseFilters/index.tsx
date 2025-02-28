@@ -16,11 +16,16 @@ export const ExpenseFilters = ({ onClose }: UseExpenseFiltersProps) => {
     useFilters<SchemaExpenseFilters>({
       schema: schemaExpenseFilters,
     });
+
   const { handleSubmit, control, setValue } = useForm<SchemaExpenseFilters>({
     defaultValues: filteredParams,
   });
 
-  const onSubmit = (data: SchemaExpenseFilters) => setFilters(data);
+  console.log(filteredParams);
+
+  const onSubmit = (data: SchemaExpenseFilters) => {
+    setFilters(data);
+  };
 
   return (
     <div className="bg-white dark:bg-gray-800 p-5 my-4 rounded-xl">
@@ -37,10 +42,12 @@ export const ExpenseFilters = ({ onClose }: UseExpenseFiltersProps) => {
           <InputLabel>Período</InputLabel>
           <DateRangePicker
             value={{
-              from: DateTime.fromISO(
-                filteredParams.dueDateStart || ""
-              ).toJSDate(),
-              to: DateTime.fromISO(filteredParams.dueDateEnd || "").toJSDate(),
+              from: filteredParams.dueDateStart
+                ? DateTime.fromISO(filteredParams.dueDateStart).toJSDate()
+                : undefined,
+              to: filteredParams.dueDateEnd
+                ? DateTime.fromISO(filteredParams.dueDateEnd).toJSDate()
+                : undefined,
             }}
             onValueChange={(value) => {
               setValue("dueDateStart", value.from);

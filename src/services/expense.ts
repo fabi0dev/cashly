@@ -12,7 +12,7 @@ export const GetAllExpenses = (params: GetAllExpensesRequest) =>
   });
 
 export const GetExpenseById = (expenseId: string) =>
-  Api().get<Expense>(`/expense/${expenseId}`);
+  Api().get<GetExpenseByIdResponse>(`/expense/${expenseId}`);
 
 export const CreateExpense = (data: ExpenseCreateRequest) =>
   Api().post<Expense>("/expense", data);
@@ -48,6 +48,20 @@ export interface GetAllExpensesResponse {
   totalItems: number;
   totalPages: number;
 }
+
+interface Installment {
+  id: string;
+  amount: number;
+  dueDate: string;
+  paymentDate?: Date | null;
+  installmentNumber: number;
+  totalInstallments: number;
+  isPaid: boolean;
+}
+
+export type GetExpenseByIdResponse = Expense & {
+  installments: Installment[];
+};
 
 export type RecurrenceType = "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
 

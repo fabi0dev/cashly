@@ -7,7 +7,7 @@ interface CardProps {
   subtitle?: string;
   icon?: ReactNode;
   iconClassName?: string;
-
+  paddingLeft?: boolean;
   children?: ReactNode;
 }
 export const Card = ({
@@ -17,6 +17,7 @@ export const Card = ({
   icon,
   iconClassName,
   children,
+  paddingLeft,
 }: CardProps) => {
   return (
     <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
@@ -33,7 +34,7 @@ export const Card = ({
             </div>
           )}
           <div>
-            <h3 className={cn("font-medium", titleClass)}>{title}</h3>
+            <h3 className={cn("font-medium text-xl", titleClass)}>{title}</h3>
 
             {subtitle && (
               <div className="text-xs text-gray-400 ">{subtitle}</div>
@@ -42,7 +43,7 @@ export const Card = ({
         </div>
       )}
 
-      <div className="mt-2">{children}</div>
+      <div className={cn("mt-2", paddingLeft && "pl-[44px]")}>{children}</div>
     </div>
   );
 };

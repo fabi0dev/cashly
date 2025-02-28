@@ -2,6 +2,7 @@ import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
 import { Input } from "../ui/input";
 import { InputHTMLAttributes } from "react";
 import { InputLabel } from "../InputLabel";
+import { cn } from "@/lib/utils";
 
 export type ControlledInputProps<TFieldValues extends FieldValues> = Pick<
   UseControllerProps<TFieldValues>,
@@ -22,13 +23,17 @@ export const ControlledInput = <TFieldValues extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field, formState: { errors } }) => (
         <div>
           {label && <InputLabel>{label}</InputLabel>}
           <Input
             {...field}
             value={field.value ?? ""}
-            className={className}
+            className={cn(
+              errors.name?.message &&
+                "border-red-400 focus-visible:ring-red-400",
+              className
+            )}
             {...props}
           />
         </div>

@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 
 export const schemaExpenseFilters = Yup.object({
-  description: Yup.string(),
+  description: Yup.string().default(""),
   dueDateStart: Yup.string(),
   dueDateEnd: Yup.string(),
 });

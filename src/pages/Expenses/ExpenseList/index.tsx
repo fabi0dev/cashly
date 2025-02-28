@@ -1,6 +1,6 @@
 import { Container } from "@/components/Container";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
+import { Filter, ListFilter } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queries } from "@/queries";
@@ -15,6 +15,8 @@ import {
   schemaExpenseFilters,
   SchemaExpenseFilters,
 } from "./components/ExpenseFilters/schema";
+import { SummaryPage } from "./components/SummaryPage";
+import { formatCurrency } from "@/lib/utils";
 
 export const ExpenseList = () => {
   const { currentPage, limit } = usePagination();
@@ -22,7 +24,7 @@ export const ExpenseList = () => {
     schema: schemaExpenseFilters,
   });
 
-  const { isLoading: isLoadingTransactions, data: dataTransactions } = useQuery(
+  const { isLoading: isLoadingInstallments, data: dataInstallments } = useQuery(
     {
       ...queries.expenseInstallments.getAll({
         limit: limit,
@@ -34,6 +36,10 @@ export const ExpenseList = () => {
 
   const [showExpenseModal, setShowExpenseModal] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
+
+  const totalSum =
+    dataInstallments?.data.reduce((acc, curr) => acc + curr.amount, 0) || 0;
 
   return (
     <Container
@@ -44,9 +50,18 @@ export const ExpenseList = () => {
         </Button>
       }
     >
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div onClick={() => {}} className="max-w-7xl mx-auto space-y-6">
         <div>
           <div className="flex justify-end py-2">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2"
+              onClick={() => setShowSummary(!showSummary)}
+            >
+              <ListFilter className="w-5 h-5" />
+              Resumo
+            </Button>
+
             <Button
               variant="ghost"
               className="flex items-center gap-2"
@@ -61,18 +76,29 @@ export const ExpenseList = () => {
             <ExpenseFilters onClose={() => setShowFilters(false)} />
           )}
 
+          {showSummary && (
+            <SummaryPage
+              dataInstallments={dataInstallments}
+              isLoadingTransactions={isLoadingInstallments}
+            />
+          )}
+
           <List
             columns={[
-              {
-                label: "Descrição",
-              },
-
               {
                 label: "Vencimento",
               },
               {
                 label: "Valor",
               },
+              {
+                label: "Situação",
+              },
+
+              {
+                label: "Descrição",
+              },
+
               {
                 label: "",
               },
@@ -81,17 +107,26 @@ export const ExpenseList = () => {
               },
             ]}
             pagination={{
-              totalItems: dataTransactions?.totalItems || 0,
-              totalPages: dataTransactions?.totalPages || 0,
+              totalItems: dataInstallments?.totalItems || 0,
+              totalPages: dataInstallments?.totalPages || 0,
             }}
-            isLoading={isLoadingTransactions}
-            data={dataTransactions?.data || []}
+            isLoading={isLoadingInstallments}
+            data={dataInstallments?.data || []}
             render={(expense) => <ExpenseItem installment={expense} />}
             renderEmpty={() => (
               <EmptyPlaceholder
                 src="/ui/graphy.png"
                 description="Crie uma despesa para começar"
               />
+            )}
+            href={(item) => `/expenses/details/${item.expenseId}`}
+            renderExtraRow={() => (
+              <List.Row className="pt-1">
+                <List.Td></List.Td>
+                <List.Td className="col-span-5 dark:text-gray-400 ">
+                  {formatCurrency(totalSum)}
+                </List.Td>
+              </List.Row>
             )}
           />
         </div>

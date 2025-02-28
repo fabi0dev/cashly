@@ -3,13 +3,14 @@ import { Dropdown } from "@/components/Dropdown";
 import { List } from "@/components/List";
 import { Button } from "@/components/ui/button";
 import { formatToDateString } from "@/lib/date";
-import { formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency } from "@/lib/utils";
 import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
 import { useExpenseItem } from "./useExpenseItem";
 import { ExpenseDetailsModal } from "@/shared/Modals/ExpenseDetailsModal";
 import { ExpenseInstallment } from "@/services/expense-installments";
+import { Badge } from "@/components/ui/badge";
 
 interface ExpenseItemProps {
   installment: ExpenseInstallment;
@@ -29,10 +30,6 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
   return (
     <>
       <List.Row>
-        <List.Td className="text-gray-900 gap-2">
-          {installment.description}
-        </List.Td>
-
         <List.Td className="text-gray-600">
           {formatToDateString(installment.dueDate)}
         </List.Td>
@@ -41,18 +38,34 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
           {formatCurrency(installment.amount)}
         </List.Td>
 
-        <List.Td className="gap-2">
-          {installment.category && (
-            <span className="p-1 px-2 bg-gray-100/50 rounded-full text-xs">
-              {installment.category?.name}
-            </span>
-          )}
+        <List.Td className="text-gray-900">
+          <Badge
+            className={cn(
+              !installment.isPaid &&
+                "bg-yellow-500/20 text-yellow-700 dark:text-yellow-500",
+              installment.isPaid &&
+                "bg-green-600/20 text-green-700 dark:text-green-400"
+            )}
+          >
+            {installment.isPaid ? "Pago" : "A pagar"}
+          </Badge>
+        </List.Td>
 
+        <List.Td className="text-gray-900 gap-2">
+          {installment.description}
+
+          {installment.category && (
+            <Badge className="bg-gray-100/50">
+              {installment.category?.name}
+            </Badge>
+          )}
+        </List.Td>
+
+        <List.Td className="gap-2">
           {installment.totalInstallments > 1 && (
-            <span className="p-1 px-2 bg-violet-500/50 rounded-full text-xs">
-              Parcela {installment.installmentNumber}/
-              {installment.totalInstallments}
-            </span>
+            <div className="flex flex-row p-1 px-2 bg-violet-500/50 rounded-full text-xs">
+              {installment.installmentNumber}/{installment.totalInstallments}
+            </div>
           )}
         </List.Td>
 
@@ -69,7 +82,9 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
               },
               {
                 label: "Excluir",
-                onClick: () => setShowConfirmDeleteExpense(true),
+                onClick: () => {
+                  setShowConfirmDeleteExpense(true);
+                },
               },
             ]}
             trigger={

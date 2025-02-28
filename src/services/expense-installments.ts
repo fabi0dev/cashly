@@ -37,7 +37,7 @@ export type GetAllExpensesInstallmentsRequest = RequestPagination & {
   dueDateEnd?: string;
 };
 
-interface GetAllExpensesInstallmentsResponse {
+export interface GetAllExpensesInstallmentsResponse {
   data: ExpenseInstallment[];
   totalItems: number;
   totalPages: number;

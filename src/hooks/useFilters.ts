@@ -35,7 +35,11 @@ export const useFilters = <SchemaFilters extends Record<string, string>>({
 
   const setFilters = (filters: SchemaFilters) => {
     Object.entries(filters).forEach(([key, value]) => {
-      searchParams.set(key, value);
+      if (value) {
+        searchParams.set(key, value);
+      } else {
+        searchParams.delete(key as string);
+      }
     });
     setSearchParams(searchParams);
   };

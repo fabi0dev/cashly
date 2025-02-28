@@ -3,15 +3,15 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { InputLabel } from "../InputLabel";
 
 export interface SelectProps {
-  value?: string;
-  options: { label: string; value: string }[];
+  value?: string | number;
+  options: { label: string; value: string | number }[];
   placeholder?: string;
   label?: string;
   className?: string;
@@ -28,20 +28,26 @@ export function Select({
   ...props
 }: SelectProps) {
   return (
-    <SelectRoot onValueChange={onValueChange} value={value ?? ""} {...props}>
-      <SelectTrigger className={cn("w-full", className)}>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          {label && <SelectLabel>{label}</SelectLabel>}
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </SelectRoot>
+    <div>
+      {label && <InputLabel>{label}</InputLabel>}
+      <SelectRoot
+        onValueChange={onValueChange}
+        value={value?.toString() ?? ""}
+        {...props}
+      >
+        <SelectTrigger className={cn("w-full", className)}>
+          <SelectValue placeholder={placeholder} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {options.map((option) => (
+              <SelectItem key={option.value} value={option.value.toString()}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </SelectRoot>
+    </div>
   );
 }

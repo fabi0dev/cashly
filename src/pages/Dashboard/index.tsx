@@ -19,6 +19,7 @@ export const Dashboard = () => {
           <span className="hidden sm:inline">Nova Transação</span>
         </Button>
       }
+      hideGoBack
     >
       <TransactionModal
         isOpen={showTransactionModal}

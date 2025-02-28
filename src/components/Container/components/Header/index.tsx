@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { ArrowLeft, Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   title?: string;
   isSidebarOpen: boolean;
   toggleSidebar: () => void;
   rightContent?: React.ReactNode;
+  hideGoBack?: boolean;
 }
 
 export const Header = ({
@@ -13,6 +15,7 @@ export const Header = ({
   isSidebarOpen,
   toggleSidebar,
   rightContent,
+  hideGoBack,
 }: HeaderProps) => {
   return (
     <header className={cn("flex-row mx-auto max-w-[1024px] p-5 py-4")}>
@@ -28,7 +31,18 @@ export const Header = ({
           )}
         </button>
 
-        <span className="font-semibold text-2xl">{title}</span>
+        <div className="flex flex-row items-center">
+          {!hideGoBack && (
+            <Link
+              to="javascript:history.back(-1)"
+              className="mr-4 hover:bg-gray-400/50 p-2 rounded-lg transform"
+            >
+              <ArrowLeft />
+            </Link>
+          )}
+
+          <span className="font-semibold text-2xl">{title}</span>
+        </div>
 
         {rightContent}
       </div>

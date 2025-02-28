@@ -23,6 +23,7 @@ interface ListProps<T> {
   href?: (item: T) => string;
   rowClick?: (item: T) => void;
   renderEmpty?: () => React.ReactNode;
+  renderExtraRow?: () => React.ReactNode;
   pagination?: ResponsePagination;
 }
 
@@ -34,6 +35,7 @@ export const List = <T,>({
   href,
   rowClick,
   renderEmpty,
+  renderExtraRow,
   pagination,
 }: ListProps<T>) => {
   const { currentPage, setPage } = usePagination();
@@ -46,10 +48,10 @@ export const List = <T,>({
         setPage(1);
       }
     }
-  }, []);
+  }, [pagination, currentPage, setPage]);
 
   return (
-    <div className=" bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
+    <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-xl overflow-hidden px-4 py-2">
       {(isLoading || data.length > 0) && (
         <div className="grid grid-cols-1 divide-y">
           <List.Row>
@@ -67,8 +69,8 @@ export const List = <T,>({
           </List.Row>
 
           {isLoading
-            ? Array.from({ length: 5 }).map((_, index) => (
-                <List.Row key={index} className={"border-transparent"}>
+            ? Array.from({ length: 5 }, (_, index) => (
+                <List.Row key={index} className="border-transparent">
                   <Skeleton className="h-10 w-full my-2" />
                 </List.Row>
               ))
@@ -76,11 +78,15 @@ export const List = <T,>({
                 <List.Row
                   key={index}
                   href={href ? href(item) : undefined}
-                  onClick={() => rowClick && rowClick(item)}
+                  onClick={() => rowClick?.(item)}
                 >
                   {render(item)}
                 </List.Row>
               ))}
+
+          {renderExtraRow && !isLoading && (
+            <List.Row>{renderExtraRow()}</List.Row>
+          )}
         </div>
       )}
 
@@ -88,14 +94,14 @@ export const List = <T,>({
         <List.Row>{renderEmpty()}</List.Row>
       )}
 
-      {pagination && pagination?.totalPages > 0 && (
+      {pagination?.totalPages ? (
         <ListPaginationManager pagination={pagination} />
-      )}
-
-      {!pagination && data.length > 1 && (
-        <div className="text-sm text-gray-500 text-center pt-5">
-          Mostrando {data.length} itens
-        </div>
+      ) : (
+        data.length > 1 && (
+          <div className="text-sm text-gray-500 text-center pt-5">
+            Mostrando {data.length} itens
+          </div>
+        )
       )}
     </div>
   );
@@ -112,29 +118,18 @@ List.Row = ({
   onClick?: () => void;
   className?: string;
 }) => {
+  const rowClassName = cn(
+    "grid grid-cols-[repeat(auto-fit,minmax(150px,5fr))] border-gray-100 dark:border-gray-700 last:border-0",
+    onClick && "cursor-pointer hover:opacity-70",
+    className
+  );
+
   return href ? (
-    <Link to={href}>
-      <div
-        className={cn(
-          "grid grid-cols-[repeat(auto-fit,minmax(150px,5fr))]",
-          " border-gray-100 dark:border-gray-600 last:border-0 cursor-pointer hover:opacity-70",
-          onClick && "cursor-pointer",
-          className
-        )}
-        onClick={onClick}
-      >
-        {children}
-      </div>
+    <Link to={href} className={rowClassName}>
+      <div onClick={onClick}>{children}</div>
     </Link>
   ) : (
-    <div
-      className={cn(
-        "grid grid-cols-[repeat(auto-fit,minmax(150px,5fr))] border-gray-100 dark:border-gray-600  last:border-0",
-        onClick && "cursor-pointer",
-        className
-      )}
-      onClick={onClick}
-    >
+    <div className={rowClassName} onClick={onClick}>
       {children}
     </div>
   );
@@ -144,12 +139,12 @@ List.Td = ({
   children,
   className,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }) => (
   <div
     className={cn(
-      "flex items-center p-3 text-gray-600 dark:text-gray-300",
+      "flex items-center p-2 text-gray-600 dark:text-gray-300",
       className
     )}
   >

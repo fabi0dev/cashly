@@ -9,9 +9,9 @@ interface UseExpenseItemProps {
 export const useExpenseItem = ({ stateModal }: UseExpenseItemProps) => {
   const queryClient = useQueryClient();
 
-  const invalidateTransactions = () => {
+  const invalidateExpenseInstallments = () => {
     queryClient.invalidateQueries({
-      queryKey: queries.expense.getAll._def,
+      queryKey: queries.expenseInstallments.getAll._def,
     });
   };
 
@@ -22,7 +22,7 @@ export const useExpenseItem = ({ stateModal }: UseExpenseItemProps) => {
     mutationFn: async (expenseId: string) => await DeleteExpense(expenseId),
     onSuccess: () => {
       stateModal(false);
-      invalidateTransactions();
+      invalidateExpenseInstallments();
       toastSuccess("Despesa excluída com sucesso");
     },
     onError: () => {

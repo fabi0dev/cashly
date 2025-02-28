@@ -16,8 +16,8 @@ import {
 import { pt } from "date-fns/locale/pt";
 
 type ValueChange = {
-  from: string;
-  to: string;
+  from: string | undefined;
+  to: string | undefined;
 };
 
 interface DateRangePickerProps {
@@ -38,8 +38,14 @@ export function DateRangePicker({
     to: DateTime.now().endOf("month").toJSDate(),
   };
 
+  const isValidDate = (date?: Date) =>
+    date instanceof Date && !isNaN(date.getTime());
+
+  const isValidDateRange = (date?: DateRange) =>
+    isValidDate(date?.from) && isValidDate(date?.to);
+
   const [date, setDate] = React.useState<DateRange | undefined>(
-    value || initialRange
+    isValidDateRange(value) ? value : initialRange
   );
 
   const handleSelect = (selectedDate: DateRange | undefined) => {

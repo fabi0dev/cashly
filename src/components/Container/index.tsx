@@ -7,6 +7,7 @@ export interface ContainerProps {
   children: React.ReactNode;
   rightContentHeader?: React.ReactNode;
   showHeader?: boolean;
+  hideGoBack?: boolean;
 }
 
 export const Container = ({
@@ -14,6 +15,7 @@ export const Container = ({
   rightContentHeader,
   children,
   showHeader = true,
+  hideGoBack,
 }: ContainerProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -39,6 +41,7 @@ export const Container = ({
             isSidebarOpen={isSidebarOpen}
             toggleSidebar={toggleSidebar}
             rightContent={rightContentHeader}
+            hideGoBack={hideGoBack}
           />
         )}
 

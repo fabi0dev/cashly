@@ -37,6 +37,9 @@ export const useExpenseModal = ({
 
   const invalidateExpenseList = () => {
     queryClient.invalidateQueries({ queryKey: queries.expense.getAll._def });
+    queryClient.invalidateQueries({
+      queryKey: queries.expenseInstallments.getAll._def,
+    });
   };
 
   const {

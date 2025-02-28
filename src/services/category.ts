@@ -1,3 +1,4 @@
+import { CategoryImportanceLevelKey } from "@/constants/CategoryImportanceLevel";
 import { Api } from "./api";
 import { RequestPagination } from "./common";
 
@@ -21,7 +22,7 @@ export type Category = {
   id: string;
   name: string;
   type: CategoryType;
-  importanceLevel: number;
+  importanceLevel: CategoryImportanceLevelKey;
   isFavorite: boolean;
   userId: string;
 };
