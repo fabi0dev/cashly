@@ -12,17 +12,17 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
 import { Divider } from "@/components/Divider";
 import { Container } from "@/components/Container";
 import { cn, formatCurrency } from "@/lib/utils";
 import { Card } from "@/components/Card";
 import { useExpenseDetails } from "./useExpenseDetails";
-import { formatDateLabel, formatToDateString } from "@/lib/date";
+import { formatToDateString } from "@/lib/date";
 import { PayExpenseModal } from "./components/PayExpenseModal";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Spinner } from "@/components/Spinner";
 import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
+import { InstallmentItem } from "./components/InstallmentItem";
 
 const formatRecurrenceType = (type: string) => {
   switch (type) {
@@ -44,7 +44,12 @@ export const ExpenseDetails = () => {
   const [markAsPaidDialogOpen, setMarkAsPaidDialogOpen] = useState(false);
   const [showExpenseModal, setShowExpenseModal] = useState(false);
 
-  const { dataExpense, isLoadingExpense } = useExpenseDetails();
+  const {
+    dataExpense,
+    isLoadingExpense,
+    mutateDeleteExpense,
+    isLoadingDeleteExpense,
+  } = useExpenseDetails();
 
   return (
     <Container titleHeader="Detalhes da despesa">
@@ -52,38 +57,7 @@ export const ExpenseDetails = () => {
         <div className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
             <Card title={dataExpense.description}>
-              <div className="flex items-center space-x-2">
-                {/*  <Badge className={getStatusColor(expense.status)}>
-                {expense.status}
-              </Badge> */}
-                {/*   <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <MoreVertical className="h-4 w-4" />
-                    <span className="sr-only">Actions</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>
-                    <Edit className="mr-2 h-4 w-4" />
-                    <span>Edit Expense</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => setMarkAsPaidDialogOpen(true)}
-                  >
-                    <Check className="mr-2 h-4 w-4" />
-                    <span>Mark as Paid</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    className="text-red-600 focus:text-red-600"
-                    onClick={() => setDeleteDialogOpen(true)}
-                  >
-                    <Trash className="mr-2 h-4 w-4" />
-                    <span>Delete Expense</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu> */}
-              </div>
+              <div className="flex items-center space-x-2"></div>
 
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="flex flex-col">
@@ -158,22 +132,6 @@ export const ExpenseDetails = () => {
                           )}
                         </p>
                       </div>
-                      {/* <div>
-                      <p className="text-sm font-medium">Start Date</p>
-                      <p className="text-sm text-muted-foreground">
-                        {dataExpense.recurrenceStartDate
-                          ? format(dataExpense.recurrenceStartDate, "MMMM d, yyyy")
-                          : "Not specified"}
-                      </p>
-                    </div> */}
-                      {/*  <div>
-                      <p className="text-sm font-medium">End Date</p>
-                      <p className="text-sm text-muted-foreground">
-                        {dataExpense.recurrenceEndDate
-                          ? format(dataExpense.recurrenceEndDate, "MMMM d, yyyy")
-                          : "No end date"}
-                      </p>
-                    </div> */}
                     </div>
                   </div>
                 </>
@@ -181,13 +139,9 @@ export const ExpenseDetails = () => {
             </Card>
 
             {dataExpense.installments &&
-              dataExpense.installments.length > 0 && (
+              dataExpense.installments.length > 1 && (
                 <Card
-                  title={
-                    dataExpense.installments.length > 1
-                      ? `${dataExpense.installments.length} Parcelas`
-                      : "Parcela única"
-                  }
+                  title={`${dataExpense.installments.length} Parcelas`}
                   subtitle={
                     dataExpense.installments.filter((item) => item.isPaid)
                       .length + " pagas"
@@ -195,50 +149,11 @@ export const ExpenseDetails = () => {
                 >
                   <div className="space-y-2">
                     {dataExpense.installments.map((installment) => (
-                      <div
+                      <InstallmentItem
                         key={installment.id}
-                        className="flex items-center justify-between p-2 border dark:border-gray-700 rounded-lg"
-                      >
-                        <div className="flex items-center space-x-4">
-                          <div
-                            className={cn(
-                              `w-1 h-8 rounded-full opacity-75 `,
-                              !installment.isPaid && "bg-amber-500",
-                              new Date() > new Date(installment.dueDate) &&
-                                !installment.isPaid &&
-                                "bg-red-500",
-                              installment.isPaid && "bg-green-500"
-                            )}
-                          />
-                          <div>
-                            <p className="font-medium">
-                              Vencimento:{" "}
-                              {formatToDateString(installment.dueDate)}
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              {!installment.isPaid && "Ainda não pago"}
-
-                              {installment.paymentDate &&
-                                `Pago ${formatDateLabel(
-                                  installment.paymentDate
-                                )}`}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-medium">
-                            {formatCurrency(installment.amount)}
-                          </p>
-
-                          {dataExpense.installments.length > 1 && (
-                            <p className="text-xs">
-                              {new Date() > new Date(installment.dueDate) && (
-                                <div className="text-red-500">Em atraso</div>
-                              )}
-                            </p>
-                          )}
-                        </div>
-                      </div>
+                        expenseId={dataExpense.id}
+                        installment={installment}
+                      />
                     ))}
                   </div>
                 </Card>
@@ -246,43 +161,45 @@ export const ExpenseDetails = () => {
           </div>
 
           <div className="space-y-6">
-            <Card title="Pagamento">
-              {!dataExpense.isPaid && dataExpense.dueDate && (
-                <div className="flex justify-between items-center gap-3">
-                  <span className="text-sm text-muted-foreground">
-                    Situação
-                  </span>
-                  <span
-                    className={`text-sm font-medium ${
-                      new Date() > new Date(dataExpense.dueDate)
-                        ? "text-red-500"
-                        : ""
-                    }`}
-                  >
-                    {new Date() > new Date(dataExpense.dueDate)
-                      ? "Em atraso"
-                      : `Vence daqui ${Math.ceil(
-                          (new Date(dataExpense.dueDate).getTime() -
-                            new Date().getTime()) /
-                            (1000 * 60 * 60 * 24)
-                        )} dias`}
-                  </span>
-                </div>
-              )}
-              <Button
-                className="w-full mt-3"
-                variant={dataExpense.isPaid ? "outline" : "default"}
-                onClick={() => setMarkAsPaidDialogOpen(true)}
-                disabled={dataExpense.isPaid}
-              >
-                {!dataExpense.isPaid ? (
-                  <CreditCard className="mr-2 h-4 w-4" />
-                ) : (
-                  <Check className="mr-2 h-4 w-4" />
+            {dataExpense.installments.length === 1 && (
+              <Card title="Pagamento">
+                {!dataExpense.isPaid && dataExpense.dueDate && (
+                  <div className="flex justify-between items-center gap-3">
+                    <span className="text-sm text-muted-foreground">
+                      Situação
+                    </span>
+                    <span
+                      className={`text-sm font-medium ${
+                        new Date() > new Date(dataExpense.dueDate)
+                          ? "text-red-500"
+                          : ""
+                      }`}
+                    >
+                      {new Date() > new Date(dataExpense.dueDate)
+                        ? "Em atraso"
+                        : `Vence daqui ${Math.ceil(
+                            (new Date(dataExpense.dueDate).getTime() -
+                              new Date().getTime()) /
+                              (1000 * 60 * 60 * 24)
+                          )} dias`}
+                    </span>
+                  </div>
                 )}
-                {dataExpense.isPaid ? "Despesa paga" : "Marcar como pago"}
-              </Button>
-            </Card>
+                <Button
+                  variant={dataExpense.isPaid ? "outline" : "default"}
+                  onClick={() => setMarkAsPaidDialogOpen(true)}
+                  disabled={dataExpense.isPaid}
+                  className={cn("w-full mt-3")}
+                >
+                  {!dataExpense.isPaid ? (
+                    <CreditCard className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Check className="mr-2 h-4 w-4" />
+                  )}
+                  {dataExpense.isPaid ? "Despesa paga" : "Marcar como pago"}
+                </Button>
+              </Card>
+            )}
 
             <Card title="Ações">
               <div className="space-y-2">
@@ -295,15 +212,6 @@ export const ExpenseDetails = () => {
                   Editar despesa
                 </Button>
 
-                {/*  {dataExpense.status === "ACTIVE" && (
-                <Button
-                  variant="outline"
-                  className="w-full justify-start text-amber-600"
-                >
-                  <X className="mr-2 h-4 w-4" />
-                  Cancel Expense
-                </Button>
-              )} */}
                 <Button
                   variant="outline"
                   className="w-full justify-start text-red-400"
@@ -338,10 +246,10 @@ export const ExpenseDetails = () => {
       {showDeleteDialog && (
         <ConfirmDialog
           open
-          isLoading={false}
+          isLoading={isLoadingDeleteExpense}
           onOpenChange={() => setShowDeleteDialog(false)}
           description={"Deseja realmente excluir essa despesa?"}
-          onConfirm={() => {}}
+          onConfirm={() => mutateDeleteExpense(dataExpense!.id)}
           onCancel={() => setShowDeleteDialog(false)}
           confirmText="Sim quero excluir"
         />

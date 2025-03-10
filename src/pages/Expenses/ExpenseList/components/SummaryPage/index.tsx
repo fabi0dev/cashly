@@ -3,6 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/lib/utils";
 import { GetAllExpensesInstallmentsResponse } from "@/services/expense-installments";
 import { Receipt, TrendingDown } from "lucide-react";
+import { SubtitleSummary } from "./components/SubtitleSummary";
 
 interface SummaryPageProps {
   dataInstallments: GetAllExpensesInstallmentsResponse | undefined;
@@ -19,10 +20,10 @@ export const SummaryPage = ({
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
       <Card
-        title="Soma destes valores"
+        title="Soma dos valores"
         icon={<TrendingDown className="w-4 h-4" />}
         iconClassName="text-purple-400"
-        subtitle="Deste mês"
+        subtitle={<SubtitleSummary />}
         paddingLeft
       >
         <span className="text-xl">{formatCurrency(totalSum)} </span>

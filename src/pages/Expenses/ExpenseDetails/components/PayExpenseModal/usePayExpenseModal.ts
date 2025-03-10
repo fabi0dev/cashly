@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { SchemaPayExpenseModal, schemaPayExpenseModal } from "./schema";
 import { useEffect } from "react";
 import { queries } from "@/queries";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 interface UsePayExpenseModalProps {
   expenseId: string;
@@ -16,6 +17,7 @@ export const usePayExpenseModal = ({
   onClose,
 }: UsePayExpenseModalProps) => {
   const formMethods = useForm<SchemaPayExpenseModal>({
+    resolver: yupResolver(schemaPayExpenseModal),
     defaultValues: schemaPayExpenseModal.getDefault(),
   });
 
@@ -28,10 +30,9 @@ export const usePayExpenseModal = ({
       queryKey: queries.expense.getById({ expenseId }).queryKey,
     });
 
-  const { data: listAccounts, isFetching: isLoadingListAccounts } = useQuery({
+  const { data: listAccounts } = useQuery({
     ...queries.account.getAll(),
   });
-  console.log(isLoadingListAccounts);
 
   const { mutateAsync: markAsPaid, isPending: isLoading } = useMutation({
     mutationFn: (body: SchemaPayExpenseModal) => {

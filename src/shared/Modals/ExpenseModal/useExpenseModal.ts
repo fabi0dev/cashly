@@ -23,6 +23,11 @@ export const useExpenseModal = ({
       ...queries.categories.getAll(),
     });
 
+  const { data: dataExpense, isFetching: isLoadingDataExpense } = useQuery({
+    ...queries.expense.getById({ expenseId: expenseId! }),
+    enabled: !!expenseId,
+  });
+
   const formMethods = useForm<SchemaExpenseModal>({
     resolver: yupResolver(expenseSchema),
     defaultValues: expenseSchema.getDefault(),
@@ -65,11 +70,6 @@ export const useExpenseModal = ({
     onError: () => toastError("Erro ao atualizar despesa!"),
   });
 
-  const { data: dataExpense, isFetching: isLoadingDataExpense } = useQuery({
-    ...queries.expense.getById({ expenseId: expenseId! }),
-    enabled: !!expenseId,
-  });
-
   const submit = (formData: SchemaExpenseModal) => {
     if (expenseId) {
       mutateUpdateExpense(formData);
@@ -77,13 +77,14 @@ export const useExpenseModal = ({
       mutateCreateExpense(formData);
     }
   };
-
-  /*  useEffect(() => {
+  /* 
+  useEffect(() => {
     reset({
       amount: dataExpense?.amount,
       description: dataExpense?.description,
-      ///     categoryId: dataExpense?.categoryId,
+      categoryId: dataExpense?.category?.id,
       isPaid: dataExpense?.isPaid,
+      isRecurring: dataExpense?.isRecurring,
     });
   }, [reset, dataExpense]); */
 

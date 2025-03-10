@@ -2,7 +2,7 @@ import { toastError, toastSuccess } from "@/lib/toast";
 import { queries } from "@/queries";
 import { DeleteExpense } from "@/services/expense";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface UseExpenseDetailsParams {
   expenseId?: string;
@@ -10,8 +10,8 @@ interface UseExpenseDetailsParams {
 
 export const useExpenseDetails = () => {
   const { expenseId } = useParams<Partial<UseExpenseDetailsParams>>();
-
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const invalidateExpenseInstallments = () => {
     queryClient.invalidateQueries({
@@ -32,6 +32,7 @@ export const useExpenseDetails = () => {
     onSuccess: () => {
       invalidateExpenseInstallments();
       toastSuccess("Despesa excluída com sucesso");
+      navigate("/expenses");
     },
     onError: () => {
       toastError("Erro ao excluir despesa");

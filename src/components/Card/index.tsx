@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 interface CardProps {
   title?: string;
   titleClass?: string;
-  subtitle?: string;
+  subtitle?: string | ReactNode;
   icon?: ReactNode;
   iconClassName?: string;
   paddingLeft?: boolean;

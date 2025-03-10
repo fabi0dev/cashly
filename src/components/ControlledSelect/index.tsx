@@ -6,7 +6,9 @@ export type ControlledSelectProps<TFieldValues extends FieldValues> = Pick<
   UseControllerProps<TFieldValues>,
   "name" | "control"
 > &
-  SelectProps;
+  SelectProps & {
+    autoFocus?: boolean;
+  };
 
 export const ControlledSelect = <TFieldValues extends FieldValues>({
   name,

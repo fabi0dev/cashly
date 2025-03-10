@@ -1,50 +1,52 @@
 import { Dialog } from "@/components/Dialog";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { Expense } from "@/services/expense";
+import { Installment } from "@/services/expense";
 import { Check } from "lucide-react";
-import { usePayExpenseModal } from "./usePayExpenseModal";
+import { usePayInstallmentModal } from "./usePayInstallmentModal";
 import { DatePicker } from "@/components/DatePicker";
 import { InputLabel } from "@/components/InputLabel";
 import { ControlledSelect } from "@/components/ControlledSelect";
 
-interface PayExpenseModalProps {
+interface PayInstallmentModalProps {
   onClose: () => void;
-  dataExpense: Expense;
+  installment: Installment;
+  expenseId: string;
 }
 
-export const PayExpenseModal = ({
+export const PayInstallmentModal = ({
   onClose,
-  dataExpense,
-}: PayExpenseModalProps) => {
-  const { markAsPaid, isLoading, formMethods, listAccounts } =
-    usePayExpenseModal({
-      expenseId: dataExpense.id,
+  installment,
+  expenseId,
+}: PayInstallmentModalProps) => {
+  const { markAsPaid, isLoading, formMethods, listAccounts, dataExpense } =
+    usePayInstallmentModal({
+      installmentId: installment.id,
+      expenseId,
       onClose,
     });
 
   const { setValue, watch, control } = formMethods;
-
   const selectedAccount = listAccounts?.data.find(
     (item) => item.id == watch("accountId")
   );
 
   return (
     <Dialog
-      title={"Marcar despesa como paga"}
-      description={"Isso irá atualizar da despesa para paga"}
+      title={`Pagar parcela ${installment.installmentNumber}/${dataExpense?.installments.length}`}
+      description={"Isso irá atualizar a situação dessa parcela para paga"}
       open
       onOpenChange={onClose}
-      isLoading={false}
+      isLoading={isLoading}
     >
       <div className="space-y-4">
         <div className="text-sm">
           <div className="flex flex-row items-center gap-2">
             <span className="font-medium">Valor:</span>
-            <span>{formatCurrency(dataExpense.amount)}</span>
+            <span>{formatCurrency(installment.amount)}</span>
           </div>
 
-          {dataExpense.description && (
+          {dataExpense?.description && (
             <div className="flex flex-row items-center gap-2">
               <span className="font-medium">Descrição:</span>
               <span>{dataExpense.description}</span>
@@ -71,7 +73,6 @@ export const PayExpenseModal = ({
             })) || []
           }
         />
-
         <div className="flex flex-col items-end text-xs text-gray-400">
           <div>
             Valor atual da conta:{" "}
@@ -80,7 +81,7 @@ export const PayExpenseModal = ({
           <div>
             Valor após pagar:{" "}
             {formatCurrency(
-              (selectedAccount?.balance || 0) - dataExpense.amount
+              (selectedAccount?.balance || 0) - installment.amount
             )}
           </div>
         </div>
@@ -94,7 +95,7 @@ export const PayExpenseModal = ({
         <Button
           variant={"positive"}
           icon={Check}
-          onClick={() => markAsPaid()}
+          onClick={markAsPaid}
           isLoading={isLoading}
         >
           Pago

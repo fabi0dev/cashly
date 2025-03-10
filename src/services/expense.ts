@@ -26,6 +26,12 @@ export const DeleteExpense = (expenseId: string) =>
 export const MarkPaid = (expenseId: string, data: MarkPaidRequest) =>
   Api().patch<Expense>(`/expense/mark-paid/${expenseId}`, data);
 
+export const MarkInstallmentPaid = (
+  installmentId: string,
+  data: MarkPaidRequest
+) =>
+  Api().patch<Expense>(`/expense/installment/mark-paid/${installmentId}`, data);
+
 export interface Expense {
   id: string;
   userId: string;
@@ -52,7 +58,7 @@ export interface GetAllExpensesResponse {
   totalPages: number;
 }
 
-interface Installment {
+export interface Installment {
   id: string;
   amount: number;
   dueDate: string;

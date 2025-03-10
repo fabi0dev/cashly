@@ -40,12 +40,11 @@ export const AccountItem = ({ item }: AccountItemProps) => {
           <Dropdown
             menuItems={[
               {
-                label: "Editar",
-                onClick: () => setShowAccountModal(true),
-              },
-              {
                 label: "Excluir",
-                onClick: () => setShowConfirmDeleteAccount(true),
+                onClick: (e) => {
+                  e.stopPropagation();
+                  setShowConfirmDeleteAccount(true);
+                },
               },
             ]}
             trigger={

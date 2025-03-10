@@ -13,21 +13,13 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { Avatar } from "../ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { queries } from "@/queries";
 
 interface SidebarProps {
   isOpen: boolean;
 }
-
-const NAV_LINKS = [
-  { label: "Visão Geral", icon: BarChart3, href: "/" },
-  //{ label: "Objetivos", icon: Goal, href: "/goals" },
-  //{ label: "Notificações", icon: Bell, href: "/notifications" },
-  { label: "Despesas", icon: Receipt, href: "/expenses" },
-  { label: "Transações", icon: ArrowRightLeft, href: "/transactions" },
-  { label: "Contas de Banco", icon: PiggyBank, href: "/accounts/list" },
-  { label: "Categorias", icon: Tag, href: "/categories" },
-  { label: "Configurações", icon: Settings, href: "/settings" },
-];
 
 export const Sidebar = ({ isOpen }: SidebarProps) => {
   const location = useLocation();
@@ -40,6 +32,29 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
     const lastName = names[names.length - 1];
     return `${firstName[0]}${lastName[0]}`;
   };
+
+  const { data: dataAccounts } = useQuery({
+    ...queries.account.getAll({ limit: 1 }),
+  });
+
+  const NAV_LINKS = useMemo(
+    () => [
+      { label: "Visão Geral", icon: BarChart3, href: "/" },
+      //{ label: "Objetivos", icon: Goal, href: "/goals" },
+      //{ label: "Notificações", icon: Bell, href: "/notifications" },
+      { label: "Despesas", icon: Receipt, href: "/expenses" },
+      { label: "Transações", icon: ArrowRightLeft, href: "/transactions" },
+      {
+        label: "Contas de Banco",
+        icon: PiggyBank,
+        href: "/accounts/list",
+        badgeHighlight: dataAccounts?.data.length === 0,
+      },
+      { label: "Categorias", icon: Tag, href: "/categories" },
+      { label: "Configurações", icon: Settings, href: "/settings" },
+    ],
+    []
+  );
 
   return (
     <div
@@ -79,7 +94,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
 
       <nav className="flex px-8 py-6">
         <ul className="space-y-1">
-          {NAV_LINKS.map(({ label, icon: Icon, href }) => {
+          {NAV_LINKS.map(({ label, icon: Icon, href, badgeHighlight }) => {
             const isActive = location.pathname === href;
             return (
               <li key={label}>
@@ -93,6 +108,10 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
                   )}
                 >
                   <Icon className="w-5 h-5" />
+                  {badgeHighlight && (
+                    <span className="w-2 h-2 bg-red-400 absolute rounded-full"></span>
+                  )}
+
                   <span>{label}</span>
                 </Link>
               </li>

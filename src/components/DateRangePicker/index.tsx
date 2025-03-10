@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { DateTime } from "luxon";
-import { CalendarIcon } from "lucide-react";
+import { ArrowRight, CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
@@ -80,8 +80,8 @@ export function DateRangePicker({
                 <>
                   {DateTime.fromJSDate(date.from)
                     .setLocale("pt-BR")
-                    .toFormat("LLL dd, y")}{" "}
-                  até{" "}
+                    .toFormat("LLL dd  y")}{" "}
+                  <ArrowRight />
                   {DateTime.fromJSDate(date.to)
                     .setLocale("pt-BR")
                     .toFormat("LLL dd, y")}

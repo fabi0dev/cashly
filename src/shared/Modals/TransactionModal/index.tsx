@@ -1,15 +1,15 @@
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
 import { useTransactionModal } from "./useTransactionModal";
 import { DatePicker } from "@/components/DatePicker";
-import { CurrencyInput } from "react-currency-mask";
 import { formatCurrency } from "@/lib/utils";
 import { ControlledSelect } from "@/components/ControlledSelect";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
+import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
 
 interface TransactionModalProps {
   transactionId?: string;
@@ -26,7 +26,6 @@ export function TransactionModal({
     register,
     setValue,
     watch,
-    errors,
     submit,
     control,
 
@@ -46,10 +45,8 @@ export function TransactionModal({
   );
 
   useEffect(() => {
-    if (accountSelected && accountSelected.balance == 0) {
-      setValue("type", "ENTRY");
-    }
-  }, [accountSelected, setValue]);
+    setValue("type", "ENTRY");
+  }, [setValue]);
 
   return (
     <Dialog
@@ -60,7 +57,7 @@ export function TransactionModal({
     >
       <form onSubmit={submit} className="space-y-4">
         <div className="flex flex-row gap-3">
-          {accountSelected && accountSelected?.balance > 0 && (
+          {/* {accountSelected && accountSelected?.balance > 0 && (
             <button
               type="button"
               onClick={() => setValue("type", "EXIT")}
@@ -73,7 +70,7 @@ export function TransactionModal({
               <TrendingDown className="w-4 h-4" />
               <span className="font-medium">Despesa</span>
             </button>
-          )}
+          )} */}
 
           <button
             type="button"
@@ -110,41 +107,28 @@ export function TransactionModal({
               placeholder="Selecione a categoria"
             />
           </div>
-          <p className="text-red-500 text-sm">{errors.categoryId?.message}</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium mb-1">Valor</label>
-
-            <CurrencyInput
-              value={amount}
-              onChangeValue={(_, value) => {
-                setValue("amount", Number(value));
-              }}
-              InputElement={<Input placeholder="0,00" />}
-              currency={"BRL"}
-            />
-
-            <p className="text-red-500 text-sm">{errors.amount?.message}</p>
-          </div>
+          <ControlledInputCurrency
+            label="Valor"
+            control={control}
+            name="amount"
+          />
 
           <div>
             <label className="block text-sm font-medium  mb-1">Data</label>
-            <div className="relative">
-              <Controller
-                name={"date"}
-                control={control}
-                render={({ field }) => (
-                  <DatePicker
-                    value={field.value ?? ""}
-                    onValueChange={(value) => field.onChange(value)}
-                    placeholder="Data da transação"
-                  />
-                )}
-              />
-            </div>
-            <p className="text-red-500 text-sm">{errors.date?.message}</p>
+            <Controller
+              name={"date"}
+              control={control}
+              render={({ field }) => (
+                <DatePicker
+                  value={field.value ?? ""}
+                  onValueChange={(value) => field.onChange(value)}
+                  placeholder="Data da transação"
+                />
+              )}
+            />
           </div>
         </div>
 
@@ -157,26 +141,20 @@ export function TransactionModal({
             }
             autoFocus
           />
-          <p className="text-red-500 text-sm">{errors.description?.message}</p>
         </div>
 
         <div>
-          <label className="block text-sm font-medium  mb-1">
-            Conta do banco
-          </label>
-          <div className="relative">
-            <ControlledSelect
-              control={control}
-              name="accountId"
-              options={
-                listAccounts?.data.map((account) => ({
-                  value: account.id,
-                  label: account.name,
-                })) || []
-              }
-            />
-          </div>
-          <p className="text-red-500 text-sm">{errors.categoryId?.message}</p>
+          <ControlledSelect
+            label="Conta do banco"
+            control={control}
+            name="accountId"
+            options={
+              listAccounts?.data.map((account) => ({
+                value: account.id,
+                label: account.name,
+              })) || []
+            }
+          />
         </div>
 
         <div className="text-xs mt-1 text-right text-foreground/60 space-y-1">

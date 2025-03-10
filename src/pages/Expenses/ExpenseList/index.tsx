@@ -50,7 +50,7 @@ export const ExpenseList = () => {
         </Button>
       }
     >
-      <div onClick={() => {}} className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
         <div>
           <div className="flex justify-end py-2">
             <Button
@@ -119,7 +119,7 @@ export const ExpenseList = () => {
                 description="Crie uma despesa para começar"
               />
             )}
-            href={(item) => `/expenses/details/${item.expenseId}`}
+            //href={(item) => `/expenses/details/${item.expenseId}`}
             renderExtraRow={() => (
               <List.Row className="pt-1">
                 <List.Td></List.Td>

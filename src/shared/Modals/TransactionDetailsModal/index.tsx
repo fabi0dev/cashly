@@ -119,7 +119,7 @@ export function TransactionDetailsModal({
 
           <div>
             <h3 className="text-sm font-medium text-gray-500 mb-1">
-              ID da Transação
+              Identificador
             </h3>
             <p className="text-sm font-mono text-gray-400">
               #{dataTransaction?.id}

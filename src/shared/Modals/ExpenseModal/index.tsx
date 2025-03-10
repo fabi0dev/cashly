@@ -46,18 +46,10 @@ export function ExpenseModal({
       isLoading={isLoadingManager}
     >
       <form onSubmit={submit} className="space-y-4">
-        <ControlledInput
-          control={control}
-          label="Descrição"
-          placeholder="Descrição da despesa"
-          name="description"
-          autoFocus
-          autoComplete="off"
-        />
-
         <div className="flex flex-rows gap-3">
           <div className="flex-1">
             <ControlledSelect
+              autoFocus
               label="Categoria"
               control={control}
               name="categoryId"
@@ -74,19 +66,6 @@ export function ExpenseModal({
 
           <div className="flex-1">
             <label className="block text-sm font-medium mb-1">
-              Data da despesa
-            </label>
-            <DatePicker
-              value={watch("date")}
-              onValueChange={(date) => setValue("date", date)}
-              isError={!!errors.date?.message}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-row gap-3">
-          <div className="flex-1">
-            <label className="block text-sm font-medium mb-1">
               Data de Vencimento
             </label>
             <DatePicker
@@ -95,12 +74,27 @@ export function ExpenseModal({
               isError={!!errors.dueDate?.message}
             />
           </div>
+        </div>
 
-          <ControlledInputCurrency
-            label="Valor"
-            name="amount"
-            control={control}
-          />
+        <div className="flex flex-row gap-3">
+          <div className="flex-1">
+            <label className="block text-sm font-medium mb-1">
+              Data da despesa
+            </label>
+            <DatePicker
+              value={watch("date")}
+              onValueChange={(date) => setValue("date", date)}
+              isError={!!errors.date?.message}
+            />
+          </div>
+
+          <div className="flex-1">
+            <ControlledInputCurrency
+              label="Valor"
+              name="amount"
+              control={control}
+            />
+          </div>
         </div>
 
         <ControlledSelect
@@ -132,6 +126,14 @@ export function ExpenseModal({
             )}
           </div>
         )}
+
+        <ControlledInput
+          control={control}
+          label="Descrição"
+          placeholder="Descrição da despesa"
+          name="description"
+          autoComplete="off"
+        />
 
         {watch("type") === "Recurring" && (
           <div>
