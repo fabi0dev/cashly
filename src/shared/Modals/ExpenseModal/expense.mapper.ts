@@ -8,7 +8,7 @@ const toOnlyType = (data: SchemaExpenseModal): ExpenseCreateRequest => {
     amount: data.amount,
     dueDate: data.dueDate,
     date: data.date,
-    isPaid: false,
+    isPaid: data.isPaid,
     isRecurring: false,
   };
 };

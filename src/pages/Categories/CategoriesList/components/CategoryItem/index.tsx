@@ -7,14 +7,24 @@ import { useCategoryItem } from "./useCategoryItem";
 import { CategoryModal } from "@/shared/Modals/CategoryModal";
 import { useState } from "react";
 import { getCategoryImportanceLevel } from "@/constants/CategoryImportanceLevel";
+import { Spinner } from "@/components/Spinner";
+import { ConfirmDialog } from "@/components/ConfirmDialog";
 
 interface CategoryItemProps {
   item: Category;
 }
 
 export const CategoryItem = ({ item }: CategoryItemProps) => {
-  const { mutationFavorite } = useCategoryItem();
+  const {
+    mutationFavorite,
+    isLoadingFavorite,
+
+    mutationDelete,
+    isLoadingDelete,
+  } = useCategoryItem();
+
   const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showCategoryDelete, setShowCategoryDelete] = useState(false);
 
   return (
     <>
@@ -24,23 +34,27 @@ export const CategoryItem = ({ item }: CategoryItemProps) => {
           {item.type === "EXPENSE" && "Despesa"}
           {item.type === "INCOME" && "Receita"}
         </List.Td>
+
+        <List.Td>{getCategoryImportanceLevel(item.importanceLevel)}</List.Td>
+
         <List.Td className="flex justify-center">
-          {item.isFavorite && (
+          {isLoadingFavorite && <Spinner />}
+
+          {item.isFavorite && !isLoadingFavorite && (
             <Star
               onClick={() => mutationFavorite(item)}
               className="text-yellow-500"
               size={18}
             />
           )}
-          {!item.isFavorite && (
+          {!item.isFavorite && !isLoadingFavorite && (
             <Star
               size={18}
               onClick={() => mutationFavorite(item)}
-              className="hover:text-yellow-500"
+              className="text-gray-500 hover:text-yellow-500"
             />
           )}
         </List.Td>
-        <List.Td>{getCategoryImportanceLevel(item.importanceLevel)}</List.Td>
 
         <List.Td className="flex justify-end">
           <Dropdown
@@ -51,7 +65,7 @@ export const CategoryItem = ({ item }: CategoryItemProps) => {
               },
               {
                 label: "Excluir",
-                onClick: () => {},
+                onClick: () => setShowCategoryDelete(true),
               },
             ]}
             trigger={
@@ -67,6 +81,17 @@ export const CategoryItem = ({ item }: CategoryItemProps) => {
         <CategoryModal
           categoryId={item.id}
           onClose={() => setShowCategoryModal(false)}
+        />
+      )}
+
+      {showCategoryDelete && (
+        <ConfirmDialog
+          open
+          isLoading={isLoadingDelete}
+          onOpenChange={() => setShowCategoryDelete(false)}
+          description={"Você tem certeza que deseja excluir essa categoria?"}
+          onConfirm={() => mutationDelete(item.id)}
+          onCancel={() => setShowCategoryDelete(false)}
         />
       )}
     </>

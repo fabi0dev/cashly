@@ -14,7 +14,7 @@ import { ReactNode } from "react";
 interface MenuItem {
   label: string;
   shortcut?: string;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   disabled?: boolean;
   subItems?: MenuItem[];
 }
@@ -54,10 +54,7 @@ function MenuItemComponent({ item }: { item: MenuItem }) {
   }
   return (
     <DropdownMenuItem
-      onClick={(e) => {
-        e.stopPropagation();
-        item.onClick?.();
-      }}
+      onClick={(e) => item.onClick?.(e)}
       disabled={item.disabled}
     >
       {item.label}

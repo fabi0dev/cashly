@@ -10,6 +10,7 @@ export const expenseSchema = Yup.object({
   description: Yup.string(),
 
   isRecurring: Yup.boolean().default(false),
+  isPaid: Yup.boolean().default(false),
 
   recurrenceType: Yup.string<RecurrenceType>()
     .oneOf(["DAILY", "WEEKLY", "MONTHLY", "YEARLY"])

@@ -20,3 +20,4 @@ export const formatDateLabel = (dateStr: string): string => {
 };
 
 export const currentDate = () => DateTime.now().toFormat("dd/MM/yyyy");
+export const currentDateISO = () => DateTime.now().toFormat("yyyy-MM-dd");

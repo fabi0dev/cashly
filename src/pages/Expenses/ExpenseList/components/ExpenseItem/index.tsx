@@ -10,7 +10,7 @@ import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
 import { useExpenseItem } from "./useExpenseItem";
 import { ExpenseDetailsModal } from "@/shared/Modals/ExpenseDetailsModal";
 import { ExpenseInstallment } from "@/services/expense-installments";
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "@/components/Badge";
 
 interface ExpenseItemProps {
   installment: ExpenseInstallment;
@@ -54,11 +54,7 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
         <List.Td className="text-gray-900 gap-2">
           {installment.description}
 
-          {installment.category && (
-            <Badge className="bg-gray-100/50">
-              {installment.category?.name}
-            </Badge>
-          )}
+          {installment.category && <Badge>{installment.category?.name}</Badge>}
         </List.Td>
 
         <List.Td className="gap-2">
@@ -74,15 +70,22 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
             menuItems={[
               {
                 label: "Detalhes da despesa",
-                onClick: () => setShowExpenseDetails(true),
+                onClick: (e) => {
+                  e.stopPropagation();
+                  setShowExpenseDetails(true);
+                },
               },
               {
                 label: "Editar",
-                onClick: () => setShowTransactionModal(true),
+                onClick: (e) => {
+                  e.stopPropagation();
+                  setShowTransactionModal(true);
+                },
               },
               {
                 label: "Excluir",
-                onClick: () => {
+                onClick: (e) => {
+                  e.stopPropagation();
                   setShowConfirmDeleteExpense(true);
                 },
               },

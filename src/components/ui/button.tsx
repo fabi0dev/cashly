@@ -22,6 +22,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-input-foreground hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+
+        positive: "bg-green-600 text-white hover:bg-green-600",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -64,10 +66,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
+        disabled={props.disabled || isLoading}
         {...props}
       >
         {isLoading && <Spinner size={18} className="mr-2" />}
-        {Icon && <Icon className="size-4" />}
+        {Icon && !isLoading && <Icon className="size-4" />}
         {children}
       </Comp>
     );

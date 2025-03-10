@@ -23,17 +23,12 @@ export const useExpenseModal = ({
       ...queries.categories.getAll(),
     });
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    control,
-    formState: { errors },
-  } = useForm<SchemaExpenseModal>({
+  const formMethods = useForm<SchemaExpenseModal>({
     resolver: yupResolver(expenseSchema),
     defaultValues: expenseSchema.getDefault(),
   });
+
+  const { handleSubmit } = formMethods;
 
   const invalidateExpenseList = () => {
     queryClient.invalidateQueries({ queryKey: queries.expense.getAll._def });
@@ -93,10 +88,7 @@ export const useExpenseModal = ({
   }, [reset, dataExpense]); */
 
   return {
-    register,
-    setValue,
-    watch,
-    errors,
+    formMethods,
 
     dataExpense,
     isLoadingDataExpense,
@@ -109,6 +101,5 @@ export const useExpenseModal = ({
     isLoadingManager: isLoadingCategoriesData,
 
     categoriesData,
-    control,
   };
 };

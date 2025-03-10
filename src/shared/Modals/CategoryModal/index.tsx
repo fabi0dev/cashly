@@ -18,22 +18,20 @@ export function CategoryModal({
   isOpen = true,
   onClose,
 }: CategoryModalProps) {
-  const { formMethods, submit, isLoadingManager } = useCategoryModal({
-    categoryId,
-    onClose,
-  });
+  const { formMethods, submit, isLoadingDataCategory, isLoadingManager } =
+    useCategoryModal({
+      categoryId,
+      onClose,
+    });
 
-  const {
-    control,
-    formState: { errors },
-  } = formMethods;
-  console.log(errors);
+  const { control } = formMethods;
 
   return (
     <Dialog
       title={!categoryId ? "Nova Categoria" : "Editar Categoria"}
       open={isOpen}
       onOpenChange={onClose}
+      isLoading={isLoadingDataCategory}
     >
       <FormContainer onSubmit={submit} className="space-y-4">
         <ControlledInput

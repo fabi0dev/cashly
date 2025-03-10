@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
-import { CurrencyInput } from "react-currency-mask";
-import { cn, formatCurrency } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { useExpenseModal } from "./useExpenseModal";
 import { ControlledSelect } from "@/components/ControlledSelect";
 import { DatePicker } from "@/components/DatePicker";
 import { ExpenseType, RecurrenceTypeLabels } from "./schema";
+import { ControlledInput } from "@/components/ControlledInput";
+import { ControlledCheckboxInput } from "@/components/ControlledCheckbox";
+import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
 
 interface ExpenseModalProps {
   expenseId?: string;
@@ -19,20 +21,19 @@ export function ExpenseModal({
   isOpen,
   onClose,
 }: ExpenseModalProps) {
+  const { submit, isLoading, isLoadingManager, categoriesData, formMethods } =
+    useExpenseModal({
+      expenseId,
+      onClose,
+    });
+
   const {
     register,
     setValue,
-    errors,
     watch,
-    submit,
-    isLoading,
-    isLoadingManager,
-    categoriesData,
     control,
-  } = useExpenseModal({
-    expenseId,
-    onClose,
-  });
+    formState: { errors },
+  } = formMethods;
 
   const amount = watch("amount");
   const installments = watch("installments");
@@ -45,21 +46,19 @@ export function ExpenseModal({
       isLoading={isLoadingManager}
     >
       <form onSubmit={submit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Descrição</label>
-          <Input
-            {...register("description")}
-            placeholder="Descrição da despesa"
-            className={cn(errors.description?.message && "border-red-400")}
-            autoFocus
-            autoComplete="off"
-          />
-        </div>
+        <ControlledInput
+          control={control}
+          label="Descrição"
+          placeholder="Descrição da despesa"
+          name="description"
+          autoFocus
+          autoComplete="off"
+        />
 
         <div className="flex flex-rows gap-3">
           <div className="flex-1">
-            <label className="block text-sm font-medium mb-1">Categoria</label>
             <ControlledSelect
+              label="Categoria"
               control={control}
               name="categoryId"
               options={
@@ -70,27 +69,9 @@ export function ExpenseModal({
                     value: item.id,
                   })) || []
               }
-              className={cn(errors.categoryId?.message && "border-red-400")}
             />
           </div>
 
-          <div className="flex-2">
-            <label className="block text-sm font-medium mb-1">Valor</label>
-            <CurrencyInput
-              value={watch("amount")}
-              onChangeValue={(_, value) => setValue("amount", Number(value))}
-              InputElement={
-                <Input
-                  placeholder="0,00"
-                  className={cn(errors.amount?.message && "border-red-400")}
-                />
-              }
-              currency={"BRL"}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-row gap-3">
           <div className="flex-1">
             <label className="block text-sm font-medium mb-1">
               Data da despesa
@@ -98,10 +79,12 @@ export function ExpenseModal({
             <DatePicker
               value={watch("date")}
               onValueChange={(date) => setValue("date", date)}
-              className={cn(errors.date?.message && "border-red-400")}
+              isError={!!errors.date?.message}
             />
           </div>
+        </div>
 
+        <div className="flex flex-row gap-3">
           <div className="flex-1">
             <label className="block text-sm font-medium mb-1">
               Data de Vencimento
@@ -109,22 +92,26 @@ export function ExpenseModal({
             <DatePicker
               value={watch("dueDate")}
               onValueChange={(date) => setValue("dueDate", date)}
-              className={cn(errors.dueDate?.message && "border-red-400")}
+              isError={!!errors.dueDate?.message}
             />
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Tipo</label>
-          <ControlledSelect
-            name="type"
+          <ControlledInputCurrency
+            label="Valor"
+            name="amount"
             control={control}
-            options={Object.entries(ExpenseType).map(([key, value]) => ({
-              label: value,
-              value: key,
-            }))}
           />
         </div>
+
+        <ControlledSelect
+          label="Tipo"
+          name="type"
+          control={control}
+          options={Object.entries(ExpenseType).map(([key, value]) => ({
+            label: value,
+            value: key,
+          }))}
+        />
 
         {watch("type") === "Installments" && (
           <div>
@@ -164,6 +151,12 @@ export function ExpenseModal({
             />
           </div>
         )}
+
+        <ControlledCheckboxInput
+          control={control}
+          name="isPaid"
+          label="Despesa paga"
+        />
 
         <div className="flex justify-end gap-4">
           <Button type="submit" isLoading={isLoading}>

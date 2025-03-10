@@ -16,6 +16,7 @@ export interface SelectProps {
   label?: string;
   className?: string;
   onValueChange?: (value: string) => void;
+  isError?: boolean;
 }
 
 export function Select({
@@ -25,6 +26,7 @@ export function Select({
   label,
   className,
   onValueChange,
+  isError,
   ...props
 }: SelectProps) {
   return (
@@ -35,7 +37,10 @@ export function Select({
         value={value?.toString() ?? ""}
         {...props}
       >
-        <SelectTrigger className={cn("w-full", className)}>
+        <SelectTrigger
+          className={cn("w-full", className)}
+          data-error={isError ? "true" : "false"}
+        >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent>

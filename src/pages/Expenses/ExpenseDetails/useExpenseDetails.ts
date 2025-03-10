@@ -1,5 +1,7 @@
+import { toastError, toastSuccess } from "@/lib/toast";
 import { queries } from "@/queries";
-import { useQuery } from "@tanstack/react-query";
+import { DeleteExpense } from "@/services/expense";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 
 interface UseExpenseDetailsParams {
@@ -9,13 +11,38 @@ interface UseExpenseDetailsParams {
 export const useExpenseDetails = () => {
   const { expenseId } = useParams<Partial<UseExpenseDetailsParams>>();
 
+  const queryClient = useQueryClient();
+
+  const invalidateExpenseInstallments = () => {
+    queryClient.invalidateQueries({
+      queryKey: queries.expenseInstallments.getAll._def,
+    });
+  };
+
   const { data: dataExpense, isFetching: isLoadingExpense } = useQuery({
     ...queries.expense.getById({ expenseId: expenseId! }),
     enabled: !!expenseId,
   });
 
+  const {
+    mutateAsync: mutateDeleteExpense,
+    isPending: isLoadingDeleteExpense,
+  } = useMutation({
+    mutationFn: async (expenseId: string) => await DeleteExpense(expenseId),
+    onSuccess: () => {
+      invalidateExpenseInstallments();
+      toastSuccess("Despesa excluída com sucesso");
+    },
+    onError: () => {
+      toastError("Erro ao excluir despesa");
+    },
+  });
+
   return {
     dataExpense,
     isLoadingExpense,
+
+    mutateDeleteExpense,
+    isLoadingDeleteExpense,
   };
 };

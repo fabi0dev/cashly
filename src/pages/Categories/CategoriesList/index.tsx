@@ -6,6 +6,7 @@ import { CategoryItem } from "./components/CategoryItem";
 import { Button } from "@/components/ui/button";
 import { CategoryModal } from "@/shared/Modals/CategoryModal";
 import { useState } from "react";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 
 export const Categories = () => {
   const { isLoading: isLoadingCategories, data: dataCategories } = useQuery({
@@ -32,12 +33,14 @@ export const Categories = () => {
             label: "Tipo",
           },
           {
+            label: "Relevância",
+          },
+
+          {
             label: "Favorita",
             className: "justify-center",
           },
-          {
-            label: "Relevância",
-          },
+
           {
             label: "",
           },
@@ -45,6 +48,9 @@ export const Categories = () => {
         isLoading={isLoadingCategories}
         data={dataCategories}
         render={(item) => <CategoryItem item={item} />}
+        renderEmpty={() => (
+          <EmptyPlaceholder description="Nenhum categoria cadastrada" />
+        )}
       />
 
       {showCategoryModal && (

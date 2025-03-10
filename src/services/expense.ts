@@ -18,10 +18,13 @@ export const CreateExpense = (data: ExpenseCreateRequest) =>
   Api().post<Expense>("/expense", data);
 
 export const UpdateExpense = (expenseId: string, data: ExpenseUpdateRequest) =>
-  Api().put<Expense>(`/expense/${expenseId}`, data);
+  Api().patch<Expense>(`/expense/${expenseId}`, data);
 
 export const DeleteExpense = (expenseId: string) =>
   Api().delete<Expense>(`/expense/${expenseId}`);
+
+export const MarkPaid = (expenseId: string, data: MarkPaidRequest) =>
+  Api().patch<Expense>(`/expense/mark-paid/${expenseId}`, data);
 
 export interface Expense {
   id: string;
@@ -53,7 +56,7 @@ interface Installment {
   id: string;
   amount: number;
   dueDate: string;
-  paymentDate?: Date | null;
+  paymentDate?: string | null;
   installmentNumber: number;
   totalInstallments: number;
   isPaid: boolean;
@@ -78,4 +81,8 @@ export interface ExpenseCreateRequest {
   recurrenceEndDate?: string;
 }
 
-export type ExpenseUpdateRequest = ExpenseCreateRequest;
+export type ExpenseUpdateRequest = Partial<ExpenseCreateRequest>;
+
+export type MarkPaidRequest = {
+  accountId?: string;
+};

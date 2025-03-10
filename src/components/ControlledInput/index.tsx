@@ -23,17 +23,14 @@ export const ControlledInput = <TFieldValues extends FieldValues>({
     <Controller
       name={name}
       control={control}
-      render={({ field, formState: { errors } }) => (
+      render={({ field, fieldState: { error } }) => (
         <div>
           {label && <InputLabel>{label}</InputLabel>}
           <Input
             {...field}
             value={field.value ?? ""}
-            className={cn(
-              errors.name?.message &&
-                "border-red-400 focus-visible:ring-red-400",
-              className
-            )}
+            className={cn(className)}
+            data-error={error?.message ? "true" : "false"}
             {...props}
           />
         </div>

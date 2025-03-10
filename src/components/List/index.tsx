@@ -41,7 +41,8 @@ export const List = <T,>({
   const { currentPage, setPage } = usePagination();
 
   useEffect(() => {
-    if (pagination) {
+    if (pagination && pagination.totalPages > 0) {
+      console.log("veio");
       if (pagination.totalPages < currentPage) {
         setPage(pagination.totalPages || 1);
       } else if (pagination.totalPages === 0) {

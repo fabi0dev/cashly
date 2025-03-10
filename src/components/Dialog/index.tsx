@@ -12,12 +12,14 @@ interface DialogProps extends DialogShadcnProps {
   title: string;
   children: React.ReactNode;
   isLoading?: boolean;
+  description?: string;
 }
 
 export const Dialog = ({
   title,
   children,
   isLoading,
+  description,
   ...props
 }: DialogProps) => {
   return (
@@ -29,8 +31,8 @@ export const Dialog = ({
           </div>
         )}
         <DialogHeader className="mb-2">
-          <DialogDescription></DialogDescription>
           <DialogTitle className="text-xl">{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
 
         {children}
