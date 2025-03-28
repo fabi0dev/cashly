@@ -2,7 +2,7 @@ import { ExternalToast, toast } from "sonner";
 
 const defaultOptions: ExternalToast = {
   classNames: { title: "text-sm" },
-  className: "shadow-xl dark:bg-gray-700",
+  className: "shadow-xl dark:bg-gray-700 border-0",
   position: "bottom-center",
 };
 
