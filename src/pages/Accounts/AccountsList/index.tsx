@@ -6,6 +6,7 @@ import { AccountModal } from "@/shared/Modals/AccountModal";
 import { queries } from "@/queries";
 import { List } from "@/components/List";
 import { AccountItem } from "./components/AccountItem";
+import { EmptyPlaceholder } from "@/components/EmptyPlaceholder";
 
 export const AccountsList = () => {
   const { isLoading: isLoadingAccounts, data: dataAccounts } = useQuery({
@@ -44,17 +45,10 @@ export const AccountsList = () => {
         isLoading={isLoadingAccounts}
         render={(item) => <AccountItem item={item} />}
         renderEmpty={() => (
-          <div className="flex flex-col items-center justify-center gap-4 py-10">
-            <div>
-              <img src="/ui/piggy-bank.png" className="w-36 opacity-80" />
-            </div>
-            <div className="text-gray-900 dark:text-gray-400 text-center">
-              <div className="font-bold">Nada para mostrar</div>
-              <div className="text-gray-500">
-                Você ainda não cadastrou nenhuma conta
-              </div>
-            </div>
-          </div>
+          <EmptyPlaceholder
+            title="Nenhuma conta"
+            description="Você precisa de pelo menos uma conta para começar"
+          />
         )}
       />
 

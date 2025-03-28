@@ -38,16 +38,22 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
       </List.Td>
 
       <List.Td className="text-gray-900">
-        <Badge
-          className={cn(
-            !installment.isPaid &&
-              "bg-yellow-500/20 text-yellow-700 dark:text-yellow-500",
-            installment.isPaid &&
-              "bg-green-600/20 text-green-700 dark:text-green-400"
-          )}
-        >
-          {installment.isPaid ? "Pago" : "A pagar"}
-        </Badge>
+        {!installment.isPaid && new Date() > new Date(installment.dueDate) ? (
+          <Badge className={cn("bg-red-500/20 text-red-700 dark:text-red-400")}>
+            Em atraso
+          </Badge>
+        ) : (
+          <Badge
+            className={cn(
+              !installment.isPaid &&
+                "bg-yellow-500/20 text-yellow-700 dark:text-yellow-500",
+              installment.isPaid &&
+                "bg-green-600/20 text-green-700 dark:text-green-400"
+            )}
+          >
+            {installment.isPaid ? "Pago" : "A pagar"}
+          </Badge>
+        )}
       </List.Td>
 
       <List.Td className="text-gray-900 gap-2">

@@ -16,7 +16,7 @@ export const Dashboard = () => {
       rightContentHeader={
         <Button onClick={() => setShowTransactionModal(true)}>
           <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Nova Transação</span>
+          <span className="hidden sm:inline">Nova Entrada</span>
         </Button>
       }
       hideGoBack

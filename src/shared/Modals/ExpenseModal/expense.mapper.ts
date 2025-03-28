@@ -23,17 +23,6 @@ const toInstallmentsType = (data: SchemaExpenseModal): ExpenseCreateRequest => {
   };
 };
 
-const toRecurringType = (data: SchemaExpenseModal): ExpenseCreateRequest => {
-  return {
-    description: data.description,
-    categoryId: data.categoryId,
-    amount: data.amount,
-    dueDate: data.dueDate,
-    isPaid: false,
-    isRecurring: true,
-  };
-};
-
 export const ExpenseMapper = {
   toInsert: (data: SchemaExpenseModal): ExpenseCreateRequest => {
     switch (data.type) {
@@ -41,8 +30,6 @@ export const ExpenseMapper = {
         return toOnlyType(data);
       case "Installments":
         return toInstallmentsType(data);
-      case "Recurring":
-        return toRecurringType(data);
     }
   },
 };

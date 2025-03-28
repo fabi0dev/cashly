@@ -32,7 +32,7 @@ export const CategoryItem = ({ item }: CategoryItemProps) => {
         <List.Td>{item.name}</List.Td>
         <List.Td>
           {item.type === "EXPENSE" && "Despesa"}
-          {item.type === "INCOME" && "Receita"}
+          {item.type === "INCOME" && "Entrada"}
         </List.Td>
 
         <List.Td>{getCategoryImportanceLevel(item.importanceLevel)}</List.Td>

@@ -1,4 +1,3 @@
-import { TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { ControlledSelect } from "@/components/ControlledSelect";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
+import { Link } from "react-router-dom";
 
 interface TransactionModalProps {
   transactionId?: string;
@@ -50,42 +50,12 @@ export function TransactionModal({
 
   return (
     <Dialog
-      title={!transactionId ? "Nova Transação" : "Transação"}
+      title={!transactionId ? "Nova Entrada" : "Transação"}
       open={isOpen}
       onOpenChange={onClose}
       isLoading={isPreLoadings}
     >
       <form onSubmit={submit} className="space-y-4">
-        <div className="flex flex-row gap-3">
-          {/* {accountSelected && accountSelected?.balance > 0 && (
-            <button
-              type="button"
-              onClick={() => setValue("type", "EXIT")}
-              className={`flex flex-1 items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
-                transactionType === "EXIT"
-                  ? "bg-red-50 dark:bg-red-800/20 border-red-200 dark:border-red-500/40 text-red-600 dark:text-red-400"
-                  : "border-gray-200 dark:border-gray-400 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
-              }`}
-            >
-              <TrendingDown className="w-4 h-4" />
-              <span className="font-medium">Despesa</span>
-            </button>
-          )} */}
-
-          <button
-            type="button"
-            onClick={() => setValue("type", "ENTRY")}
-            className={`flex flex-1 items-center justify-center gap-2 px-4 py-2.5 rounded-lg border transition-colors ${
-              transactionType === "ENTRY"
-                ? "bg-green-50 dark:bg-green-800/20 border-green-500 dark:border-green-500/40 text-green-600 dark:green-red-400"
-                : "border-gray-200 dark:border-gray-400 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-600"
-            }`}
-          >
-            <TrendingUp className="w-4 h-4" />
-            <span className="font-medium">Receita</span>
-          </button>
-        </div>
-
         <div>
           <label className="block text-sm font-medium mb-1">Categoria</label>
           <div className="relative">
@@ -105,7 +75,19 @@ export function TransactionModal({
                   label: category.name,
                 }))}
               placeholder="Selecione a categoria"
+              autoFocus
             />
+            <div>
+              {categoriesData?.filter((item) => item.type == "INCOME")
+                .length === 0 && (
+                <Link
+                  to={"/categories"}
+                  className="flex justify-end items-center gap-1 text-xs p-1 text-yellow-600"
+                >
+                  * Cadastre categorias de entradas
+                </Link>
+              )}
+            </div>
           </div>
         </div>
 
@@ -139,7 +121,6 @@ export function TransactionModal({
             placeholder={
               transactionType === "EXIT" ? "Compras no supermercado" : "Salário"
             }
-            autoFocus
           />
         </div>
 
@@ -160,7 +141,7 @@ export function TransactionModal({
         <div className="text-xs mt-1 text-right text-foreground/60 space-y-1">
           {accountSelected && (
             <div>
-              <span className="font-bold">Saldo: </span>{" "}
+              <span className="font-bold">Saldo atual: </span>{" "}
               {formatCurrency(accountSelected.balance)}
             </div>
           )}

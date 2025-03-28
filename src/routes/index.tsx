@@ -5,21 +5,32 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
-import { Login } from "@/pages/Login";
 import { PrivateRoutes } from "./PrivateRoutes";
+import { AuthRoutes } from "./AuthRoutes";
 
 const PrivateRoute = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-
   return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 };
 
+const PublicRoute = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  return isAuthenticated ? <Navigate to="/" replace /> : <Outlet />;
+};
+
 const router = createBrowserRouter([
-  { path: "/login", element: <Login /> },
   {
     path: "/",
     element: <PrivateRoute />,
     children: PrivateRoutes,
+  },
+  {
+    element: <PublicRoute />,
+    children: AuthRoutes,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/" replace />,
   },
 ]);
 

@@ -6,7 +6,6 @@ import {
   CreditCard,
   Edit,
   FileText,
-  Repeat,
   Tag,
   Trash,
 } from "lucide-react";
@@ -23,21 +22,6 @@ import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { Spinner } from "@/components/Spinner";
 import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
 import { InstallmentItem } from "./components/InstallmentItem";
-
-const formatRecurrenceType = (type: string) => {
-  switch (type) {
-    case "DAILY":
-      return "Daily";
-    case "WEEKLY":
-      return "Weekly";
-    case "MONTHLY":
-      return "Monthly";
-    case "YEARLY":
-      return "Yearly";
-    default:
-      return type;
-  }
-};
 
 export const ExpenseDetails = () => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -112,30 +96,6 @@ export const ExpenseDetails = () => {
                   </div>
                 </div>
               </div>
-
-              {dataExpense.isRecurring && (
-                <>
-                  <Divider />
-                  <div>
-                    <div className="flex items-center space-x-2 mb-3">
-                      <Repeat className="h-5 w-5 text-muted-foreground" />
-                      <h3 className="text-sm font-medium">
-                        Recurrence Details
-                      </h3>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-7">
-                      <div>
-                        <p className="text-sm font-medium">Frequency</p>
-                        <p className="text-sm text-muted-foreground">
-                          {formatRecurrenceType(
-                            dataExpense.recurrenceType || ""
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
             </Card>
 
             {dataExpense.installments &&

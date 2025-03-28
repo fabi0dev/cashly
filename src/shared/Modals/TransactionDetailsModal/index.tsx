@@ -43,7 +43,7 @@ export function TransactionDetailsModal({
             <TrendingDown className="w-4 h-4" />
           )}
           <span className="font-medium capitalize">
-            {dataTransaction?.type === "ENTRY" ? "Receita" : "Despesa"}
+            {dataTransaction?.type === "ENTRY" ? "Entrada" : "Despesa"}
           </span>
         </div>
 

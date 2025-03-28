@@ -105,7 +105,7 @@ export const AccountItem = ({ item }: AccountItemProps) => {
           }
           onConfirm={() => mutateDeleteAccount(item.id)}
           onCancel={() => setShow2ConfirmDeleteAccount(false)}
-          confirmText="Sim quero excluir"
+          confirmText="Sim, tenho certeza"
         />
       )}
     </>

@@ -8,7 +8,6 @@ import {
   Receipt,
   Settings,
   Tag,
-  Wallet,
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Avatar } from "../ui/avatar";
@@ -16,6 +15,7 @@ import { AvatarFallback } from "@radix-ui/react-avatar";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queries } from "@/queries";
+import { Logo } from "../Logo";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -37,11 +37,13 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
     ...queries.account.getAll({ limit: 1 }),
   });
 
+  const { data: dataCategories } = useQuery({
+    ...queries.categories.getAll(),
+  });
+
   const NAV_LINKS = useMemo(
     () => [
       { label: "Visão Geral", icon: BarChart3, href: "/" },
-      //{ label: "Objetivos", icon: Goal, href: "/goals" },
-      //{ label: "Notificações", icon: Bell, href: "/notifications" },
       { label: "Despesas", icon: Receipt, href: "/expenses" },
       { label: "Transações", icon: ArrowRightLeft, href: "/transactions" },
       {
@@ -50,10 +52,15 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
         href: "/accounts/list",
         badgeHighlight: dataAccounts?.data.length === 0,
       },
-      { label: "Categorias", icon: Tag, href: "/categories" },
+      {
+        label: "Categorias",
+        icon: Tag,
+        href: "/categories",
+        badgeHighlight: dataCategories?.length === 0,
+      },
       { label: "Configurações", icon: Settings, href: "/settings" },
     ],
-    []
+    [dataAccounts, dataCategories]
   );
 
   return (
@@ -69,13 +76,7 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
     >
       <div className="px-8 py-8">
         <Link to="/" className="flex items-center gap-3">
-          <Wallet className="w-6 h-6 text-gray-900 dark:text-white" />
-          <h1 className="text-xl font-medium text-gray-900 dark:text-white">
-            Cash
-            <span className="font-bold text-violet-700 dark:text-violet-500">
-              ly
-            </span>
-          </h1>
+          <Logo className="w-[140px]" />
         </Link>
       </div>
 

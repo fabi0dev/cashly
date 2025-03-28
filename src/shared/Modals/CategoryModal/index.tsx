@@ -74,7 +74,7 @@ export function CategoryModal({
                 value: "EXPENSE",
               },
               {
-                label: "Receita",
+                label: "Entrada",
                 value: "INCOME",
               },
             ]}

@@ -5,7 +5,7 @@ import { formatCurrency } from "@/lib/utils";
 import { useExpenseModal } from "./useExpenseModal";
 import { ControlledSelect } from "@/components/ControlledSelect";
 import { DatePicker } from "@/components/DatePicker";
-import { ExpenseType, RecurrenceTypeLabels } from "./schema";
+import { ExpenseType } from "./schema";
 import { ControlledInput } from "@/components/ControlledInput";
 import { ControlledCheckboxInput } from "@/components/ControlledCheckbox";
 import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
@@ -118,7 +118,7 @@ export function ExpenseModal({
               />
             </div>
 
-            {installments > 1 && (
+            {installments > 1 && amount && (
               <div className="text-xs text-gray-600 dark:text-gray-300 pt-2 text-right">
                 {watch("installments")}x de {formatCurrency(amount)} ={" "}
                 {formatCurrency(amount * installments)}
@@ -134,25 +134,6 @@ export function ExpenseModal({
           name="description"
           autoComplete="off"
         />
-
-        {watch("type") === "Recurring" && (
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Tipo de Recorrência
-            </label>
-
-            <ControlledSelect
-              name="recurrenceType"
-              control={control}
-              options={Object.entries(RecurrenceTypeLabels).map(
-                ([key, value]) => ({
-                  label: value,
-                  value: key,
-                })
-              )}
-            />
-          </div>
-        )}
 
         <ControlledCheckboxInput
           control={control}

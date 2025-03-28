@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
+import { Filter, TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queries } from "@/queries";
@@ -29,7 +29,8 @@ export const Transactions = () => {
       titleHeader="Lista de Transações"
       rightContentHeader={
         <Button onClick={() => setShowTransactionModal(true)}>
-          Nova Transação
+          <TrendingUp className="w-4 h-4" />
+          Nova Entrada
         </Button>
       }
     >

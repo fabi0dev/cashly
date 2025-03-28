@@ -29,6 +29,7 @@ export const PayExpenseModal = ({
     (item) => item.id == watch("accountId")
   );
 
+  console.log(selectedAccount?.balance);
   return (
     <Dialog
       title={"Marcar despesa como paga"}
@@ -72,18 +73,27 @@ export const PayExpenseModal = ({
           }
         />
 
-        <div className="flex flex-col items-end text-xs text-gray-400">
-          <div>
-            Valor atual da conta:{" "}
-            {formatCurrency(selectedAccount?.balance || 0)}
-          </div>
-          <div>
-            Valor após pagar:{" "}
-            {formatCurrency(
-              (selectedAccount?.balance || 0) - dataExpense.amount
+        {selectedAccount && (
+          <div className="flex flex-col items-end text-xs text-gray-400">
+            <div>
+              Valor atual da conta:{" "}
+              {formatCurrency(selectedAccount?.balance || 0)}
+            </div>
+
+            {selectedAccount?.balance <= 0 && (
+              <div className="text-red-400">Saldo insuficiente</div>
+            )}
+
+            {selectedAccount?.balance > 0 && (
+              <div>
+                Valor após pagar:{" "}
+                {formatCurrency(
+                  (selectedAccount?.balance || 0) - dataExpense.amount
+                )}
+              </div>
             )}
           </div>
-        </div>
+        )}
       </div>
 
       <div className="flex justify-end gap-2 mt-4">
@@ -96,6 +106,10 @@ export const PayExpenseModal = ({
           icon={Check}
           onClick={() => markAsPaid()}
           isLoading={isLoading}
+          disabled={
+            (selectedAccount && selectedAccount?.balance <= 0) ||
+            !selectedAccount
+          }
         >
           Pago
         </Button>
