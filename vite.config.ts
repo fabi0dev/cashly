@@ -11,7 +11,7 @@ const getServerConfig = (mode: "development" | "staging" | "production") => {
     return {
       proxy: {
         "/api": {
-          target: process.env.VITE_BASE_URL,
+          target: process.env.VITE_BASE_URL_DEVELOP,
           changeOrigin: true,
           rewrite: (path: string) => path.replace(/^\/api/, ""),
         },

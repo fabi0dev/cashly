@@ -1,12 +1,14 @@
-import { Input } from "@/components/ui/input";
 import { useLogin } from "./useLogin";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
+import { ControlledInput } from "@/components/ControlledInput";
 
 export function Login() {
-  const { errors, register, submit, isLoading } = useLogin();
+  const { formMethods, submit, isLoading } = useLogin();
+  const { control } = formMethods;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-6">
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-2xl">
@@ -17,38 +19,22 @@ export function Login() {
         </div>
 
         <form onSubmit={submit} className="space-y-5">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
-              E-mail
-            </label>
-            <Input
-              type="email"
-              id="email"
-              placeholder="Digite seu e-mail"
-              {...register("email")}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
-            )}
-          </div>
+          <ControlledInput
+            label="E-mail"
+            type="email"
+            name="email"
+            placeholder="Digite seu e-mail"
+            control={control}
+            autoFocus
+          />
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium mb-1"
-            >
-              Senha
-            </label>
-            <Input
-              type="password"
-              id="password"
-              placeholder="Digite sua senha"
-              {...register("password")}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-sm">{errors.password.message}</p>
-            )}
-          </div>
+          <ControlledInput
+            label="Senha"
+            type="password"
+            name="password"
+            placeholder="Digite sua senha"
+            control={control}
+          />
 
           <div className="flex items-center justify-between text-sm">
             <div className="flex items-center gap-2">

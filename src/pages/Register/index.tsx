@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { ControlledInput } from "@/components/ControlledInput";
 
 export function Register() {
-  const { submit, control } = useRegister();
+  const { submit, control, isLoadingRegister } = useRegister();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-6">
@@ -67,7 +67,11 @@ export function Register() {
             </label>
           </div>
 
-          <Button type="submit" disabled={false} className="w-full">
+          <Button
+            type="submit"
+            isLoading={isLoadingRegister}
+            className="w-full"
+          >
             Criar conta
           </Button>
         </form>

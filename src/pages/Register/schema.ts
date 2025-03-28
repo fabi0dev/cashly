@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const registerFormSchema = Yup.object({
+export const schemaRegister = Yup.object({
   name: Yup.string()
     .min(3, "O nome deve ter pelo menos 3 caracteres")
     .required("O nome é obrigatório"),
@@ -15,4 +15,4 @@ export const registerFormSchema = Yup.object({
     .required("A confirmação de senha é obrigatória"),
 });
 
-export type RegisterFormData = Yup.InferType<typeof registerFormSchema>;
+export type SchemaRegister = Yup.InferType<typeof schemaRegister>;

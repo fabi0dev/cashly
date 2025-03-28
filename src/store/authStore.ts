@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface AuthData {
+export interface AuthData {
   user: {
     id: string;
     name: string;
@@ -13,7 +13,8 @@ interface AuthData {
 interface AuthState {
   authData: AuthData | null;
   isAuthenticated: boolean;
-  setAuthData: (user: AuthData) => void;
+  setAuthData: (authData: AuthData) => void;
+  setUserData: (user: Partial<AuthData["user"]>) => void;
   logout: () => void;
 }
 
@@ -23,6 +24,12 @@ export const useAuthStore = create(
       authData: null,
       isAuthenticated: false,
       setAuthData: (authData) => set({ authData, isAuthenticated: true }),
+      setUserData: (user) =>
+        set((state) => ({
+          authData: state.authData
+            ? { ...state.authData, user: { ...state.authData.user, ...user } }
+            : null,
+        })),
       logout: () => set({ authData: null, isAuthenticated: false }),
     }),
     { name: "auth-storage" }
