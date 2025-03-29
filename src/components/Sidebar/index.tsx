@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { Avatar } from "../ui/avatar";
-import { AvatarFallback } from "@radix-ui/react-avatar";
+import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queries } from "@/queries";
@@ -83,6 +83,9 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
       <div className="px-8 py-4">
         <div className="flex items-center gap-3">
           <Avatar className="w-10 h-10 items-center justify-center">
+            {authData?.user.picture && (
+              <AvatarImage src={authData?.user.picture} alt="foto de perfil" />
+            )}
             <AvatarFallback>{getInitials(authData?.user.name)}</AvatarFallback>
           </Avatar>
           <div>

@@ -4,10 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
 import { ControlledInput } from "@/components/ControlledInput";
+import { AuthProvider } from "@/contexts/AuthProvider";
+import { GoogleLoginButton } from "./components/GoogleLoginButton";
+import { useSocialGoogleLogin } from "./components/GoogleLoginButton/useSocialGoogleLogin";
+import { GoogleLogin } from "@react-oauth/google";
+import { toastError } from "@/lib/toast";
+import { useTheme } from "@/hooks/useTheme";
 
 export function Login() {
   const { formMethods, submit, isLoading } = useLogin();
   const { control } = formMethods;
+  const { handleSuccess } = useSocialGoogleLogin();
+  const { currentTheme } = useTheme();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-6">
@@ -67,6 +75,25 @@ export function Login() {
               Criar conta
             </Link>
           </p>
+        </div>
+
+        <div className="text-center my-7 text-xs text-foreground/60">Ou</div>
+
+        <div className="flex justify-center">
+          <AuthProvider>
+            <GoogleLogin
+              theme={currentTheme === "dark" ? "filled_black" : "outline"}
+              onSuccess={handleSuccess}
+              onError={() =>
+                toastError("Não foi possível fazer o login com o Google")
+              }
+              type="standard"
+              shape="circle"
+              text="signin"
+            />
+
+            {/* <GoogleLoginButton /> */}
+          </AuthProvider>
         </div>
       </div>
     </div>
