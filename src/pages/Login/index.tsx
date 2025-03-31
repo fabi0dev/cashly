@@ -5,11 +5,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
 import { ControlledInput } from "@/components/ControlledInput";
 import { AuthProvider } from "@/contexts/AuthProvider";
-import { GoogleLoginButton } from "./components/GoogleLoginButton";
-import { useSocialGoogleLogin } from "./components/GoogleLoginButton/useSocialGoogleLogin";
 import { GoogleLogin } from "@react-oauth/google";
 import { toastError } from "@/lib/toast";
 import { useTheme } from "@/hooks/useTheme";
+import { useSocialGoogleLogin } from "./useSocialGoogleLogin";
 
 export function Login() {
   const { formMethods, submit, isLoading } = useLogin();
@@ -89,10 +88,8 @@ export function Login() {
               }
               type="standard"
               shape="circle"
-              text="signin"
+              text="signin_with"
             />
-
-            {/* <GoogleLoginButton /> */}
           </AuthProvider>
         </div>
       </div>

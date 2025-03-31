@@ -10,9 +10,6 @@ export const schemaRegister = Yup.object({
   password: Yup.string()
     .min(6, "A senha deve ter pelo menos 6 caracteres")
     .required("A senha é obrigatória"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "As senhas não coincidem")
-    .required("A confirmação de senha é obrigatória"),
 });
 
 export type SchemaRegister = Yup.InferType<typeof schemaRegister>;

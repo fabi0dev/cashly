@@ -5,9 +5,16 @@ import { Button } from "@/components/ui/button";
 import { useRegister } from "./useRegister";
 import { Link } from "react-router-dom";
 import { ControlledInput } from "@/components/ControlledInput";
+import { AuthProvider } from "@/contexts/AuthProvider";
+import { GoogleLogin } from "@react-oauth/google";
+import { useSocialGoogleLogin } from "../Login/useSocialGoogleLogin";
+import { useTheme } from "@/hooks/useTheme";
+import { toastError } from "@/lib/toast";
 
 export function Register() {
   const { submit, control, isLoadingRegister } = useRegister();
+  const { handleSuccess } = useSocialGoogleLogin();
+  const { currentTheme } = useTheme();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-6">
@@ -46,17 +53,9 @@ export function Register() {
             control={control}
           />
 
-          <ControlledInput
-            label="Confirmar senha"
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirme sua senha"
-            control={control}
-          />
-
           <div className="flex items-center gap-2">
             <label htmlFor="terms" className="text-sm">
-              Ao cadastrar eu concordo com os{" "}
+              Ao me cadastrar eu concordo com os{" "}
               <Link to="/terms" className="text-violet-400 hover:underline">
                 Termos de Uso
               </Link>{" "}
@@ -86,6 +85,23 @@ export function Register() {
               Entrar
             </Link>
           </p>
+        </div>
+
+        <div className="text-center my-7 text-xs text-foreground/60">Ou</div>
+
+        <div className="flex justify-center">
+          <AuthProvider>
+            <GoogleLogin
+              theme={currentTheme === "dark" ? "filled_black" : "outline"}
+              onSuccess={handleSuccess}
+              onError={() =>
+                toastError("Não foi possível fazer o login com o Google")
+              }
+              type="standard"
+              shape="circle"
+              text="signup_with"
+            />
+          </AuthProvider>
         </div>
       </div>
     </div>
