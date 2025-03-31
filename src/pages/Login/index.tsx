@@ -9,12 +9,16 @@ import { GoogleLogin } from "@react-oauth/google";
 import { toastError } from "@/lib/toast";
 import { useTheme } from "@/hooks/useTheme";
 import { useSocialGoogleLogin } from "./useSocialGoogleLogin";
+import { LoadingScreen } from "./components/LoadingScreen";
+import { ButtonTheme } from "@/components/ButtonTheme";
 
 export function Login() {
   const { formMethods, submit, isLoading } = useLogin();
   const { control } = formMethods;
-  const { handleSuccess } = useSocialGoogleLogin();
+  const { handleSuccess, isLoadingAuthGoogle } = useSocialGoogleLogin();
   const { currentTheme } = useTheme();
+
+  if (isLoadingAuthGoogle) return <LoadingScreen />;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-6">
@@ -92,6 +96,10 @@ export function Login() {
             />
           </AuthProvider>
         </div>
+      </div>
+
+      <div className="inlinex-flex fixed bottom-4 right-4">
+        <ButtonTheme />
       </div>
     </div>
   );

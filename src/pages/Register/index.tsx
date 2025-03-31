@@ -10,6 +10,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useSocialGoogleLogin } from "../Login/useSocialGoogleLogin";
 import { useTheme } from "@/hooks/useTheme";
 import { toastError } from "@/lib/toast";
+import { ButtonTheme } from "@/components/ButtonTheme";
 
 export function Register() {
   const { submit, control, isLoadingRegister } = useRegister();
@@ -103,6 +104,10 @@ export function Register() {
             />
           </AuthProvider>
         </div>
+      </div>
+
+      <div className="inlinex-flex fixed bottom-4 right-4">
+        <ButtonTheme />
       </div>
     </div>
   );
