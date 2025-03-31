@@ -114,7 +114,6 @@ export const useTransactionModal = ({
   }, [dataTransaction]);
 
   return {
-    register,
     setValue,
     watch,
     errors,

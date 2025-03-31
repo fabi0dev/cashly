@@ -3,15 +3,17 @@ import * as Yup from "yup";
 export const expenseSchema = Yup.object({
   type: Yup.string<ExpenseTypeKeys>().default("Only"),
   amount: Yup.number().required(),
-  categoryId: Yup.string().required(),
+  categoryId: Yup.string().required("Categoria é obrigatória"),
   date: Yup.string(),
-  dueDate: Yup.string().required(),
+  dueDate: Yup.string().required("Data de vencimento é obrigatória"),
   description: Yup.string(),
 
   isPaid: Yup.boolean().default(false),
 
   installments: Yup.number()
-    .min(2)
+    .transform((value, originalValue) => (originalValue === "" ? 0 : value))
+
+    .min(2, "Parcelas devem ser maior que 1")
     .default(2)
     .when("type", {
       is: "Installments",

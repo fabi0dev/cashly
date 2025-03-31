@@ -1,14 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
-import { formatCurrency } from "@/lib/utils";
-import { useExpenseModal } from "./useExpenseModal";
+import { FormContainer } from "@/components/FormContainer";
 import { ControlledSelect } from "@/components/ControlledSelect";
-import { DatePicker } from "@/components/DatePicker";
-import { ExpenseType } from "./schema";
 import { ControlledInput } from "@/components/ControlledInput";
 import { ControlledCheckboxInput } from "@/components/ControlledCheckbox";
 import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
+import { ControlledDatePicker } from "@/components/ControlledDatePicker";
+import { formatCurrency } from "@/lib/utils";
+import { useExpenseModal } from "./useExpenseModal";
+import { ExpenseType } from "./schema";
 
 interface ExpenseModalProps {
   expenseId?: string;
@@ -27,14 +27,7 @@ export function ExpenseModal({
       onClose,
     });
 
-  const {
-    register,
-    setValue,
-    watch,
-    control,
-    formState: { errors },
-  } = formMethods;
-
+  const { watch, control } = formMethods;
   const amount = watch("amount");
   const installments = watch("installments");
 
@@ -45,57 +38,38 @@ export function ExpenseModal({
       onOpenChange={onClose}
       isLoading={isLoadingManager}
     >
-      <form onSubmit={submit} className="space-y-4">
-        <div className="flex flex-rows gap-3">
-          <div className="flex-1">
-            <ControlledSelect
-              autoFocus
-              label="Categoria"
-              control={control}
-              name="categoryId"
-              options={
-                categoriesData
-                  ?.filter((item) => item.type == "EXPENSE")
-                  ?.map((item) => ({
-                    label: item.name,
-                    value: item.id,
-                  })) || []
-              }
-            />
-          </div>
+      <FormContainer onSubmit={submit} className="space-y-4">
+        <FormContainer.Column cols={2}>
+          <ControlledSelect
+            autoFocus
+            label="Categoria"
+            control={control}
+            name="categoryId"
+            options={
+              categoriesData
+                ?.filter((item) => item.type == "EXPENSE")
+                ?.map((item) => ({ label: item.name, value: item.id })) || []
+            }
+          />
+          <ControlledDatePicker
+            control={control}
+            name="dueDate"
+            label="Data de Vencimento"
+          />
+        </FormContainer.Column>
 
-          <div className="flex-1">
-            <label className="block text-sm font-medium mb-1">
-              Data de Vencimento
-            </label>
-            <DatePicker
-              value={watch("dueDate")}
-              onValueChange={(date) => setValue("dueDate", date)}
-              isError={!!errors.dueDate?.message}
-            />
-          </div>
-        </div>
-
-        <div className="flex flex-row gap-3">
-          <div className="flex-1">
-            <label className="block text-sm font-medium mb-1">
-              Data da despesa
-            </label>
-            <DatePicker
-              value={watch("date")}
-              onValueChange={(date) => setValue("date", date)}
-              isError={!!errors.date?.message}
-            />
-          </div>
-
-          <div className="flex-1">
-            <ControlledInputCurrency
-              label="Valor"
-              name="amount"
-              control={control}
-            />
-          </div>
-        </div>
+        <FormContainer.Column cols={2}>
+          <ControlledDatePicker
+            control={control}
+            name="date"
+            label="Data da despesa"
+          />
+          <ControlledInputCurrency
+            label="Valor"
+            name="amount"
+            control={control}
+          />
+        </FormContainer.Column>
 
         <ControlledSelect
           label="Tipo"
@@ -109,18 +83,15 @@ export function ExpenseModal({
 
         {watch("type") === "Installments" && (
           <div>
-            <div>
-              <label className="block text-sm font-medium mb-1">Parcelas</label>
-
-              <Input
-                {...register("installments")}
-                value={watch("installments")}
-              />
-            </div>
-
+            <ControlledInput
+              label="Parcelas"
+              name="installments"
+              control={control}
+              isNumber
+            />
             {installments > 1 && amount && (
               <div className="text-xs text-gray-600 dark:text-gray-300 pt-2 text-right">
-                {watch("installments")}x de {formatCurrency(amount)} ={" "}
+                {installments}x de {formatCurrency(amount)} ={" "}
                 {formatCurrency(amount * installments)}
               </div>
             )}
@@ -134,7 +105,6 @@ export function ExpenseModal({
           name="description"
           autoComplete="off"
         />
-
         <ControlledCheckboxInput
           control={control}
           name="isPaid"
@@ -146,7 +116,7 @@ export function ExpenseModal({
             Salvar
           </Button>
         </div>
-      </form>
+      </FormContainer>
     </Dialog>
   );
 }

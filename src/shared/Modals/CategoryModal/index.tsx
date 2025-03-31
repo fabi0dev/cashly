@@ -24,7 +24,8 @@ export function CategoryModal({
       onClose,
     });
 
-  const { control } = formMethods;
+  const { control, watch } = formMethods;
+  const type = watch("type");
 
   return (
     <Dialog
@@ -38,12 +39,16 @@ export function CategoryModal({
           control={control}
           label="Nome"
           name="name"
-          placeholder="Mercado, lazer, internet, etc."
+          placeholder={
+            type === "EXPENSE"
+              ? "Mercado, lazer, internet, etc."
+              : "Salário, presente, etc."
+          }
           autoFocus
           autoComplete="off"
         />
 
-        <div className="grid grid-cols-2 gap-2">
+        <FormContainer.Column cols={2}>
           <ControlledSelect
             label="Relevância"
             control={control}
@@ -79,15 +84,13 @@ export function CategoryModal({
               },
             ]}
           />
-        </div>
+        </FormContainer.Column>
 
-        <div>
-          <ControlledCheckboxInput
-            control={control}
-            label="Favorita"
-            name="isFavorite"
-          />
-        </div>
+        <ControlledCheckboxInput
+          control={control}
+          label="Favorita"
+          name="isFavorite"
+        />
 
         <div className="flex justify-end gap-4">
           <Button type="submit" isLoading={isLoadingManager}>

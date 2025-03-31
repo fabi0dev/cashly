@@ -12,6 +12,7 @@ type ControlledInputProps<TFieldValues extends FieldValues> = Pick<
 > &
   InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
+    isNumber?: boolean;
   };
 
 export const ControlledInput = <TFieldValues extends FieldValues>({
@@ -20,10 +21,16 @@ export const ControlledInput = <TFieldValues extends FieldValues>({
   label,
   className,
   type,
+  isNumber,
   ...props
 }: ControlledInputProps<TFieldValues>) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
+
+  const handleChange = (value: string) => {
+    if (isNumber && isNaN(Number(value))) return "";
+    return value;
+  };
 
   return (
     <Controller
@@ -39,6 +46,10 @@ export const ControlledInput = <TFieldValues extends FieldValues>({
               className={cn(className)}
               data-error={Boolean(error?.message)}
               type={isPassword ? (showPassword ? "text" : "password") : type}
+              onChange={(e) => {
+                const value = handleChange(e.target.value);
+                field.onChange(value);
+              }}
               {...props}
             />
 

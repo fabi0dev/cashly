@@ -50,14 +50,14 @@ export function DatePicker({
         <Button
           variant={"outline"}
           className={cn(
-            "relative w-full justify-start text-left font-normal bg-input dark:hover:bg-input border-input-foreground",
+            "relative w-full justify-start text-left font-normal bg-input dark:hover:bg-input border border-input-foreground",
             !date && "text-muted-foreground",
             "data-[error]:border data-[error=true]:border-red-500 dark:data-[error=true]:border-red-500",
             className
           )}
           data-error={isError}
         >
-          <CalendarIcon className="absolute right-4 h-4 w-4" />
+          <CalendarIcon className="absolute right-3 h-4 w-4" />
           {date ? (
             DateTime.fromJSDate(date).setLocale("pt-BR").toFormat("DDD")
           ) : (

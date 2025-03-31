@@ -19,7 +19,6 @@ import { useExpenseDetails } from "./useExpenseDetails";
 import { formatToDateString } from "@/lib/date";
 import { PayExpenseModal } from "./components/PayExpenseModal";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { Spinner } from "@/components/Spinner";
 import { ExpenseModal } from "@/shared/Modals/ExpenseModal";
 import { InstallmentItem } from "./components/InstallmentItem";
 
@@ -36,7 +35,7 @@ export const ExpenseDetails = () => {
   } = useExpenseDetails();
 
   return (
-    <Container titleHeader="Detalhes da despesa">
+    <Container titleHeader="Detalhes da despesa" isLoading={isLoadingExpense}>
       {dataExpense && (
         <div className="grid gap-6 md:grid-cols-3">
           <div className="md:col-span-2 space-y-6">
@@ -185,8 +184,6 @@ export const ExpenseDetails = () => {
           </div>
         </div>
       )}
-
-      {isLoadingExpense && <Spinner />}
 
       {markAsPaidDialogOpen && dataExpense && (
         <PayExpenseModal

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Header } from "./components/Header";
 import { Sidebar } from "../Sidebar";
+import { Spinner } from "../Spinner";
 
 export interface ContainerProps {
   titleHeader?: string;
@@ -8,6 +9,7 @@ export interface ContainerProps {
   rightContentHeader?: React.ReactNode;
   showHeader?: boolean;
   hideGoBack?: boolean;
+  isLoading?: boolean;
 }
 
 export const Container = ({
@@ -16,6 +18,7 @@ export const Container = ({
   children,
   showHeader = true,
   hideGoBack,
+  isLoading,
 }: ContainerProps) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -47,6 +50,12 @@ export const Container = ({
 
         <main className="mx-auto max-w-[1024px] p-5 pt-1 pb-5 ">
           {children}
+
+          {isLoading && (
+            <div className="flex justify-center items-center my-10">
+              <Spinner />
+            </div>
+          )}
         </main>
       </div>
     </div>
