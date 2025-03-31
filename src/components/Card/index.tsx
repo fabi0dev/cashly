@@ -9,6 +9,7 @@ interface CardProps {
   iconClassName?: string;
   paddingLeft?: boolean;
   children?: ReactNode;
+  className?: string;
 }
 export const Card = ({
   title,
@@ -18,9 +19,15 @@ export const Card = ({
   iconClassName,
   children,
   paddingLeft,
+  className,
 }: CardProps) => {
   return (
-    <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
+    <div
+      className={cn(
+        "bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors",
+        className
+      )}
+    >
       {title && (
         <div className="flex items-center gap-3">
           {icon && (

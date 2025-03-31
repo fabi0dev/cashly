@@ -3,7 +3,6 @@ import {
   Calendar,
   Check,
   Clock,
-  CreditCard,
   Edit,
   FileText,
   Tag,
@@ -48,6 +47,24 @@ export const ExpenseDetails = () => {
                   <span className="text-3xl font-bold">
                     {formatCurrency(dataExpense.amount)}
                   </span>
+
+                  {dataExpense?.isPaid && (
+                    <div
+                      className={cn(
+                        `inline-flex items-center gap-2 px-3 py-1 mt-3`,
+                        `rounded-fullbg-green-50 text-green-600 dark:bg-green-400/10`
+                      )}
+                    >
+                      {dataExpense?.isPaid ? (
+                        <Check className="w-4 h-4" />
+                      ) : (
+                        <Check className="w-4 h-4" />
+                      )}
+                      <span className="font-medium capitalize">
+                        Despesa paga
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -120,9 +137,9 @@ export const ExpenseDetails = () => {
           </div>
 
           <div className="space-y-6">
-            {dataExpense.installments.length === 1 && (
+            {dataExpense.installments.length === 1 && !dataExpense?.isPaid && (
               <Card title="Pagamento">
-                {!dataExpense.isPaid && dataExpense.dueDate && (
+                {dataExpense.dueDate && (
                   <div className="flex justify-between items-center gap-3">
                     <span className="text-sm text-muted-foreground">
                       Situação
@@ -144,19 +161,24 @@ export const ExpenseDetails = () => {
                     </span>
                   </div>
                 )}
+
                 <Button
-                  variant={dataExpense.isPaid ? "outline" : "default"}
                   onClick={() => setMarkAsPaidDialogOpen(true)}
-                  disabled={dataExpense.isPaid}
-                  className={cn("w-full mt-3")}
-                >
-                  {!dataExpense.isPaid ? (
-                    <CreditCard className="mr-2 h-4 w-4" />
-                  ) : (
-                    <Check className="mr-2 h-4 w-4" />
+                  className={cn(
+                    "w-full mt-3",
+                    dataExpense.isPaid &&
+                      "text-white font-semibold bg-gray-600 hover:bg-green-600 hover:text-white"
                   )}
-                  {dataExpense.isPaid ? "Despesa paga" : "Marcar como pago"}
+                >
+                  <Check className="mr-2 h-4 w-4" />
+                  Marcar como pago
                 </Button>
+
+                {dataExpense.isPaid && (
+                  <div className=" flex flex-row  gap-2 p-2 rounded-lg items-center text-green-700">
+                    <Check className="h-5 w-5" /> Despesa paga
+                  </div>
+                )}
               </Card>
             )}
 
