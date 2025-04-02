@@ -41,7 +41,7 @@ export const Header = ({
             </Link>
           )}
 
-          <span className="font-semibold text-2xl">{title}</span>
+          <span className="font-semibold text-xl md:text-2xl">{title}</span>
         </div>
 
         {rightContent}

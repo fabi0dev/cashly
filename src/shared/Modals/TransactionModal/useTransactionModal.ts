@@ -18,7 +18,6 @@ export const useTransactionModal = ({
   const queryClient = useQueryClient();
 
   const {
-    register,
     handleSubmit,
     setValue,
     watch,

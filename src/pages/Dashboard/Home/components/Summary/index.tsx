@@ -13,6 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { queries } from "@/queries";
 import { Card } from "@/components/Card";
 import { DateTime } from "luxon";
+import { ValueHidden } from "./components/ValueHidden";
 
 export const Summary = () => {
   const { isLoading: isLoadingSummary, data: dataSummary } = useQuery({
@@ -94,7 +95,3 @@ export const Summary = () => {
     </div>
   );
 };
-
-const ValueHidden = () => (
-  <div className="text-2xl lg:text-3xl p-4 font-semibold bg-gray-50 rounded-sm w-1/2" />
-);

@@ -51,7 +51,7 @@ export const ExpenseDetails = () => {
                   {dataExpense?.isPaid && (
                     <div
                       className={cn(
-                        `inline-flex items-center gap-2 px-3 py-1 mt-3`,
+                        `inline-flex items-center gap-2 px-3 py-1 mt-3 rounded-full`,
                         `rounded-fullbg-green-50 text-green-600 dark:bg-green-400/10`
                       )}
                     >
@@ -227,7 +227,17 @@ export const ExpenseDetails = () => {
           open
           isLoading={isLoadingDeleteExpense}
           onOpenChange={() => setShowDeleteDialog(false)}
-          description={"Deseja realmente excluir essa despesa?"}
+          description={
+            dataExpense?.installments &&
+            dataExpense?.installments.length > 1 ? (
+              <div>
+                Deseja realmente excluir essa despesa e suas{" "}
+                <b>{dataExpense?.installments.length} parcelas</b>?
+              </div>
+            ) : (
+              "Deseja realmente excluir essa despesa?"
+            )
+          }
           onConfirm={() => mutateDeleteExpense(dataExpense!.id)}
           onCancel={() => setShowDeleteDialog(false)}
           confirmText="Sim quero excluir"

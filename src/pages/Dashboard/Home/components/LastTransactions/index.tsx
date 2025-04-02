@@ -19,7 +19,7 @@ export const LastTransactions = () => {
     <div className="bg-white dark:bg-gray-800 backdrop-blur-xl rounded-2xl p-6 hover:bg-white transition-colors">
       <div className="flex items-center gap-3 mb-6">
         <Calendar className="w-5 h-5" />
-        <h2 className="font-medium">Últimas Transações</h2>
+        <h2 className="font-medium">Atividade recente</h2>
       </div>
       <div className="space-y-3">
         {!isLoadingLastTransactions &&

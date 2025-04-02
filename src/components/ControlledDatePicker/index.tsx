@@ -11,12 +11,14 @@ type ControlledDatePickerProps<TFieldValues extends FieldValues> = Pick<
   InputHTMLAttributes<HTMLInputElement> & {
     label?: string;
     placeholder?: string;
+    disabled?: boolean;
   };
 export const ControlledDatePicker = <TFieldValues extends FieldValues>({
   label,
   name,
   control,
   placeholder,
+  disabled,
 }: ControlledDatePickerProps<TFieldValues>) => {
   return (
     <Controller
@@ -29,6 +31,7 @@ export const ControlledDatePicker = <TFieldValues extends FieldValues>({
             value={field.value ?? ""}
             onValueChange={(value) => field.onChange(value)}
             placeholder={placeholder}
+            disabled={disabled}
           />
 
           <FormError error={error} />

@@ -7,7 +7,7 @@ import { Summary } from "./components/Summary";
 import { LastTransactions } from "./components/LastTransactions";
 import { DistributionExpenses } from "./components/DistributionExpenses";
 
-export const Dashboard = () => {
+export const Home = () => {
   const [showTransactionModal, setShowTransactionModal] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ export const Dashboard = () => {
       rightContentHeader={
         <Button onClick={() => setShowTransactionModal(true)}>
           <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Nova Entrada</span>
+          Nova Entrada
         </Button>
       }
       hideGoBack

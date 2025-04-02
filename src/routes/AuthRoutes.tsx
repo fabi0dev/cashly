@@ -1,5 +1,5 @@
-import { Login } from "@/pages/Login";
-import { Register } from "@/pages/Register";
+import { Login } from "@/pages/Authentication/Login";
+import { Register } from "@/pages/Authentication/Register";
 
 export const AuthRoutes = [
   {

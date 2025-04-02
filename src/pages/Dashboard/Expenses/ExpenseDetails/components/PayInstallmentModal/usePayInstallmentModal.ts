@@ -50,7 +50,7 @@ export const usePayInstallmentModal = ({
         });
       },
       onSuccess: () => {
-        toastSuccess("Despesa marcada como paga com sucesso!");
+        toastSuccess("Despesa marcada como paga!");
         invalidateExpenseDetail();
         onClose();
       },

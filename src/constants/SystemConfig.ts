@@ -1,4 +1,5 @@
 export const SystemConfig = {
+  title: "Cashly",
   api: {
     baseURL:
       import.meta.env.MODE === "development"

@@ -1,3 +1,4 @@
+import { Spinner } from "@/components/Spinner";
 import { useTheme } from "@/hooks/useTheme";
 import { cn, formatCurrency } from "@/lib/utils";
 import { queries } from "@/queries";
@@ -15,7 +16,10 @@ import {
 export const DistributionExpenses = () => {
   const { currentTheme } = useTheme();
 
-  const { data: dataExpenseDistribution } = useQuery({
+  const {
+    data: dataExpenseDistribution,
+    isLoading: isloadingExpenseDistribution,
+  } = useQuery({
     ...queries.financeOverview.getExpenseDistribution(),
   });
 
@@ -106,6 +110,12 @@ export const DistributionExpenses = () => {
       {dataChart && dataChart?.length === 0 && (
         <div className="flex flex-1 justify-center p-5 text-gray-500">
           Nenhum dado para mostrar
+        </div>
+      )}
+
+      {isloadingExpenseDistribution && (
+        <div className="flex flex-1 items-center justify-center p-5">
+          <Spinner />
         </div>
       )}
     </div>

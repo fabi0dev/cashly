@@ -18,6 +18,7 @@ type DatePickerProps = {
   placeholder?: string;
   className?: string;
   isError?: boolean;
+  disabled?: boolean;
 };
 
 export function DatePicker({
@@ -26,6 +27,7 @@ export function DatePicker({
   placeholder = "Selecione uma data",
   className,
   isError,
+  disabled,
 }: DatePickerProps) {
   const [date, setDate] = React.useState<Date | undefined>();
 
@@ -56,6 +58,7 @@ export function DatePicker({
             className
           )}
           data-error={isError}
+          disabled={disabled}
         >
           <CalendarIcon className="absolute right-3 h-4 w-4" />
           {date ? (

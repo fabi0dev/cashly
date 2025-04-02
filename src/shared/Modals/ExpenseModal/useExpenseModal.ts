@@ -6,6 +6,7 @@ import { queries } from "@/queries";
 import { CreateExpense, UpdateExpense } from "@/services/expense";
 import { expenseSchema, SchemaExpenseModal } from "./schema";
 import { ExpenseMapper } from "./expense.mapper";
+import { useEffect } from "react";
 
 interface UseExpenseModalProps {
   expenseId?: string;
@@ -33,7 +34,7 @@ export const useExpenseModal = ({
     defaultValues: expenseSchema.getDefault(),
   });
 
-  const { handleSubmit } = formMethods;
+  const { handleSubmit, reset } = formMethods;
 
   const invalidateExpenseList = () => {
     queryClient.invalidateQueries({ queryKey: queries.expense.getAll._def });
@@ -61,7 +62,8 @@ export const useExpenseModal = ({
     mutateAsync: mutateUpdateExpense,
     isPending: isLoadingUpdateExpense,
   } = useMutation({
-    mutationFn: (data: SchemaExpenseModal) => UpdateExpense(expenseId!, data),
+    mutationFn: (data: SchemaExpenseModal) =>
+      UpdateExpense(expenseId!, ExpenseMapper.toUpdate(data)),
     onSuccess: () => {
       onClose();
       toastSuccess("Despesa atualizada com sucesso!");
@@ -77,16 +79,23 @@ export const useExpenseModal = ({
       mutateCreateExpense(formData);
     }
   };
-  /* 
+
   useEffect(() => {
-    reset({
-      amount: dataExpense?.amount,
-      description: dataExpense?.description,
-      categoryId: dataExpense?.category?.id,
-      isPaid: dataExpense?.isPaid,
-      isRecurring: dataExpense?.isRecurring,
-    });
-  }, [reset, dataExpense]); */
+    if (dataExpense) {
+      const installmentsCount = dataExpense?.installments.length || 1;
+
+      reset({
+        amount: dataExpense?.amount,
+        description: dataExpense?.description,
+        categoryId: dataExpense?.category?.id,
+        isPaid: dataExpense?.isPaid,
+        date: dataExpense?.date,
+        dueDate: dataExpense?.dueDate,
+        installments: installmentsCount > 1 ? installmentsCount : 1,
+        type: installmentsCount > 1 ? "Installments" : "Only",
+      });
+    }
+  }, [reset, dataExpense]);
 
   return {
     formMethods,

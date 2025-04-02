@@ -20,7 +20,7 @@ export const Categories = () => {
       titleHeader="Categorias"
       rightContentHeader={
         <Button onClick={() => setShowCategoryModal(true)}>
-          <span className="hidden sm:inline">Nova categoria</span>
+          Nova categoria
         </Button>
       }
     >

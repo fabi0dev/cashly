@@ -32,4 +32,9 @@ export const ExpenseMapper = {
         return toInstallmentsType(data);
     }
   },
+  toUpdate: (data: SchemaExpenseModal): Partial<ExpenseCreateRequest> => {
+    return {
+      description: data.description,
+    };
+  },
 };

@@ -60,9 +60,7 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
         {installment.description}
 
         {installment.category && <Badge>{installment.category?.name}</Badge>}
-      </List.Td>
 
-      <List.Td className="gap-2">
         {installment.totalInstallments > 1 && (
           <div className="flex flex-row p-1 px-2 bg-violet-500/50 rounded-full text-xs">
             {installment.installmentNumber}/{installment.totalInstallments}

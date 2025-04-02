@@ -14,6 +14,7 @@ export const ControlledCheckboxInput = <TFieldValues extends FieldValues>({
   name,
   control,
   label,
+  disabled,
 }: ControlledCheckboxProps<TFieldValues>) => {
   return (
     <Controller
@@ -24,6 +25,7 @@ export const ControlledCheckboxInput = <TFieldValues extends FieldValues>({
           <Checkbox
             checked={!!field.value}
             onCheckedChange={(checked) => field.onChange(checked)}
+            disabled={disabled}
           />
           <div className="cursor-pointer hover:opacity-80">{label}</div>
         </label>

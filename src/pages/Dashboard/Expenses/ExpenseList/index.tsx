@@ -45,9 +45,7 @@ export const ExpenseList = () => {
     <Container
       titleHeader="Lista de Despesas"
       rightContentHeader={
-        <Button onClick={() => setShowExpenseModal(true)}>
-          <span className="hidden sm:inline">Nova Despesa</span>
-        </Button>
+        <Button onClick={() => setShowExpenseModal(true)}>Nova Despesa</Button>
       }
     >
       <div className="max-w-7xl mx-auto space-y-6">
@@ -101,9 +99,7 @@ export const ExpenseList = () => {
 
               {
                 label: "",
-              },
-              {
-                label: "",
+                className: "w-[100px]",
               },
             ]}
             pagination={{
@@ -119,11 +115,10 @@ export const ExpenseList = () => {
                 description="Crie uma despesa para começar"
               />
             )}
-            //href={(item) => `/expenses/details/${item.expenseId}`}
             renderExtraRow={() => (
               <List.Row className="pt-1">
                 <List.Td></List.Td>
-                <List.Td className="col-span-5 dark:text-gray-400 ">
+                <List.Td className="col-span-4 dark:text-gray-400 ">
                   {formatCurrency(totalSum)}
                 </List.Td>
               </List.Row>

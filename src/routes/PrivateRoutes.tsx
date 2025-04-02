@@ -1,19 +1,19 @@
-import { AccountsList } from "@/pages/Accounts/AccountsList";
-import { Categories } from "@/pages/Categories/CategoriesList";
-import { Dashboard } from "@/pages/Dashboard";
-import { ExpenseDetails } from "@/pages/Expenses/ExpenseDetails";
-import { ExpenseList } from "@/pages/Expenses/ExpenseList";
-import { Settings } from "@/pages/Settings";
-import { Transactions } from "@/pages/Transactions";
+import { AccountsList } from "@/pages/Dashboard/Accounts/AccountsList";
+import { Categories } from "@/pages/Dashboard/Categories/CategoriesList";
+import { Home } from "@/pages/Dashboard/Home";
+import { ExpenseDetails } from "@/pages/Dashboard/Expenses/ExpenseDetails";
+import { ExpenseList } from "@/pages/Dashboard/Expenses/ExpenseList";
+import { Settings } from "@/pages/Dashboard/Settings";
+import { Transactions } from "@/pages/Dashboard/Transactions";
 
 export const PrivateRoutes = [
   {
     path: "/",
-    element: <Dashboard />,
+    element: <Home />,
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <Home />,
   },
   {
     path: "/transactions",

@@ -42,6 +42,7 @@ export interface Transaction {
   date: string;
   description?: string;
   categoryId: string;
+  expenseId?: string;
   userId: string;
   accountId: string;
   accountBalance: number;

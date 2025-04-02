@@ -9,7 +9,7 @@ import { DialogProps as DialogShadcnProps } from "@radix-ui/react-dialog";
 import { Spinner } from "../Spinner";
 
 interface DialogProps extends DialogShadcnProps {
-  title: string;
+  title: string | React.ReactNode;
   children: React.ReactNode;
   isLoading?: boolean;
   description?: string;

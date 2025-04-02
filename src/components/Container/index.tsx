@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Header } from "./components/Header";
 import { Sidebar } from "../Sidebar";
 import { Spinner } from "../Spinner";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 export interface ContainerProps {
   titleHeader?: string;
@@ -25,6 +26,8 @@ export const Container = ({
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  usePageTitle({ title: titleHeader });
 
   return (
     <div className="h-screen flex bg-gray-100 dark:bg-gray-900 overflow-hidden text-[15px]">

@@ -39,9 +39,19 @@ export function ExpenseModal({
       isLoading={isLoadingManager}
     >
       <FormContainer onSubmit={submit} className="space-y-4">
+        <FormContainer.Column>
+          <ControlledInput
+            control={control}
+            label="Descrição"
+            placeholder="Descrição da despesa"
+            name="description"
+            autoComplete="off"
+            autoFocus
+          />
+        </FormContainer.Column>
+
         <FormContainer.Column cols={2}>
           <ControlledSelect
-            autoFocus
             label="Categoria"
             control={control}
             name="categoryId"
@@ -50,11 +60,13 @@ export function ExpenseModal({
                 ?.filter((item) => item.type == "EXPENSE")
                 ?.map((item) => ({ label: item.name, value: item.id })) || []
             }
+            disabled={!!expenseId}
           />
           <ControlledDatePicker
             control={control}
             name="dueDate"
             label="Data de Vencimento"
+            disabled={!!expenseId}
           />
         </FormContainer.Column>
 
@@ -63,11 +75,14 @@ export function ExpenseModal({
             control={control}
             name="date"
             label="Data da despesa"
+            disabled={!!expenseId}
           />
+
           <ControlledInputCurrency
             label="Valor"
             name="amount"
             control={control}
+            disabled={!!expenseId}
           />
         </FormContainer.Column>
 
@@ -79,6 +94,7 @@ export function ExpenseModal({
             label: value,
             value: key,
           }))}
+          disabled={!!expenseId}
         />
 
         {watch("type") === "Installments" && (
@@ -88,6 +104,7 @@ export function ExpenseModal({
               name="installments"
               control={control}
               isNumber
+              disabled={!!expenseId}
             />
             {installments > 1 && amount && (
               <div className="text-xs text-gray-600 dark:text-gray-300 pt-2 text-right">
@@ -98,17 +115,11 @@ export function ExpenseModal({
           </div>
         )}
 
-        <ControlledInput
-          control={control}
-          label="Descrição"
-          placeholder="Descrição da despesa"
-          name="description"
-          autoComplete="off"
-        />
         <ControlledCheckboxInput
           control={control}
           name="isPaid"
           label="Despesa paga"
+          disabled={!!expenseId}
         />
 
         <div className="flex justify-end gap-4">

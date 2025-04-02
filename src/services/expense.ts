@@ -33,6 +33,7 @@ export const MarkInstallmentPaid = (
   Api().patch<Expense>(`/expense/installment/mark-paid/${installmentId}`, data);
 
 export interface Expense {
+  type: "Only" | "Installments";
   id: string;
   userId: string;
   amount: number;
@@ -80,7 +81,7 @@ export interface ExpenseCreateRequest {
   date?: string;
   dueDate: string;
   isPaid?: boolean;
-  description?: string;
+  description?: string | null;
   isRecurring?: boolean;
   installments?: number;
   recurrenceType?: RecurrenceType;
