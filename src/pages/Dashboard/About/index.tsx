@@ -1,5 +1,5 @@
 import { Container } from "@/components/Container";
-import { Code } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export const About = () => {
   const yearsExperience = new Date().getFullYear() - 2018;
@@ -7,9 +7,9 @@ export const About = () => {
   return (
     <Container titleHeader="Sobre Mim">
       <div className="bg-background dark:bg-gray-800 p-8 px-10 rounded-2xl">
-        <h2 className="text-2xl font-bold flex flex-row items-center justify-center gap-5 w-full">
-          Fábio Costa <Code className="text-purple-500" /> Cashly
-        </h2>
+        <div className="flex justify-center">
+          <Logo className="w-[190px]" />
+        </div>
         <p className="mt-4">Sobre mim</p>
         <p className="mt-1">
           Desenvolvedor Full Stack Sênior com mais de {yearsExperience} anos de
@@ -45,8 +45,9 @@ export const About = () => {
           atualizações rápidas e contínuas.
         </p>
 
-        <div className="mt-10 text-center">
-          Copyright © {new Date().getFullYear()}
+        <div className="mt-16 text-center">
+          Copyright © {new Date().getFullYear()} <br /> Desenvolvido por Fábio
+          Costa
         </div>
       </div>
     </Container>

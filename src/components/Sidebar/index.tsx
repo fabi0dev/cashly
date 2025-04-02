@@ -72,7 +72,8 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
         {
           "translate-x-0": isOpen,
           "-translate-x-full lg:translate-x-0": !isOpen,
-        }
+        },
+        location.pathname === "/about" && "blur-lg opacity-50"
       )}
     >
       <div className="px-8 py-8">
