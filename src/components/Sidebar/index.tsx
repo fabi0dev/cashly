@@ -3,6 +3,7 @@ import { useAuthStore } from "@/store/authStore";
 import {
   ArrowRightLeft,
   BarChart3,
+  Info,
   LogOut,
   PiggyBank,
   Receipt,
@@ -124,7 +125,14 @@ export const Sidebar = ({ isOpen }: SidebarProps) => {
         </ul>
       </nav>
 
-      <div className="p-8">
+      <div className="p-8 space-y-5">
+        <Link to={"/about"}>
+          <button className="flex items-center gap-3 px-3 py-2.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg transition-colors w-full">
+            <Info className="w-5 h-5" />
+            <span className="font-medium">Sobre</span>
+          </button>
+        </Link>
+
         <button
           onClick={logout}
           className="flex items-center gap-3 px-3 py-2.5 text-gray-600 dark:text-gray-400 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-900 rounded-lg transition-colors w-full"

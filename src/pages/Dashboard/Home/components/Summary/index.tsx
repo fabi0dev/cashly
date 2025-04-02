@@ -36,7 +36,7 @@ export const Summary = () => {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card
-          title="Saldo"
+          title="Saldo disponível"
           icon={<DollarSign className="w-5 h-5 dark:text-green-500" />}
         >
           {!isLoadingSummary && (
@@ -48,7 +48,6 @@ export const Summary = () => {
               )}
             </p>
           )}
-
           {isLoadingSummary && <Skeleton className="h-8 w-1/2" />}
         </Card>
 

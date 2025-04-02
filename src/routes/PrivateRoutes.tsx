@@ -5,6 +5,8 @@ import { ExpenseDetails } from "@/pages/Dashboard/Expenses/ExpenseDetails";
 import { ExpenseList } from "@/pages/Dashboard/Expenses/ExpenseList";
 import { Settings } from "@/pages/Dashboard/Settings";
 import { Transactions } from "@/pages/Dashboard/Transactions";
+import path from "path";
+import { About } from "@/pages/Dashboard/About";
 
 export const PrivateRoutes = [
   {
@@ -39,5 +41,9 @@ export const PrivateRoutes = [
   {
     path: "/accounts/list",
     element: <AccountsList />,
+  },
+  {
+    path: "/about",
+    element: <About />,
   },
 ];
