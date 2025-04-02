@@ -21,26 +21,31 @@ export const About = () => {
 
         <p className="mt-9">Sobre o Cashly</p>
         <p className="mt-1">
-          Vez ou outra, desenvolvo projetos pessoais para testar novas
-          tecnologias e aprimorar minhas habilidades. Um desses projetos é o{" "}
-          <strong>Cashly</strong>, um dashboard financeiro criado por mim em{" "}
-          <strong>2025</strong> para estudo e aprimoramento técnico, focado no
-          controle de despesas e receitas de forma eficiente e moderna.
+          Vez ou outra, desenvolvo projetos pessoais para testar tecnologias e
+          aprimorar minhas habilidades. Um desses projetos é o <b>Cashly</b>, um
+          dashboard financeiro criado por mim em <b>2025</b> para estudo e
+          aprimoramento técnico, focado no controle de despesas e receitas de
+          forma eficiente e moderna.
         </p>
 
         <p className="mt-9">Tecnologias utilizadas</p>
         <p className="mt-1">
-          O Cashly foi desenvolvido utilizando <strong>Vite</strong> para um
-          ambiente de desenvolvimento rápido e otimizado,
-          <strong> React.js</strong> para a interface, <strong>Zustand</strong>{" "}
-          para gerenciamento de estado simples e eficiente, além de{" "}
-          <strong>Tailwind CSS</strong> para estilização e{" "}
-          <strong>TypeScript</strong> para maior segurança no código.
+          O <b>Cashly</b> foi desenvolvido utilizando um stack moderno e
+          performático. No front-end, utilizei <b>React.js</b> com <b>Vite</b>{" "}
+          para um desenvolvimento rápido e otimizado, aliado ao{" "}
+          <b>TypeScript</b> para maior segurança no código. O gerenciamento de
+          estado é feito com <b>Zustand</b>, proporcionando uma solução leve e
+          eficiente. A interface foi construída com <b>Tailwind CSS</b> para
+          estilização ágil e componentes acessíveis do <b>Shadcn</b>. O backend
+          se comunica com a aplicação via <b>React Query</b>, otimizando o
+          carregamento e sincronização de dados. Além disso, o sistema conta com{" "}
+          <b>Axios</b> para requisições HTTP, <b>Luxon</b> para manipulação de
+          datas e <b>Recharts</b> para visualização de dados.
         </p>
 
         <p className="mt-9">Deploy</p>
         <p className="mt-1">
-          O projeto está hospedado na <strong>Vercel</strong>, garantindo alta
+          O projeto está hospedado na <b>Vercel</b>, garantindo alta
           performance, fácil escalabilidade e um fluxo de CI/CD eficiente para
           atualizações rápidas e contínuas.
         </p>
