@@ -121,7 +121,7 @@ export function TransactionModal({
             </div>
           )}
 
-          {!transactionId && accountSelected && (
+          {!transactionId && accountSelected && amount > 0 && (
             <div>
               <span className="font-bold">Saldo pós transação:</span>
               {formatCurrency(

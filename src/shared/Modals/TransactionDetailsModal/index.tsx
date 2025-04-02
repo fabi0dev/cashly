@@ -58,21 +58,23 @@ export function TransactionDetailsModal({
       title={
         <div>
           Detalhes da Transação{" "}
-          <Link
-            to={`/expenses/details/${dataTransaction?.expenseId}`}
-            target="_blank"
-            className="ml-2"
-            title="Ver detalhes da despesa"
-          >
-            <div
-              className={cn(
-                `inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs`,
-                "bg-gray-100 text-purple-400 dark:text-white dark:bg-white/10"
-              )}
+          {dataTransaction?.expenseId && (
+            <Link
+              to={`/expenses/details/${dataTransaction?.expenseId}`}
+              target="_blank"
+              className="ml-2"
+              title="Ver detalhes da despesa"
             >
-              <ExternalLink className="w-4 h-4" />
-            </div>
-          </Link>
+              <div
+                className={cn(
+                  `inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs`,
+                  "bg-gray-100 text-purple-400 dark:text-white dark:bg-white/10"
+                )}
+              >
+                <ExternalLink className="w-4 h-4" />
+              </div>
+            </Link>
+          )}
         </div>
       }
       open={isOpen}
