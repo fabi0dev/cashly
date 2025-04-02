@@ -5,7 +5,7 @@ export const About = () => {
   const yearsExperience = new Date().getFullYear() - 2018;
 
   return (
-    <Container titleHeader="Sobre Mim">
+    <Container titleHeader="Sobre">
       <div className="bg-background dark:bg-gray-800 p-8 px-10 rounded-2xl">
         <div className="flex justify-center">
           <Logo className="w-[190px]" />
