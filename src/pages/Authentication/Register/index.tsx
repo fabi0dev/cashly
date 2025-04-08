@@ -11,11 +11,17 @@ import { useSocialGoogleLogin } from "../Login/useSocialGoogleLogin";
 import { useTheme } from "@/hooks/useTheme";
 import { toastError } from "@/lib/toast";
 import { ButtonTheme } from "@/components/ButtonTheme";
+import { TermsModal } from "./components/TermsModal";
+import { useState } from "react";
+import { PoliceModal } from "./components/PoliceModal";
 
 export function Register() {
   const { submit, control, isLoadingRegister } = useRegister();
   const { handleSuccess } = useSocialGoogleLogin();
   const { currentTheme } = useTheme();
+
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-background p-6">
@@ -57,13 +63,19 @@ export function Register() {
           <div className="flex items-center gap-2">
             <label htmlFor="terms" className="text-sm">
               Ao me cadastrar eu concordo com os{" "}
-              <Link to="/terms" className="text-violet-400 hover:underline">
+              <span
+                onClick={() => setShowTermsModal(true)}
+                className="text-violet-400 hover:underline"
+              >
                 Termos de Uso
-              </Link>{" "}
+              </span>{" "}
               e{" "}
-              <Link to="/privacy" className="text-violet-400 hover:underline">
+              <span
+                onClick={() => setShowPrivacyModal(true)}
+                className="text-violet-400 hover:underline"
+              >
                 Política de Privacidade
-              </Link>
+              </span>
             </label>
           </div>
 
@@ -72,7 +84,7 @@ export function Register() {
             isLoading={isLoadingRegister}
             className="w-full"
           >
-            Criar conta
+            Criar minha conta
           </Button>
         </form>
 
@@ -109,6 +121,16 @@ export function Register() {
       <div className="inlinex-flex fixed bottom-4 right-4">
         <ButtonTheme />
       </div>
+
+      <TermsModal
+        isOpen={showTermsModal}
+        onClose={() => setShowTermsModal(false)}
+      />
+
+      <PoliceModal
+        isOpen={showPrivacyModal}
+        onClose={() => setShowPrivacyModal(false)}
+      />
     </div>
   );
 }

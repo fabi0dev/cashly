@@ -1,7 +1,6 @@
 import { useLogin } from "./useLogin";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Logo } from "@/components/Logo";
 import { ControlledInput } from "@/components/ControlledInput";
 import { AuthProvider } from "@/contexts/AuthProvider";
@@ -47,17 +46,11 @@ export function Login() {
             control={control}
           />
 
-          <div className="flex items-center justify-between text-sm">
-            <div className="flex items-center gap-2">
-              <label className="flex items-center gap-2">
-                <Checkbox className="h-4 w-4 rounded bg-violet-600 border-violet-300 focus:ring-violet-400" />
-                Lembrar-me
-              </label>
-            </div>
+          {/*  <div className="flex items-center justify-end text-sm">
             <Link to={"/"} className="hover:underline">
               Esqueceu a senha?
             </Link>
-          </div>
+          </div> */}
 
           <Button
             type="submit"
