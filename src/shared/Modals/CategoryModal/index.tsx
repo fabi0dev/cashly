@@ -3,7 +3,7 @@ import { Dialog } from "@/components/Dialog";
 
 import { useCategoryModal } from "./useCategoryModal";
 import { ControlledSelect } from "@/components/ControlledSelect";
-import { ControlledCheckboxInput } from "@/components/ControlledCheckbox";
+import { ControlledCheckbox } from "@/components/ControlledCheckbox";
 import { ControlledInput } from "@/components/ControlledInput";
 import { FormContainer } from "@/components/FormContainer";
 
@@ -86,7 +86,7 @@ export function CategoryModal({
           />
         </FormContainer.Column>
 
-        <ControlledCheckboxInput
+        <ControlledCheckbox
           control={control}
           label="Favorita"
           name="isFavorite"

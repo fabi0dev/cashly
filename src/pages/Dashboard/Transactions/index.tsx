@@ -1,7 +1,7 @@
 import { Container } from "@/components/Container";
 import { TransactionModal } from "@/shared/Modals/TransactionModal";
 import { Button } from "@/components/ui/button";
-import { Filter, TrendingUp } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { queries } from "@/queries";
@@ -43,14 +43,14 @@ export const Transactions = () => {
         )}
 
         <div>
-          {dataTransactions && dataTransactions?.totalItems > 0 && (
+          {/* {dataTransactions && dataTransactions?.totalItems > 0 && (
             <div className="flex justify-end py-2">
               <Button variant="ghost" className="flex items-center gap-2">
                 <Filter className="w-5 h-5" />
                 Filtros
               </Button>
             </div>
-          )}
+          )} */}
 
           <List
             columns={[

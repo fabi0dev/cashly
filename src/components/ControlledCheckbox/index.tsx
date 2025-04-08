@@ -10,7 +10,7 @@ export type ControlledCheckboxProps<TFieldValues extends FieldValues> = Pick<
     label?: string;
   };
 
-export const ControlledCheckboxInput = <TFieldValues extends FieldValues>({
+export const ControlledCheckbox = <TFieldValues extends FieldValues>({
   name,
   control,
   label,

@@ -18,17 +18,12 @@ export const useAccountModal = ({
 }: UseAccountModalProps) => {
   const queryClient = useQueryClient();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<SchemaAccountModal>({
+  const formMethods = useForm<SchemaAccountModal>({
     resolver: yupResolver(schemaAccountModal),
     defaultValues: schemaAccountModal.getDefault(),
   });
+
+  const { reset, handleSubmit } = formMethods;
 
   const invalidateAccountList = () => {
     queryClient.invalidateQueries({ queryKey: queries.account.getAll._def });
@@ -83,10 +78,7 @@ export const useAccountModal = ({
   }, [reset, dataAccount]);
 
   return {
-    register,
-    setValue,
-    watch,
-    errors,
+    formMethods,
 
     dataAccount,
     isLoadingDataAccount,

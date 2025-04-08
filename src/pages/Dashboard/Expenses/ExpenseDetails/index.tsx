@@ -184,14 +184,16 @@ export const ExpenseDetails = () => {
 
             <Card title="Ações">
               <div className="space-y-2">
-                <Button
-                  variant="outline"
-                  className="w-full justify-start"
-                  onClick={() => setShowExpenseModal(true)}
-                >
-                  <Edit className="mr-2 h-4 w-4" />
-                  Editar despesa
-                </Button>
+                {!dataExpense.isPaid && (
+                  <Button
+                    variant="outline"
+                    className="w-full justify-start"
+                    onClick={() => setShowExpenseModal(true)}
+                  >
+                    <Edit className="mr-2 h-4 w-4" />
+                    Editar despesa
+                  </Button>
+                )}
 
                 <Button
                   variant="outline"

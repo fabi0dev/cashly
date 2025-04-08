@@ -26,7 +26,7 @@ export const Dialog = ({
     <DialogShadcn {...props}>
       <DialogContent>
         {isLoading && (
-          <div className="absolute inset-0 flex items-center justify-center bg-white/50 dark:bg-gray-950/50 z-50">
+          <div className="absolute inset-0 flex items-center justify-center bg-white/50 backdrop-blur-md dark:bg-gray-950 z-50">
             <Spinner />
           </div>
         )}

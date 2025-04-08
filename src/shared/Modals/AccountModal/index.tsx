@@ -1,18 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Dialog } from "@/components/Dialog";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
+
 import { useAccountModal } from "./useAccountsModal";
-import { CurrencyInput } from "react-currency-mask";
-import { cn, formatCurrency } from "@/lib/utils";
-import { AccountsTypes, AccountsTypesKey } from "@/constants/AccountsTypes";
-import { Checkbox } from "@/components/ui/checkbox";
+import { formatCurrency } from "@/lib/utils";
+import { AccountsTypes } from "@/constants/AccountsTypes";
+import { ControlledInput } from "@/components/ControlledInput";
+import { ControlledSelect } from "@/components/ControlledSelect";
+import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
+import { ControlledCheckbox } from "@/components/ControlledCheckbox";
+import { ContainerForm } from "@/components/ContainerForm";
 
 interface AccountModalProps {
   accountId?: string;
@@ -25,12 +21,13 @@ export function AccountModal({
   isOpen,
   onClose,
 }: AccountModalProps) {
-  const { register, setValue, errors, watch, submit, dataAccount, isLoading } =
+  const { formMethods, submit, dataAccount, isLoadingDataAccount, isLoading } =
     useAccountModal({
       accountId,
       onClose,
     });
 
+  const { watch, control } = formMethods;
   const type = watch("type");
 
   return (
@@ -38,64 +35,35 @@ export function AccountModal({
       title={!accountId ? "Nova Conta do Banco" : "Conta do Banco"}
       open={isOpen}
       onOpenChange={onClose}
+      isLoading={isLoadingDataAccount}
     >
-      <form onSubmit={submit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Nome</label>
-          <Input
-            {...register("name")}
-            placeholder="Nubank, Itaú, etc."
-            className={cn(
-              "w-full px-3 py-2 rounded-lg border border-gray-200",
-              errors.name?.message &&
-                "border-red-400 focus-visible:ring-red-400"
-            )}
-            autoFocus
-            autoComplete="off"
-          />
-        </div>
+      <ContainerForm onSubmit={submit} className="space-y-4">
+        <ControlledInput
+          control={control}
+          name="name"
+          label="Nome"
+          placeholder="Nubank, Itaú, etc."
+          autoFocus
+          autoComplete="off"
+        />
 
-        <div>
-          <label className="block text-sm font-medium mb-1">Tipo</label>
-          <Select
-            value={watch("type")}
-            {...register("type")}
-            onValueChange={(value: AccountsTypesKey) => setValue("type", value)}
-          >
-            <SelectTrigger
-              className={cn(errors.type?.message && "border-red-400")}
-            >
-              <SelectValue placeholder="Selecione o tipo" />
-            </SelectTrigger>
-            <SelectContent>
-              {Object.entries(AccountsTypes).map(([key, value]) => (
-                <SelectItem key={key} value={key}>
-                  {value}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <ControlledSelect
+          label="Tipo"
+          control={control}
+          name="type"
+          options={Object.entries(AccountsTypes).map(([key, value]) => ({
+            label: value,
+            value: key,
+          }))}
+        />
 
         {!accountId && (
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              {type === "CREDIT_CARD" ? "Limite atual" : "Saldo atual"}
-            </label>
-            <CurrencyInput
-              value={watch("balance")}
-              onChangeValue={(_, value) => {
-                setValue("balance", Number(value));
-              }}
-              InputElement={
-                <Input
-                  placeholder="0,00"
-                  className={cn(errors.balance?.message && "border-red-400")}
-                />
-              }
-              currency={"BRL"}
-            />
-          </div>
+          <ControlledInputCurrency
+            name="balance"
+            label={type === "CREDIT_CARD" ? "Limite atual" : "Saldo atual"}
+            control={control}
+            value={watch("balance")}
+          />
         )}
 
         {accountId && (
@@ -104,23 +72,18 @@ export function AccountModal({
           </div>
         )}
 
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id="remember"
-            checked={watch("isDefault")}
-            onCheckedChange={(checked) => setValue("isDefault", !!checked)}
-          />
-          <label htmlFor="remember" className="text-sm cursor-pointer">
-            Conta padrão
-          </label>
-        </div>
+        <ControlledCheckbox
+          label=" Conta padrão"
+          name="isDefault"
+          control={control}
+        />
 
         <div className="flex justify-end gap-4">
           <Button type="submit" isLoading={isLoading}>
             Salvar
           </Button>
         </div>
-      </form>
+      </ContainerForm>
     </Dialog>
   );
 }

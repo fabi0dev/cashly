@@ -3,7 +3,7 @@ import { Dialog } from "@/components/Dialog";
 import { FormContainer } from "@/components/FormContainer";
 import { ControlledSelect } from "@/components/ControlledSelect";
 import { ControlledInput } from "@/components/ControlledInput";
-import { ControlledCheckboxInput } from "@/components/ControlledCheckbox";
+import { ControlledCheckbox } from "@/components/ControlledCheckbox";
 import { ControlledInputCurrency } from "@/components/ControlledInputCurrency";
 import { ControlledDatePicker } from "@/components/ControlledDatePicker";
 import { formatCurrency } from "@/lib/utils";
@@ -115,7 +115,7 @@ export function ExpenseModal({
           </div>
         )}
 
-        <ControlledCheckboxInput
+        <ControlledCheckbox
           control={control}
           name="isPaid"
           label="Despesa paga"

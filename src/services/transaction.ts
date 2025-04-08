@@ -62,7 +62,7 @@ export interface TransactionCreateRequest {
   amount: number;
   type: "ENTRY" | "EXIT";
   date: string;
-  description?: string;
+  description?: string | null;
   categoryId: string;
 }
 

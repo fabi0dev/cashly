@@ -76,13 +76,19 @@ export const ExpenseItem = ({ installment }: ExpenseItemProps) => {
               onClick: () =>
                 navigate(`/expenses/details/${installment.expenseId}`),
             },
-            {
-              label: "Editar",
-              onClick: (e) => {
-                e.stopPropagation();
-                setShowTransactionModal(true);
-              },
-            },
+            ...(!installment.isPaid
+              ? [
+                  {
+                    label: "Editar",
+                    onClick: (
+                      e: React.MouseEvent<HTMLDivElement, MouseEvent>
+                    ) => {
+                      e.stopPropagation();
+                      setShowTransactionModal(true);
+                    },
+                  },
+                ]
+              : []),
             {
               label: "Excluir",
               onClick: (e) => {
