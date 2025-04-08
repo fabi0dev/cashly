@@ -19,12 +19,13 @@ export const useExpenseModal = ({
 }: UseExpenseModalProps) => {
   const queryClient = useQueryClient();
 
-  const { data: categoriesData, isFetching: isLoadingCategoriesData } =
-    useQuery({
+  const { data: categoriesData, isLoading: isLoadingCategoriesData } = useQuery(
+    {
       ...queries.categories.getAll(),
-    });
+    }
+  );
 
-  const { data: dataExpense, isFetching: isLoadingDataExpense } = useQuery({
+  const { data: dataExpense, isLoading: isLoadingDataExpense } = useQuery({
     ...queries.expense.getById({ expenseId: expenseId! }),
     enabled: !!expenseId,
   });

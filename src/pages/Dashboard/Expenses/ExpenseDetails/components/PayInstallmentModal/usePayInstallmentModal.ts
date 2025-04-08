@@ -32,11 +32,11 @@ export const usePayInstallmentModal = ({
       queryKey: queries.expense.getById({ expenseId }).queryKey,
     });
 
-  const { data: listAccounts, isFetching: isLoadingListAccounts } = useQuery({
+  const { data: listAccounts, isLoading: isLoadingListAccounts } = useQuery({
     ...queries.account.getAll(),
   });
 
-  const { data: dataExpense, isFetching: isLoadingDataExpense } = useQuery({
+  const { data: dataExpense, isLoading: isLoadingDataExpense } = useQuery({
     ...queries.expense.getById({ expenseId }),
   });
 

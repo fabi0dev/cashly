@@ -41,16 +41,17 @@ export const useTransactionModal = ({
     });
   };
 
-  const { data: listAccounts, isFetching: isLoadingListAccounts } = useQuery({
+  const { data: listAccounts, isLoading: isLoadingListAccounts } = useQuery({
     ...queries.account.getAll(),
   });
 
-  const { data: categoriesData, isFetching: isLoadingCategoriesData } =
-    useQuery({
+  const { data: categoriesData, isLoading: isLoadingCategoriesData } = useQuery(
+    {
       ...queries.categories.getAll(),
-    });
+    }
+  );
 
-  const { data: dataTransaction, isFetching: isLoadingTransaction } = useQuery({
+  const { data: dataTransaction, isLoading: isLoadingTransaction } = useQuery({
     ...queries.transaction.getById({ transactionId: transactionId! }),
     enabled: !!transactionId,
   });

@@ -19,7 +19,7 @@ export const useExpenseDetails = () => {
     });
   };
 
-  const { data: dataExpense, isFetching: isLoadingExpense } = useQuery({
+  const { data: dataExpense, isLoading: isLoadingExpense } = useQuery({
     ...queries.expense.getById({ expenseId: expenseId! }),
     enabled: !!expenseId,
   });

@@ -55,7 +55,7 @@ export const useAccountModal = ({
     onError: () => toastError("Erro ao atualizar conta!"),
   });
 
-  const { data: dataAccount, isFetching: isLoadingDataAccount } = useQuery({
+  const { data: dataAccount, isLoading: isLoadingDataAccount } = useQuery({
     ...queries.account.getById({ accountId: accountId! }),
     enabled: !!accountId,
   });

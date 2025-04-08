@@ -24,7 +24,7 @@ export function TransactionDetailsModal({
   isOpen,
   onClose,
 }: TransactionModalProps) {
-  const { data: dataTransaction, isFetching: isLoadingTransaction } = useQuery({
+  const { data: dataTransaction, isLoading: isLoadingTransaction } = useQuery({
     ...queries.transaction.getById({ transactionId: transactionId! }),
     enabled: Boolean(transactionId),
   });

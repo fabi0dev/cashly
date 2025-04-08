@@ -52,7 +52,7 @@ export const Container = ({
         )}
 
         <main className="mx-auto max-w-[1024px] p-5 pt-1 pb-5 ">
-          {children}
+          {!isLoading && children}
 
           {isLoading && (
             <div className="flex justify-center items-center my-10">

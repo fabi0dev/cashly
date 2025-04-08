@@ -53,7 +53,7 @@ export const useCategoryModal = ({ categoryId, onClose }: UseCategoryModal) => {
     onError: () => toastError("Erro ao atualizar categoria!"),
   });
 
-  const { data: dataCategory, isFetching: isLoadingDataCategory } = useQuery({
+  const { data: dataCategory, isLoading: isLoadingDataCategory } = useQuery({
     ...queries.categories.getById({ categoryId: categoryId! }),
     enabled: !!categoryId,
   });
